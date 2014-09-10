@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" >
+
+
+
+    <TextView
+        android:id="@+id/textViewList"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:paddingLeft="3dip"
+        android:paddingRight="3dip"
+        android:textSize="20sp"
+        android:gravity="center"
+        android:text="LISTITEM" />
+
+    <TextView
+        android:id="@+id/textViewSubTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textViewList"
+        android:paddingLeft="3dip"
+        android:paddingRight="3dip"
+        android:gravity="center"
+
+        android:text="CREATEDBY"
+        android:textColor="@android:color/darker_gray" />
+
+
+
+</RelativeLayout>

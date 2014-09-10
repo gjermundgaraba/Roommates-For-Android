@@ -1,0 +1,29 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+    <!-- Search, should appear as action button -->
+    <item android:id="@+id/action_refresh"
+        android:icon="@drawable/ic_action_refresh"
+        android:title="Refresh"
+        android:showAsAction="ifRoom" />
+    <item android:id="@+id/action_new"
+        android:icon="@drawable/ic_action_new"
+        android:title="New Task List Element"
+        android:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_rename_list"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="Rename List"/>
+    <item
+        android:id="@+id/action_delete_list"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="Delete List"/>
+    <item
+        android:id="@+id/action_toggle_done"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="Mark as Finished"/>
+
+
+
+</menu>

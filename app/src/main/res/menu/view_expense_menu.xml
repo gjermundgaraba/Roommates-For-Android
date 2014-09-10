@@ -1,0 +1,23 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/action_delete_expense"
+        android:showAsAction="never"
+        android:title="Delete Expense" />
+    <item
+        android:id="@+id/action_rename_expense"
+        android:showAsAction="never"
+        android:title="Rename Expense" />
+    <item
+        android:id="@+id/action_edit_amount"
+        android:showAsAction="never"
+        android:title="Edit amount" />
+    <item
+        android:id="@+id/action_edit_details"
+        android:showAsAction="never"
+        android:title="Edit details" />
+    <item
+        android:id="@+id/action_add_people"
+        android:showAsAction="never"
+        android:title="Edit people" />
+
+</menu>

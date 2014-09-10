@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+
+    android:background="@color/LightGrey"
+    android:baselineAligned="false"
+    >
+
+    <ListView
+        android:id="@+id/invitationsListView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:choiceMode="singleChoice"
+        android:listSelector="@android:color/darker_gray"
+
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_above="@+id/progressBar_HouseholdNoActive"
+        android:layout_marginTop="20dp">
+    </ListView>
+
+    <ProgressBar
+        android:id="@+id/progressBar_HouseholdNoActive"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+
+        android:indeterminate="true"
+        android:visibility="invisible"
+        android:layout_above="@+id/acceptButton"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Accept"
+        android:background="@android:color/transparent"
+        android:id="@+id/acceptButton"
+        android:textColor="@color/DarkBlue"
+        android:layout_gravity="bottom"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        />
+
+
+
+</RelativeLayout>

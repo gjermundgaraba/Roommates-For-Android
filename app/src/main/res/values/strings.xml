@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Roommates</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_section1">Feed</string>
+    <string name="title_section2">Me</string>
+    <string name="title_section3">Tasks</string>
+    <string name="username_field">Username</string>
+    <string name="password_field">Password</string>
+    <string name="login_button">LOGIN</string>
+    <string name="signup_button">SIGN UP</string>
+    <string name="logo_description">Logo for the application. 1080x300</string>
+    <string name="feed_name">Feed</string>
+    <string name="signup_text">Sign up</string>
+    <string name="registrer_button">"Registrer</string>
+    <string name="firstname_field">First name</string>
+    <string name="lastname_field">Last name</string>
+    <string name="email_field">E-mail</string>
+    <string name="repeat_password_field">Repeat Password</string>
+    <string name="forgot_password_button">FORGOT\nPASSWORD</string>
+    <string name="expenses_name">Expenses</string>
+    <string name="notes_header">Notes</string>
+    <string name="events_header">Events</string>
+    <string name="new_note_button">New Note</string>
+    <string name="view_all_notes_button">View All Notes</string>
+    <string name="title_activity_new_note">NewNoteActivity</string>
+    <string name="add_note_button">Add Note</string>
+    <string name="note_added_toast">New Note Added!</string>
+    <string name="invitations_header">Invitations</string>
+    <string name="new_household_button">Create New Household</string>
+    <string name="household_members_header">Household Members</string>
+    <string name="invite_button">\tInvite Roommate to Household</string>
+    <string name="leave_household_button">\tLeave Household</string>
+    <string name="log_out_button">\tLog out</string>
+    <string name="dummy_text">"dummy"</string>
+    <string name="name_field">Name</string>
+    <string name="my_household_button">\tHousehold Settings</string>
+    <string name="edit_profile_button">\tProfile Information Settings</string>
+    <string name="displayName_field">Display Name</string>
+    <string name="changePassword_button">Change password</string>
+    <string name="update_button">Save Changes</string>
+    <string name="new_password_field">New Password</string>
+    <string name="old_password_field">Old password</string>
+    <string name="profilePic">ProfilePic</string>
+    <string name="title_activity_test_task_list_elements">TestTaskListElementsActivity</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_section4">Expenses</string>
+
+</resources>

@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/RelativeLayout1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/LightGrey"
+    android:focusableInTouchMode="false"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentTop="true"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="40dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp">
+
+            <com.parse.ParseImageView
+                android:id="@+id/profilePictureView"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                />
+
+            <TextView
+                android:id="@+id/textName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center"
+                android:layout_marginLeft="30dp"
+                android:gravity="center"
+                android:hint='"Your name"'
+                android:text="@string/displayName_field"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="\tPROFILE INFORMATION"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/DimGray" />
+
+        <GridLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:background="#ffffffff"
+            android:columnCount="2">
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#ffffffff"
+                android:text="\tE-mail"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textSize="18sp"
+                android:layout_gravity="left"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp" />
+
+            <TextView
+                android:id="@+id/textViewEmail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="E-posten kommer her"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:layout_gravity="right"
+                android:layout_marginRight="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/textView6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:text="\tDisplay Name"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textSize="18sp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp" />
+
+            <TextView
+                android:id="@+id/textViewDisplayName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="DisplayName Her"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:layout_gravity="right"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:textSize="18sp" />
+        </GridLayout>
+
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="\tSETTINGS"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/DimGray"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp" />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="vertical"
+            android:layout_margin="0dp"
+            android:padding="0dp">
+
+            <Button
+
+                android:id="@+id/buttonHousehold"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/my_household_button"
+                android:background="#ffffffff"
+                android:layout_marginBottom="1dp"
+                android:gravity="left|center_vertical"
+                android:textColor="@color/DarkBlue" />
+
+            <Button
+                android:id="@+id/buttonEditProfile"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/edit_profile_button"
+                android:background="#ffffffff"
+                android:layout_marginBottom="1dp"
+                android:gravity="left|center_vertical"
+                android:textColor="@color/DarkBlue" />
+
+            <Button
+                android:id="@+id/buttonLogout"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/log_out_button"
+                android:background="#ffffffff"
+                android:gravity="left|center_vertical"
+                android:textColor="@color/DarkBlue" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>

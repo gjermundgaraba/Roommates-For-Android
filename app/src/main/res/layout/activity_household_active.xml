@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/LightGrey"
+    android:weightSum="1">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp">
+
+        <ImageView
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:id="@+id/imageViewLogoHousehold"
+            android:background="@android:color/transparent"
+            android:src="@drawable/logo_blue_transparent2"
+            android:layout_margin="5dp" />
+
+        <TextView
+            android:id="@+id/textViewHouseholdName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="5dp" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="\tRoommates"
+        android:id="@+id/textView"
+        android:textColor="@color/DimGray" />
+
+    <ListView
+        android:id="@+id/householdMembersListView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1.0">
+    </ListView>
+
+    <Button
+        android:id="@+id/buttonInvite"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="left|center_vertical"
+        android:textColor="@color/DarkBlue"
+        android:text="@string/invite_button"
+        android:background="#ffffffff"
+        android:layout_marginTop="5dp" />
+
+    <Button
+        android:id="@+id/buttonLeaveHousehold"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="left|center_vertical"
+        android:textColor="@color/DarkBlue"
+        android:text="@string/leave_household_button"
+        android:background="#ffffffff"
+        android:layout_marginTop="1dp" />
+
+
+
+</LinearLayout>

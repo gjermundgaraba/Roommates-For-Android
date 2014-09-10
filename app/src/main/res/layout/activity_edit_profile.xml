@@ -1,0 +1,71 @@
+<RelativeLayout
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@color/LightGrey">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+        <com.parse.ParseImageView
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:id="@+id/imageViewChangePicture"
+            android:background="#ffff0c07"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="20dp" />
+
+        <EditText
+            android:id="@+id/changeDisplayName"
+            android:layout_width="fill_parent"
+            android:layout_height="35dp"
+            android:gravity="center"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text="Veir Garholm"
+            android:background="#ffffffff"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="1dp">
+
+            <requestFocus />
+        </EditText>
+
+        <EditText
+            android:id="@+id/changeEmail"
+            android:layout_width="fill_parent"
+            android:layout_height="35dp"
+            android:gravity="center"
+
+            android:ems="10"
+            android:inputType="textEmailAddress"
+            android:text="veigar@hive.no"
+            android:background="#ffffffff"
+            android:layout_gravity="center_horizontal" />
+
+        <Button
+            android:id="@+id/buttonUpdateProfile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:background="@android:color/transparent"
+            android:text="@string/update_button"
+            android:textColor="@color/DarkBlue"
+            android:layout_gravity="center_horizontal" />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/buttonChangePassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:background="@android:color/transparent"
+        android:text="@string/changePassword_button"
+        android:textColor="@color/DarkBlue"
+        android:layout_gravity="center_horizontal"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="10dp" />
+</RelativeLayout>
