@@ -77,7 +77,7 @@
             android:layout_width="fill_parent"
             android:layout_height="45dp"
             android:background="@color/DarkBlue"
-               android:text="@string/registrer_button"
+               android:text="@string/register_button"
                android:textColor="#ffffffff"
             android:layout_above="@+id/progressBar_Signup"
             android:layout_centerHorizontal="true"

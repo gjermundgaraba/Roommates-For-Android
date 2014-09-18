@@ -1,9 +1,5 @@
 package com.realkode.roomates.Me;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Locale;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -22,7 +18,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,12 +27,15 @@ import com.parse.ParseCloud;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
-import com.parse.ParseUser;
 import com.parse.RefreshCallback;
 import com.realkode.roomates.Helpers.ToastMaker;
 import com.realkode.roomates.ParseSubclassses.Invitation;
 import com.realkode.roomates.ParseSubclassses.User;
 import com.realkode.roomates.R;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Locale;
 
 public class HouseholdActivity extends Activity {
 
@@ -54,7 +52,7 @@ public class HouseholdActivity extends Activity {
 
         user = User.getCurrentUser();
 
-        if (User.someoneIsLoggedInAndMemberOfAHousehold()) {
+        if (User.loggedInAndMemberOfAHousehold()) {
             setupForActiveHousehold();
         } else {
             setupForNoActiveHousehold();
@@ -209,7 +207,7 @@ public class HouseholdActivity extends Activity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu items for use in the action bar
-        if (!User.someoneIsLoggedInAndMemberOfAHousehold()) {
+        if (!User.loggedInAndMemberOfAHousehold()) {
 
 
             MenuInflater inflater = getMenuInflater();

@@ -18,7 +18,6 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.parse.FindCallback;
@@ -47,7 +46,7 @@ public class TaskListFragment extends Fragment implements RefreshableFragment {
     };
 
     public void refreshFragment() {
-        if (User.someoneIsLoggedInAndMemberOfAHousehold()) {
+        if (User.loggedInAndMemberOfAHousehold()) {
             adapter.loadObjects();
         }
     }
@@ -59,7 +58,7 @@ public class TaskListFragment extends Fragment implements RefreshableFragment {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_task_list, container, false);
 
-        if (User.someoneIsLoggedInAndMemberOfAHousehold()) {
+        if (User.loggedInAndMemberOfAHousehold()) {
             LocalBroadcastManager broadcastManager = LocalBroadcastManager.getInstance(getActivity());
             broadcastManager.registerReceiver(mMessageReceiver, new IntentFilter("need-to-refresh"));
 

@@ -5,8 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,7 +17,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.parse.FindCallback;
-import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
@@ -49,7 +48,7 @@ public class ExpensesFragment extends Fragment implements RefreshableFragment{
 
     // reloading the listobjects
     public void refreshFragment() {
-        if (User.someoneIsLoggedInAndMemberOfAHousehold()) {
+        if (User.loggedInAndMemberOfAHousehold()) {
             adapter.loadObjects();
         }
     }
@@ -69,7 +68,7 @@ public class ExpensesFragment extends Fragment implements RefreshableFragment{
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_expenses, container, false);
 
-        if (User.someoneIsLoggedInAndMemberOfAHousehold()) {
+        if (User.loggedInAndMemberOfAHousehold()) {
             LocalBroadcastManager broadcastManager = LocalBroadcastManager.getInstance(getActivity());
             broadcastManager.registerReceiver(mMessageReceiver, new IntentFilter("expense-need-to-refresh"));
 
