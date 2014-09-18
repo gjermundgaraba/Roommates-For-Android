@@ -1,6 +1,7 @@
 package com.realkode.roomates.Feed;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -11,15 +12,8 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.parse.ParseACL;
-import com.parse.ParseException;
-import com.parse.ParseQuery;
-import com.parse.SaveCallback;
-import com.realkode.roomates.Helpers.ToastMaker;
 import com.realkode.roomates.ParseSubclassses.Event;
 import com.realkode.roomates.ParseSubclassses.Note;
 import com.realkode.roomates.ParseSubclassses.User;
@@ -137,52 +131,15 @@ public class FeedFragment extends Fragment implements RefreshableFragment {
     public void startCreateNewNoteDialog() {
         LayoutInflater inflater = LayoutInflater.from(getActivity());
         View noteDialogView = inflater.inflate(R.layout.dialog_new_note, null);
-        final EditText noteEditText = (EditText) noteDialogView
-                .findViewById(R.id.inviteUsernameEditText);
+        EditText noteEditText = (EditText) noteDialogView.findViewById(R.id.inviteUsernameEditText);
+        Context context = getActivity();
 
-        final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
 
-        alertDialogBuilder.setTitle("Create New Note").setCancelable(false)
-                .setPositiveButton("Add Note", new DialogInterface.OnClickListener() {
-
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        String noteText = noteEditText.getText().toString();
-                        if (!noteText.isEmpty()) {
-                            User currentUser = User.getCurrentUser();
-
-                            // Set up ACL
-                            ParseACL acl = new ParseACL();
-                            acl.setRoleReadAccess("household-" + currentUser.getActiveHousehold().getObjectId(), true);
-
-                            Note note = new Note();
-                            note.setCreatedBy(currentUser);
-                            note.setBody(noteText);
-                            note.setHousehold(currentUser.getActiveHousehold());
-                            note.setACL(acl);
-
-                            note.saveInBackground(new SaveCallback() {
-
-                                @Override
-                                public void done(ParseException arg0) {
-                                    ToastMaker.makeLongToast(getActivity().getString(R.string.note_added_toast),getActivity().getApplicationContext());
-
-                                    noteAdapter.loadObjects();
-                                }
-                            });
-                        }
-                    }
-                }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                        //alertDialog.dismiss();
-                    }
-                })
+        alertDialogBuilder.setTitle("Create New Note")
+                .setPositiveButton("Add Note", new AddNoteOnClickListener(noteEditText, noteAdapter, context))
+                .setNegativeButton("Cancel", null)
                 .setView(noteDialogView);
-
-
 
 
         final AlertDialog alertDialog = alertDialogBuilder.create();
