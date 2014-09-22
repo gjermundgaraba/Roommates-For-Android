@@ -55,5 +55,8 @@
     <string name="title_create_new_note">Create New Note</string>
     <string name="button_add_note">Add Note</string>
     <string name="button_cancel">Cancel</string>
+    <string name="button_log_out">Log out</string>
+    <string name="dialog_title_log_out">Log out</string>
+    <string name="dialog_message_log_out">Do you really want to log out?</string>
 
 </resources>

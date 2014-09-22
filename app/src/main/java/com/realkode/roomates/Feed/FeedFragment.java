@@ -68,9 +68,9 @@ public class FeedFragment extends Fragment implements RefreshableFragment {
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
 
-        alertDialogBuilder.setTitle(context.getString(R.string.title_create_new_note))
-                .setPositiveButton(context.getString(R.string.button_add_note), new AddNoteOnClickListener(noteEditText, noteAdapter, context))
-                .setNegativeButton(context.getString(R.string.button_cancel), null)
+        alertDialogBuilder.setTitle(R.string.title_create_new_note)
+                .setPositiveButton(R.string.button_add_note, new AddNoteOnClickListener(noteEditText, noteAdapter, context))
+                .setNegativeButton(R.string.button_cancel, null)
                 .setView(noteDialogView);
 
 
