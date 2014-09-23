@@ -58,5 +58,6 @@
     <string name="button_log_out">Log out</string>
     <string name="dialog_title_log_out">Log out</string>
     <string name="dialog_message_log_out">Do you really want to log out?</string>
+    <string name="load_more">Load more...</string>
 
 </resources>

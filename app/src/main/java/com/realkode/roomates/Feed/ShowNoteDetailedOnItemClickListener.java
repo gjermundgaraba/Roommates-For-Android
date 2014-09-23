@@ -25,7 +25,7 @@ public class ShowNoteDetailedOnItemClickListener implements AdapterView.OnItemCl
         LayoutInflater inflater = LayoutInflater.from(context);
         View detailNoteDialogView = inflater.inflate(R.layout.dialog_note_details, null);
         TextView noteTextView = (TextView) detailNoteDialogView.findViewById(R.id.noteDetailsTextView);
-        noteTextView.setText(context.getString(R.string.written) + selectedNote.getCreatedAt().toString() + "\n" + selectedNote.getBody());
+        noteTextView.setText(context.getString(R.string.written) + " " + selectedNote.getCreatedAt().toString() + "\n" + selectedNote.getBody());
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
 

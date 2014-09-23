@@ -24,7 +24,7 @@ public class ShowEventDetailOnItemClickListener implements AdapterView.OnItemCli
         LayoutInflater inflater = LayoutInflater.from(context);
         View detailEventDialogView = inflater.inflate(R.layout.dialog_event_details, null);
         TextView eventTextView = (TextView) detailEventDialogView.findViewById(R.id.eventDetailsTextView);
-        eventTextView.setText(context.getString(R.string.event_happened) + selectedEvent.getCreatedAt().toString() + "\n" + selectedEvent.getDescriptionString());
+        eventTextView.setText(context.getString(R.string.event_happened) + " " + selectedEvent.getCreatedAt().toString() + "\n" + selectedEvent.getDescriptionString());
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
 
