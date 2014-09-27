@@ -36,8 +36,6 @@ public class NoteAdapter extends ParseQueryAdapter<Note>  {
             view = View.inflate(getContext(), R.layout.list_note_feed_layout, null);
         }
 
-        //super.getItemView(note, view, parent);
-
         TextView titleTextView = (TextView) view.findViewById(R.id.bodyTextView);
         titleTextView.setText(note.getBody());
 

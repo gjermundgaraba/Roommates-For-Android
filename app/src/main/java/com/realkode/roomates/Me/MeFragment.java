@@ -65,7 +65,12 @@ public class MeFragment extends Fragment implements RefreshableFragment {
             @Override
             public void onClick(View view) {
                 Context context = view.getContext();
-                Intent intent = new Intent(context, HouseholdActivity.class);
+                Intent intent;
+                if (User.loggedInAndMemberOfAHousehold()) {
+                    intent = new Intent(context, MyHouseholdActivity.class);
+                } else {
+                    intent = new Intent(context, WithoutHouseholdActivity.class);
+                }
                 startActivity(intent);
             }
         });

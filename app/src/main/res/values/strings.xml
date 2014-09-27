@@ -59,5 +59,19 @@
     <string name="dialog_title_log_out">Log out</string>
     <string name="dialog_message_log_out">Do you really want to log out?</string>
     <string name="load_more">Load more...</string>
+    <string name="leaving_household">Leaving Household</string>
+    <string name="please_wait"> Please wait ... </string>
+    <string name="warning_could_not_leave_household">Could not leave household, please try again</string>
+    <string name="dialog_title_leave_household">Leave household</string>
+    <string name="dialog_message_leave_household">Do you really want to leave the household?</string>
+    <string name="button_confirm_leave_household">Leave household</string>
+    <string name="dialog_title_invite_user">Invite user to Household</string>
+    <string name="dialog_button_confirm_invite">Invite</string>
+    <string name="progressdialog_title_inviting_user">Inviting User to Household</string>
+    <string name="progressdialog_message_inviting_user"> Please wait ... </string>
+    <string name="toast_user_was_invited">User was invited to household</string>
+    <string name="progressdialog_title_accepting_invitation">Accepting Invitation</string>
+    <string name="progressdialog_message_accepting_invitation">Please wait ... </string>
+    <string name="toast_could_not_accept_invitation">Could not accept invitation, please try again</string>
 
 </resources>

@@ -44,7 +44,10 @@
             android:name=".Me.ChangePasswordActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Me.HouseholdActivity"
+            android:name=".Me.MyHouseholdActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Me.WithoutHouseholdActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".Me.EditProfileActivity"

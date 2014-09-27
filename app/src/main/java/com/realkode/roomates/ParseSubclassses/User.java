@@ -1,15 +1,31 @@
 package com.realkode.roomates.ParseSubclassses;
 
+import com.parse.FunctionCallback;
 import com.parse.ParseACL;
 import com.parse.ParseClassName;
+import com.parse.ParseCloud;
 import com.parse.ParseFile;
 import com.parse.ParseUser;
+
+import java.util.HashMap;
 
 /**
  * Parse subclass for the "_User" table.
  */
 @ParseClassName("_User")
 public class User extends ParseUser {
+
+
+    public void leaveHousehold(FunctionCallback<Object> callback) {
+        if (isMemberOfHousehold()) {
+            HashMap<String, Object> params = new HashMap<String, Object>();
+            Household household = getActiveHousehold();
+            params.put("householdId", household.getObjectId());
+            ParseCloud.callFunctionInBackground("leaveHousehold", params, callback);
+        }
+    }
+
+
 
     public String getDisplayName() {
         return getString("displayName");
@@ -77,6 +93,7 @@ public class User extends ParseUser {
 
         currentInstallation.saveEventually();
     }
+
 
 
 }
