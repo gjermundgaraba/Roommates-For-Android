@@ -8,8 +8,8 @@ import android.widget.TextView;
 
 import com.parse.GetCallback;
 import com.parse.ParseException;
-import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.realkode.roomates.ParseSubclassses.Household;
 import com.realkode.roomates.ParseSubclassses.User;
 import com.realkode.roomates.R;
 
@@ -41,10 +41,10 @@ public class MyHouseholdActivity extends Activity {
     private void setHouseholdNameTitle() {
         ParseQuery query = new ParseQuery("Household");
         query.setCachePolicy(ParseQuery.CachePolicy.CACHE_ELSE_NETWORK);
-        query.getInBackground(User.getCurrentUser().getActiveHousehold().getObjectId(), new GetCallback() {
+        query.getInBackground(User.getCurrentUser().getActiveHousehold().getObjectId(), new GetCallback<Household>() {
             @Override
-            public void done(ParseObject parseObject, ParseException e) {
-                textViewHouseholdName.setText(parseObject.getString("householdName"));
+            public void done(Household household, ParseException e) {
+                textViewHouseholdName.setText(household.getHouseholdName());
             }
         });
     }

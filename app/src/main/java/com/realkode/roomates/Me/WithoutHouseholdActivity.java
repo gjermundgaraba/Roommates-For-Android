@@ -2,8 +2,6 @@ package com.realkode.roomates.Me;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -16,19 +14,9 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Toast;
 
-import com.parse.FunctionCallback;
-import com.parse.ParseCloud;
-import com.parse.ParseException;
-import com.parse.ParseObject;
-import com.parse.RefreshCallback;
-import com.realkode.roomates.Helpers.ToastMaker;
 import com.realkode.roomates.ParseSubclassses.Invitation;
-import com.realkode.roomates.ParseSubclassses.User;
 import com.realkode.roomates.R;
-
-import java.util.HashMap;
 
 public class WithoutHouseholdActivity extends Activity {
     private Invitation selectedInvitation;
@@ -83,10 +71,8 @@ public class WithoutHouseholdActivity extends Activity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        if (!User.loggedInAndMemberOfAHousehold()) {
-            MenuInflater inflater = getMenuInflater();
-            inflater.inflate(R.menu.invitations_menu, menu);
-        }
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.invitations_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -96,43 +82,12 @@ public class WithoutHouseholdActivity extends Activity {
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
 
-        final EditText userInput = (EditText) promptsView.findViewById(R.id.editTextDialogUserInput);
+        EditText householdNameInput = (EditText) promptsView.findViewById(R.id.editTextDialogUserInput);
 
-        alertDialogBuilder.setTitle("Create new Household")
-                .setCancelable(false).setView(promptsView)
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-                        String householdName = userInput.getText().toString();
-
-                        HashMap<String, Object> params = new HashMap<String, Object>();
-                        params.put("householdName", householdName);
-                        final ProgressDialog createHouseholdProgress = ProgressDialog.show(WithoutHouseholdActivity.this, "Creating Household" , " Please wait ... ", true);
-                        ParseCloud.callFunctionInBackground("createNewHousehold", params,
-                                new FunctionCallback<Object>() {
-                                    @Override
-                                    public void done(Object obj, ParseException e) {
-                                        createHouseholdProgress.dismiss();
-                                        if (e == null) {
-                                            CharSequence charSeq = "New Household was Created.";
-                                            Toast.makeText(getApplicationContext(), charSeq,
-                                                    Toast.LENGTH_SHORT).show();
-                                            User.getCurrentUser().refreshInBackground(new RefreshCallback() {
-
-                                                @Override
-                                                public void done(ParseObject object, ParseException e) {
-                                                    User.refreshChannels();
-                                                    WithoutHouseholdActivity.this.finish();
-                                                }
-                                            });
-                                        } else {
-                                            ToastMaker.makeShortToast("Could not create new household, please try again", WithoutHouseholdActivity.this);
-                                        }
-                                    }
-                                }
-                        );
-                    }
-                });
+        alertDialogBuilder.setTitle(getString(R.string.dialog_title_create_new_household))
+                .setView(promptsView)
+                .setPositiveButton(getString(R.string.dialog_positive_button_create_new_household),
+                        new CreateHouseholdOnClickListener(householdNameInput, this));
 
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);

@@ -18,8 +18,8 @@ public class InvitationAdapter extends ParseQueryAdapter<Invitation> {
     public InvitationAdapter(Context context) {
 
         super(context, new ParseQueryAdapter.QueryFactory<Invitation>() {
-            public ParseQuery create() {
-                ParseQuery query = new ParseQuery("Invitation");
+            public ParseQuery<Invitation> create() {
+                ParseQuery<Invitation> query = new ParseQuery<Invitation>(Invitation.class);
                 query.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
                 query.whereEqualTo("invitee", User.getCurrentUser());
                 query.include("inviter");
@@ -31,7 +31,6 @@ public class InvitationAdapter extends ParseQueryAdapter<Invitation> {
         });
     }
 
-    // Customize the layout by overriding getItemView
     @Override
     public View getItemView(Invitation invitation, View view, ViewGroup parent) {
         if (view == null) {
@@ -39,15 +38,11 @@ public class InvitationAdapter extends ParseQueryAdapter<Invitation> {
         }
 
         super.getItemView(invitation, view, parent);
-
-
-        // Add the title view
         TextView invitedByTextView = (TextView) view.findViewById(R.id.invitedByTextView);
         invitedByTextView.setText(invitation.getInviter().getDisplayName());
 
         TextView householdTextView = (TextView) view.findViewById(R.id.householdTextView);
         householdTextView.setText(invitation.getHousehold().getHouseholdName());
-
 
         return view;
     }

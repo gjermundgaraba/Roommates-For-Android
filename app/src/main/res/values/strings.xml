@@ -73,5 +73,11 @@
     <string name="progressdialog_title_accepting_invitation">Accepting Invitation</string>
     <string name="progressdialog_message_accepting_invitation">Please wait ... </string>
     <string name="toast_could_not_accept_invitation">Could not accept invitation, please try again</string>
+    <string name="progress_dialog_title_creating_household">Creating Household</string>
+    <string name="progress_dialog_message_creating_household"> Please wait ... </string>
+    <string name="toast_household_created_successfully">New Household was Created.</string>
+    <string name="toast_created_household_unsuccesfully">Could not create new household, please try again</string>
+    <string name="dialog_title_create_new_household">Create new Household</string>
+    <string name="dialog_positive_button_create_new_household">OK</string>
 
 </resources>

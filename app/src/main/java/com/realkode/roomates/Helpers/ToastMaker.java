@@ -11,7 +11,15 @@ public class ToastMaker {
         Toast.makeText(context, toast, Toast.LENGTH_SHORT).show();
     }
 
+    public static void makeShortToast(int resourceId, Context context) {
+        Toast.makeText(context, resourceId, Toast.LENGTH_SHORT).show();
+    }
+
     public static void makeLongToast(String toast, Context context) {
         Toast.makeText(context, toast, Toast.LENGTH_LONG).show();
+    }
+
+    public static void makeLongToast(int resourceId, Context context) {
+        Toast.makeText(context, resourceId, Toast.LENGTH_LONG).show();
     }
 }
