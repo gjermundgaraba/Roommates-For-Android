@@ -3,27 +3,20 @@ package com.realkode.roomates.Tasks;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AdapterView;
-import android.widget.BaseAdapter;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.parse.DeleteCallback;
-import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -35,22 +28,16 @@ import com.realkode.roomates.ParseSubclassses.TaskListElement;
 import com.realkode.roomates.ParseSubclassses.User;
 import com.realkode.roomates.R;
 
-import java.util.ArrayList;
-import java.util.List;
-
 
 public class TaskListElementsActivity extends Activity {
 
+    public static final String NEED_TO_REFRESH = "need-to-refresh";
     private TaskListElementsAdapter adapter;
     TaskList taskList;
-    //Menu optionsMenu;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.task_elements_menu, menu);
-        //optionsMenu = menu;
-
         return true;
     }
 
@@ -225,7 +212,6 @@ public class TaskListElementsActivity extends Activity {
 
     private void changeTaskListElementTitle(final TaskListElement taskListElement) {
 
-// get dialog_text_prompt.xml view
         LayoutInflater li = LayoutInflater.from(this);
         View promptsView = li.inflate(R.layout.dialog_text_prompt, null);
 
@@ -235,14 +221,11 @@ public class TaskListElementsActivity extends Activity {
                 .findViewById(R.id.editTextDialogUserInput);
         userInput.setText(taskListElement.getElementName());
 
-        // set dialog message
         alertDialogBuilder.setTitle("Rename task")
                 .setCancelable(false).setView(promptsView)
                 .setPositiveButton("Save", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                        // get user input and set it to result
-                        // edit text
                         final String name = userInput.getText().toString();
                         final ProgressDialog resetProgress = ProgressDialog.show(TaskListElementsActivity.this, "Changing name" , " Please wait ... ", true);
                         taskListElement.setElementName(name);
@@ -253,8 +236,6 @@ public class TaskListElementsActivity extends Activity {
 
                                 ToastMaker.makeLongToast("Name was changed",getApplicationContext());
                                 adapter.loadObjects();
-
-
                             }
                         });
                     }
@@ -265,208 +246,12 @@ public class TaskListElementsActivity extends Activity {
             }
         });
 
-        // create alert dialog
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
-        // show it
         alertDialog.show();
-
-
-
-
-
-
-
-    }
-
-    private static class TaskListElementsAdapter extends BaseAdapter {
-        private Context context;
-        private TaskList taskList;
-
-        public TaskList getTaskList() {
-            return taskList;
-        }
-
-        private ArrayList<Item> items = new ArrayList<Item>();
-        private ArrayList<TaskListElement> elements = new ArrayList<TaskListElement>();
-
-//        public ArrayList<TaskListElement> getElements() {
-//            return new ArrayList<TaskListElement>(elements);
-//        }
-//        public void setElements(ArrayList<TaskListElement> elements) {
-//            this.elements = elements;
-//            reloadElements();
-//        }
-
-
-        TaskListElementsAdapter(Context context, TaskList taskList) {
-            this.context = context;
-            this.taskList = taskList;
-            loadObjects();
-        }
-
-        public void reloadElements() {
-            if (elements != null) {
-                items.clear();
-
-                ArrayList<TaskListElement> unfinishedElements = new ArrayList<TaskListElement>(elements);
-                ArrayList<TaskListElement> finishedElements = new ArrayList<TaskListElement>();
-
-                for (TaskListElement element : unfinishedElements) {
-                    if (element.getDone()) {
-                        finishedElements.add(element);
-                    }
-                }
-                unfinishedElements.removeAll(finishedElements);
-
-
-                items.add(new SectionItem("Todo"));
-                for (TaskListElement element : unfinishedElements) {
-                    items.add(new EntryItem(element.getElementName(), "Created by " + element.getCreatedBy().getDisplayName(), element));
-                }
-
-                items.add(new SectionItem("Finished"));
-                for (TaskListElement element : finishedElements) {
-                    items.add(new EntryItem(element.getElementName(), "Finished by " + element.getFinishedBy().getDisplayName(), element));
-                }
-
-
-                notifyDataSetChanged();
-            }
-
-        }
-
-        public void loadObjects() {
-            ParseQuery<TaskListElement> taskListElementParseQuery = ParseQuery.getQuery(TaskListElement.class);
-            taskListElementParseQuery.include("createdBy");
-            taskListElementParseQuery.include("finishedBy");
-            taskListElementParseQuery.orderByAscending("createdAt");
-            taskListElementParseQuery.whereEqualTo("taskList", this.taskList);
-            taskListElementParseQuery.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
-
-            taskListElementParseQuery.findInBackground(new FindCallback<TaskListElement>() {
-                @Override
-                public void done(List<TaskListElement> taskListElements, ParseException e) {
-                    if (e == null) {
-                        elements = new ArrayList<TaskListElement>(taskListElements);
-                        reloadElements();
-                    }
-                }
-            });
-
-
-        }
-
-        @Override
-        public int getCount() {
-            if (items != null) {
-                return items.size();
-            } else {
-                return 0;
-            }
-        }
-
-        @Override
-        public Object getItem(int i) {
-            if (items != null) {
-                Item item = items.get(i);
-                if (!item.isSection()) {
-                    EntryItem entryItem = (EntryItem) item;
-                    System.out.println(entryItem.element.getElementName());
-                    return entryItem.element;
-                } else {
-                    return null;
-                }
-            } else {
-                return null;
-            }
-        }
-
-        @Override
-        public long getItemId(int i) {
-            return 0;
-        }
-
-        @Override
-        public View getView(int position, View view, ViewGroup viewGroup) {
-            final Item item = items.get(position);
-
-            if (item != null) {
-                if (item.isSection()) {
-                    SectionItem sectionItem = (SectionItem) item;
-                    view = View.inflate(context, R.layout.list_element_section, null);
-                    view.setBackgroundColor(Color.LTGRAY);
-                    view.setOnClickListener(null);
-                    view.setOnLongClickListener(null);
-                    view.setLongClickable(false);
-                    TextView title = (TextView) view.findViewById(R.id.sectionTitleTextView);
-
-                    title.setText(sectionItem.getTitle());
-                } else {
-                    final EntryItem entryItem = (EntryItem) item;
-                    view = View.inflate(context, R.layout.list_task_element_layout, null);
-                    TextView title = (TextView) view.findViewById(R.id.textViewList);
-                    TextView subTitle = (TextView) view.findViewById(R.id.textViewCreatedBy);
-//                    ImageButton infoButton = (ImageButton) view.findViewById(R.id.buttonElementInfo);
-                    title.setText(entryItem.title);
-                    subTitle.setText(entryItem.subtitle);
-
-//                    infoButton.setOnClickListener(new View.OnClickListener() {
-//                        @Override
-//                        public void onClick(View view) {
-//                            System.out.println(entryItem.element.getElementName());
-//                        }
-//                    });
-                }
-            }
-
-            return view;
-        }
-
-        private interface Item {
-            public boolean isSection();
-        }
-
-        private class SectionItem implements Item {
-
-            private final String title;
-
-            public SectionItem(String title) {
-                this.title = title;
-            }
-
-            public String getTitle() {
-                return title;
-            }
-
-            @Override
-            public boolean isSection() {
-                return true;
-            }
-        }
-
-        public class EntryItem implements Item {
-
-            public final String title;
-            public final String subtitle;
-            public final TaskListElement element;
-
-            public EntryItem(String title, String subtitle, TaskListElement element) {
-                this.title = title;
-                this.subtitle = subtitle;
-                this.element = element;
-            }
-
-            @Override
-            public boolean isSection() {
-                return false;
-            }
-
-        }
     }
 
     private void startCreateNewTaskListElementDialog() {
-        // get prompts.xml view
         LayoutInflater li = LayoutInflater.from(this);
         View promptsView = li.inflate(R.layout.dialog_new_task_list_element, null);
 
@@ -474,14 +259,11 @@ public class TaskListElementsActivity extends Activity {
 
         final EditText userInput = (EditText) promptsView.findViewById(R.id.elementNameEditText);
 
-        // set dialog message
         alertDialogBuilder.setTitle("Create new task list element")
                 .setCancelable(false).setView(promptsView)
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                        // get user input and set it to result
-                        // edit text
                         TaskListElement taskListElement = new TaskListElement();
                         String taskListName = userInput.getText().toString();
                         taskListElement.setElementName(taskListName);
@@ -507,15 +289,11 @@ public class TaskListElementsActivity extends Activity {
                     }
                 });
 
-        // create alert dialog
         AlertDialog alertDialog = alertDialogBuilder.create();
-
-        // show it
         alertDialog.show();
     }
 
     private void startRenameTaskListDialog() {
-        // get prompts.xml view
         LayoutInflater li = LayoutInflater.from(this);
         View promptsView = li.inflate(R.layout.dialog_rename_task_list, null);
 
@@ -524,14 +302,11 @@ public class TaskListElementsActivity extends Activity {
         final EditText userInput = (EditText) promptsView.findViewById(R.id.renameTaskListEditText);
         userInput.setText(taskList.getListName());
 
-        // set dialog message
         alertDialogBuilder.setTitle("Rename Task List")
                 .setCancelable(false).setView(promptsView)
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                        // get user input and set it to result
-                        // edit text
                         taskList.setListName(userInput.getText().toString());
 
                         taskList.saveInBackground(new SaveCallback() {
@@ -555,10 +330,8 @@ public class TaskListElementsActivity extends Activity {
                     }
                 });
 
-        // create alert dialog
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
-        // show it
         alertDialog.show();
     }
 
@@ -589,10 +362,7 @@ public class TaskListElementsActivity extends Activity {
                     }
                 });
 
-        // create alert dialog
         AlertDialog alertDialog = alertDialogBuilder.create();
-
-        // show it
         alertDialog.show();
     }
 
@@ -602,7 +372,7 @@ public class TaskListElementsActivity extends Activity {
         taskList.saveEventually(new SaveCallback() {
             @Override
             public void done(ParseException e) {
-                Intent intent = new Intent("need-to-refresh");
+                Intent intent = new Intent(NEED_TO_REFRESH);
                 LocalBroadcastManager.getInstance(TaskListElementsActivity.this).sendBroadcast(intent);
             }
         });

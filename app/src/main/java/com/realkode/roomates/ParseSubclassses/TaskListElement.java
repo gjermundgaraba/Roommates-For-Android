@@ -3,12 +3,7 @@ package com.realkode.roomates.ParseSubclassses;
 import com.parse.ParseClassName;
 import com.parse.ParseException;
 import com.parse.ParseObject;
-import com.realkode.roomates.ParseSubclassses.TaskList;
-import com.realkode.roomates.ParseSubclassses.User;
 
-/**
- * Created by Johann on 13.04.2014.
- */
 @ParseClassName("TaskListElement")
 public class TaskListElement extends ParseObject{
     public String getElementName() {
@@ -31,7 +26,6 @@ public class TaskListElement extends ParseObject{
         try {
             return (User)getParseUser("createdBy").fetchIfNeeded();
         } catch (ParseException e) {
-
             e.printStackTrace();
         }
         return (User)getParseUser("createdBy");
@@ -59,14 +53,14 @@ public class TaskListElement extends ParseObject{
 
     public Boolean getDone() {
         return getFinishedBy() != null;
-
     }
 
     public void setDone(boolean done) {
-        if (done)
+        if (done) {
             setFinishedBy(User.getCurrentUser());
-        else
+        }
+        else {
             remove("finishedBy");
-
+        }
     }
 }

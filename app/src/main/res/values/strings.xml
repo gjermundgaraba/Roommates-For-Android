@@ -92,5 +92,8 @@
     <string name="toast_update_profile_saving_message">Please wait ... </string>
     <string name="toast_update_profile_success">Profile Updated</string>
     <string name="toast_update_profile_invalid_email">Email is not valid</string>
+    <string name="tasks_section_item_title_todo">Todo</string>
+    <string name="tasks_section_item_title_finished">Finished</string>
+    <string name="tasks_item_created_by">Created by </string>
 
 </resources>
