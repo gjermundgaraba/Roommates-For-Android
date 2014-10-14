@@ -19,19 +19,17 @@ import android.widget.ListView;
 import com.parse.DeleteCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
-import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.SaveCallback;
+import com.realkode.roomates.Helpers.Constants;
 import com.realkode.roomates.Helpers.ToastMaker;
 import com.realkode.roomates.ParseSubclassses.TaskList;
 import com.realkode.roomates.ParseSubclassses.TaskListElement;
 import com.realkode.roomates.ParseSubclassses.User;
 import com.realkode.roomates.R;
-
+import com.realkode.roomates.Tasks.Adapters.TaskListElementsAdapter;
 
 public class TaskListElementsActivity extends Activity {
-
-    public static final String NEED_TO_REFRESH = "need-to-refresh";
     private TaskListElementsAdapter adapter;
     TaskList taskList;
 
@@ -116,16 +114,17 @@ public class TaskListElementsActivity extends Activity {
 
         String taskListID = getIntent().getStringExtra("taskListID");
 
-        ParseQuery query = new ParseQuery("TaskList");
+        ParseQuery<TaskList> query = new ParseQuery<TaskList>(TaskList.class);
         query.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
         final ListView taskListElementsListView = (ListView) findViewById(R.id.taskListElementsListView);
 
 
-        query.getInBackground(taskListID, new GetCallback() {
+        query.getInBackground(taskListID, new GetCallback<TaskList>() {
             @Override
-            public void done(ParseObject object, ParseException e) {
-                if (e != null) TaskListElementsActivity.this.finish();
-                taskList = (TaskList) object;
+            public void done(TaskList taskList, ParseException exception) {
+                if (exception != null) {
+                    TaskListElementsActivity.this.finish();
+                }
 
                 invalidateOptionsMenu();
 
@@ -372,7 +371,7 @@ public class TaskListElementsActivity extends Activity {
         taskList.saveEventually(new SaveCallback() {
             @Override
             public void done(ParseException e) {
-                Intent intent = new Intent(NEED_TO_REFRESH);
+                Intent intent = new Intent(Constants.NEED_TO_REFRESH);
                 LocalBroadcastManager.getInstance(TaskListElementsActivity.this).sendBroadcast(intent);
             }
         });

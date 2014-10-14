@@ -1,4 +1,4 @@
-package com.realkode.roomates.Tasks;
+package com.realkode.roomates.Tasks.Adapters;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -13,6 +13,9 @@ import com.parse.ParseQuery;
 import com.realkode.roomates.ParseSubclassses.TaskList;
 import com.realkode.roomates.ParseSubclassses.TaskListElement;
 import com.realkode.roomates.R;
+import com.realkode.roomates.Tasks.AdapterItems.EntryItemForTaskListElement;
+import com.realkode.roomates.Tasks.AdapterItems.Item;
+import com.realkode.roomates.Tasks.AdapterItems.SectionItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +32,7 @@ public class TaskListElementsAdapter extends BaseAdapter {
     private ArrayList<TaskListElement> elements = new ArrayList<TaskListElement>();
 
 
-    TaskListElementsAdapter(Context context, TaskList taskList) {
+    public TaskListElementsAdapter(Context context, TaskList taskList) {
         this.context = context;
         this.taskList = taskList;
         loadObjects();
@@ -52,13 +55,13 @@ public class TaskListElementsAdapter extends BaseAdapter {
 
             items.add(new SectionItem(context.getString(R.string.tasks_section_item_title_todo)));
             for (TaskListElement element : unfinishedElements) {
-                items.add(new TaskListElementEntryItem(element.getElementName(),
+                items.add(new EntryItemForTaskListElement(element.getElementName(),
                         context.getString(R.string.tasks_item_created_by) + element.getCreatedBy().getDisplayName(), element));
             }
 
             items.add(new SectionItem(context.getString(R.string.tasks_section_item_title_finished)));
             for (TaskListElement element : finishedElements) {
-                items.add(new TaskListElementEntryItem(element.getElementName(),
+                items.add(new EntryItemForTaskListElement(element.getElementName(),
                         context.getString(R.string.tasks_item_created_by) + element.getFinishedBy().getDisplayName(), element));
             }
 
@@ -103,9 +106,9 @@ public class TaskListElementsAdapter extends BaseAdapter {
         if (items != null) {
             Item item = items.get(i);
             if (!item.isSection()) {
-                TaskListElementEntryItem taskListElementEntryItem = (TaskListElementEntryItem) item;
-                System.out.println(taskListElementEntryItem.taskListElement.getElementName());
-                return taskListElementEntryItem.taskListElement;
+                EntryItemForTaskListElement entryItemForTaskListElement = (EntryItemForTaskListElement) item;
+                System.out.println(entryItemForTaskListElement.getTaskListElement().getElementName());
+                return entryItemForTaskListElement.getTaskListElement();
             } else {
                 return null;
             }
@@ -135,12 +138,12 @@ public class TaskListElementsAdapter extends BaseAdapter {
 
                 title.setText(sectionItem.getTitle());
             } else {
-                final TaskListElementEntryItem taskListElementEntryItem = (TaskListElementEntryItem) item;
+                final EntryItemForTaskListElement entryItemForTaskListElement = (EntryItemForTaskListElement) item;
                 view = View.inflate(context, R.layout.list_task_element_layout, null);
                 TextView title = (TextView) view.findViewById(R.id.textViewList);
                 TextView subTitle = (TextView) view.findViewById(R.id.textViewCreatedBy);
-                title.setText(taskListElementEntryItem.title);
-                subTitle.setText(taskListElementEntryItem.subtitle);
+                title.setText(entryItemForTaskListElement.getTitle());
+                subTitle.setText(entryItemForTaskListElement.getSubtitle());
             }
         }
 

@@ -1,6 +1,6 @@
-package com.realkode.roomates.Tasks;
+package com.realkode.roomates.Tasks.AdapterItems;
 
-public class SectionItem implements Item{
+public class SectionItem implements Item {
 
     private final String title;
 
@@ -8,12 +8,11 @@ public class SectionItem implements Item{
         this.title = title;
     }
 
-    public String getTitle(){
-        return title;
-    }
-
-    @Override
     public boolean isSection() {
         return true;
+    }
+
+    public String getTitle(){
+        return title;
     }
 }
