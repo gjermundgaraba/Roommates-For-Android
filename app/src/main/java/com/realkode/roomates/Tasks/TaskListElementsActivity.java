@@ -31,23 +31,12 @@ import com.realkode.roomates.Tasks.Adapters.TaskListElementsAdapter;
 
 public class TaskListElementsActivity extends Activity {
     private TaskListElementsAdapter adapter;
-    TaskList taskList;
+    private TaskList taskList;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.task_elements_menu, menu);
         return true;
-    }
-
-    private void updateTitle() {
-        if (taskList != null) {
-            if (taskList.getDone()) {
-                setTitle(taskList.getListName() + " (done)");
-            } else {
-                setTitle(taskList.getListName() + " (todo)");
-            }
-
-        }
     }
 
     @Override
@@ -58,9 +47,9 @@ public class TaskListElementsActivity extends Activity {
         MenuItem deleteItem = menu.findItem(R.id.action_delete_list);
         if (taskList != null) {
             if (!taskList.getDone()) {
-                toggleItem.setTitle("Mark as Finished");
+                toggleItem.setTitle(R.string.options_menu_task_list_mark_as_finished);
             } else {
-                toggleItem.setTitle("Mark as Unfinished");
+                toggleItem.setTitle(R.string.options_menu_task_list_mark_as_ufinished);
             }
 
             toggleItem.setEnabled(true);
@@ -68,7 +57,7 @@ public class TaskListElementsActivity extends Activity {
             newItem.setEnabled(true);
             deleteItem.setEnabled(true);
         } else {
-            toggleItem.setTitle("Loading...");
+            toggleItem.setTitle(R.string.options_menu_task_list_loading);
             toggleItem.setEnabled(false);
             refreshItem.setEnabled(false);
             newItem.setEnabled(false);
@@ -79,12 +68,10 @@ public class TaskListElementsActivity extends Activity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
+
         if (id == R.id.action_refresh) {
-            ToastMaker.makeShortToast("Refreshing...", this);
+            ToastMaker.makeShortToast(R.string.toast_task_list_elements_refresh, this);
             adapter.loadObjects();
             return true;
         } else if (id == R.id.action_new) {
@@ -101,7 +88,6 @@ public class TaskListElementsActivity extends Activity {
             return true;
         }
 
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -110,29 +96,18 @@ public class TaskListElementsActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task_list_elements);
 
-        setTitle("");
-
+        setTitle("Task List"); // Will be updated later
         String taskListID = getIntent().getStringExtra("taskListID");
 
-        ParseQuery<TaskList> query = new ParseQuery<TaskList>(TaskList.class);
-        query.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
         final ListView taskListElementsListView = (ListView) findViewById(R.id.taskListElementsListView);
 
+        retrieveTaskListAndSetUpAdapter(taskListID, taskListElementsListView);
 
-        query.getInBackground(taskListID, new GetCallback<TaskList>() {
-            @Override
-            public void done(TaskList taskList, ParseException exception) {
-                if (exception != null) {
-                    TaskListElementsActivity.this.finish();
-                }
+        setUpOnItemClickListeners(taskListElementsListView);
 
-                invalidateOptionsMenu();
+    }
 
-                TaskListElementsActivity.this.updateTitle();
-                adapter = new TaskListElementsAdapter(TaskListElementsActivity.this, taskList);
-                taskListElementsListView.setAdapter(adapter);
-            }
-        });
+    private void setUpOnItemClickListeners(ListView taskListElementsListView) {
         taskListElementsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -146,65 +121,78 @@ public class TaskListElementsActivity extends Activity {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
                 TaskListElement taskListElement = (TaskListElement) adapterView.getItemAtPosition(i);
-                Task_List_Long_Pressed_Dialog(taskListElement);
+                TaskListLongPressedDialog(taskListElement);
                 return true;
             }
         });
-
     }
 
-    public void Task_List_Long_Pressed_Dialog(final TaskListElement taskListElement) {
+    private void retrieveTaskListAndSetUpAdapter(String taskListID, final ListView taskListElementsListView) {
+        ParseQuery<TaskList> query = new ParseQuery<TaskList>(TaskList.class);
+        query.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
+        query.getInBackground(taskListID, new GetCallback<TaskList>() {
+            @Override
+            public void done(TaskList taskList, ParseException exception) {
+                if (exception != null) {
+                    TaskListElementsActivity.this.finish();
+                }
+
+                TaskListElementsActivity.this.taskList = taskList;
+                setTitle(taskList.getListName());
+                invalidateOptionsMenu();
+
+                adapter = new TaskListElementsAdapter(TaskListElementsActivity.this, taskList);
+                taskListElementsListView.setAdapter(adapter);
+            }
+        });
+    }
+
+    public void TaskListLongPressedDialog(final TaskListElement taskListElement) {
         AlertDialog.Builder myAlertDialog = new AlertDialog.Builder(this);
 
-
-
-        myAlertDialog.setPositiveButton("Change title", new DialogInterface.OnClickListener() {
+        myAlertDialog.setPositiveButton(getString(R.string.alert_dialog_task_list_long_press_change_title),
+                new DialogInterface.OnClickListener()
+        {
             public void onClick(DialogInterface arg0, int arg1) {
                 changeTaskListElementTitle(taskListElement);
             }
         });
 
-        myAlertDialog.setNegativeButton("Delete task", new DialogInterface.OnClickListener() {
+        myAlertDialog.setNegativeButton(getString(R.string.alert_dialog_task_list_long_press_delete),
+                new DialogInterface.OnClickListener()
+         {
             public void onClick(DialogInterface arg0, int arg1) {
                 deleteElement(taskListElement);
             }
-
-
         });
+
         myAlertDialog.show();
 
     }
 
     private void deleteElement(final TaskListElement taskListElement) {
         final AlertDialog.Builder myAlertDialog = new AlertDialog.Builder(this);
-        myAlertDialog.setTitle("Delete task?");
-        myAlertDialog.setMessage("Are you sure you want to delete this task?");
+        myAlertDialog.setTitle(getString(R.string.alert_dialog_delete_task_title));
+        myAlertDialog.setMessage(getString(R.string.alert_dialog_delete_task_message));
 
-        myAlertDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener()
+        myAlertDialog.setPositiveButton(getString(R.string.alert_dialog_delete_task_yes), new DialogInterface.OnClickListener()
         {
+            @Override
             public void onClick(DialogInterface arg0, int arg1)
             {
                 final ProgressDialog resetProgress = ProgressDialog.show(TaskListElementsActivity.this, "Deleting task" , " Please wait ... ", true);
                 taskListElement.deleteInBackground(new DeleteCallback() {
                     @Override
                     public void done(ParseException e) {
-                        // Returns to the previous activity
                         resetProgress.dismiss();
-                        ToastMaker.makeLongToast("Task was deleted",getApplicationContext());
+                        ToastMaker.makeLongToast("Task was deleted", getApplicationContext());
                         adapter.loadObjects();
                     }
                 });
 
             }
         });
-
-        myAlertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener()
-        {
-            public void onClick(DialogInterface dialog, int arg1)
-            {
-                dialog.cancel();
-            }
-        });
+        myAlertDialog.setNegativeButton(getString(R.string.alert_dialog_delete_task_cancel), null);
         myAlertDialog.show();
 
     }
@@ -367,7 +355,6 @@ public class TaskListElementsActivity extends Activity {
 
     private void toggleFinished() {
         taskList.setDone(!taskList.getDone());
-        updateTitle();
         taskList.saveEventually(new SaveCallback() {
             @Override
             public void done(ParseException e) {

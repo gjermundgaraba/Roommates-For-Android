@@ -98,5 +98,15 @@
     <string name="toast_new_task_list_added">New Task List added</string>
     <string name="dialog_create_new_task_list_title">Create new task list</string>
     <string name="dialog_OK">OK</string>
+    <string name="options_menu_task_list_mark_as_finished">Mark as Finished</string>
+    <string name="options_menu_task_list_mark_as_ufinished">Mark as Unfinished</string>
+    <string name="options_menu_task_list_loading">Loading...</string>
+    <string name="toast_task_list_elements_refresh">Refreshing...</string>
+    <string name="alert_dialog_task_list_long_press_change_title">Change title</string>
+    <string name="alert_dialog_task_list_long_press_delete">Delete task</string>
+    <string name="alert_dialog_delete_task_title">Delete task</string>
+    <string name="alert_dialog_delete_task_message">Are you sure you want to delete this task?</string>
+    <string name="alert_dialog_delete_task_yes">Yes</string>
+    <string name="alert_dialog_delete_task_cancel">Cancel</string>
 
 </resources>
