@@ -15,16 +15,12 @@ import android.widget.ListView;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
-import com.parse.ParseUser;
 import com.parse.SaveCallback;
-import com.realkode.roomates.Helpers.ToastMaker;
-import com.realkode.roomates.Me.EditProfileActivity;
-import com.realkode.roomates.Me.HouseholdMembersAdapter;
+import com.realkode.roomates.Helpers.Constants;
 import com.realkode.roomates.ParseSubclassses.Expense;
 import com.realkode.roomates.ParseSubclassses.User;
 import com.realkode.roomates.R;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 
@@ -69,7 +65,7 @@ public class EditPeopleExpenseActivity extends Activity{
             public void done(ParseException e) {
                 // When expense is saved, activity is finished and the first activity on the backstack is resumed.
                 resetProgress.dismiss();
-                Intent intent = new Intent("expense-need-to-refresh");
+                Intent intent = new Intent(Constants.EXPENSE_NEED_TO_REFRESH);
                 LocalBroadcastManager.getInstance(EditPeopleExpenseActivity.this).sendBroadcast(intent);
                 finish();
             }

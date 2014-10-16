@@ -25,22 +25,19 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.parse.DeleteCallback;
-import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
-import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
+import com.realkode.roomates.Helpers.Constants;
 import com.realkode.roomates.Helpers.ToastMaker;
 import com.realkode.roomates.ParseSubclassses.Expense;
-import com.realkode.roomates.ParseSubclassses.Household;
 import com.realkode.roomates.ParseSubclassses.User;
 import com.realkode.roomates.R;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * This activity shows details of an expense
@@ -206,7 +203,7 @@ public class ViewExpenseActivity extends Activity {
                                 resetProgress.dismiss();
                                 expenseAmountView.setText((finalTotalAmount));
                                 ToastMaker.makeLongToast("Amount was changed", getApplicationContext());
-                                Intent intent = new Intent("expense-need-to-refresh");
+                                Intent intent = new Intent(Constants.EXPENSE_NEED_TO_REFRESH);
                                 LocalBroadcastManager.getInstance(ViewExpenseActivity.this).sendBroadcast(intent);
 
                             }
@@ -254,7 +251,7 @@ public class ViewExpenseActivity extends Activity {
                                 resetProgress.dismiss();
                                 expenseNameView.setText(name);
                                 ToastMaker.makeLongToast("Name was changed",getApplicationContext());
-                                Intent intent = new Intent("expense-need-to-refresh");
+                                Intent intent = new Intent(Constants.EXPENSE_NEED_TO_REFRESH);
                                 LocalBroadcastManager.getInstance(ViewExpenseActivity.this).sendBroadcast(intent);
 
                             }
@@ -290,7 +287,7 @@ public class ViewExpenseActivity extends Activity {
                         // Returns to the previous activity
                         resetProgress.dismiss();
                         ToastMaker.makeLongToast("Expense was deleted",getApplicationContext());
-                        Intent intent = new Intent("expense-need-to-refresh");
+                        Intent intent = new Intent(Constants.EXPENSE_NEED_TO_REFRESH);
                         LocalBroadcastManager.getInstance(ViewExpenseActivity.this).sendBroadcast(intent);
                         finish();
                     }
@@ -330,7 +327,7 @@ public class ViewExpenseActivity extends Activity {
         query.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
 
         LocalBroadcastManager broadcastManager = LocalBroadcastManager.getInstance(this);
-        broadcastManager.registerReceiver(mMessageReceiver, new IntentFilter("expense-need-to-refresh"));
+        broadcastManager.registerReceiver(mMessageReceiver, new IntentFilter(Constants.EXPENSE_NEED_TO_REFRESH));
 
 
         query.getInBackground(objectId, new GetCallback<Expense>() {
@@ -436,7 +433,7 @@ public class ViewExpenseActivity extends Activity {
             expense.saveEventually();
 
             if (notPaid.size() == 0) {
-                Intent intent = new Intent("expense-need-to-refresh");
+                Intent intent = new Intent(Constants.EXPENSE_NEED_TO_REFRESH);
                 LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
             }
         }

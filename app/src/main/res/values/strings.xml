@@ -108,5 +108,14 @@
     <string name="alert_dialog_delete_task_message">Are you sure you want to delete this task?</string>
     <string name="alert_dialog_delete_task_yes">Yes</string>
     <string name="alert_dialog_delete_task_cancel">Cancel</string>
+    <string name="alert_dialog_create_new_task_list_element_title">Create new task list element</string>
+    <string name="alert_dialog_create_new_task_list_element_message">OK</string>
+    <string name="new_task_list_element_created">New Task List Element Created</string>
+    <string name="deleting_task">Deleting task</string>
+    <string name="task_was_deleted">Task was deleted</string>
+    <string name="rename_task">Rename task</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
+    <string name="task_list_name_changed">Task List Name Changed</string>
 
 </resources>

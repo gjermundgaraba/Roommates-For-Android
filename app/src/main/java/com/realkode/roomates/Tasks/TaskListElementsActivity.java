@@ -25,9 +25,12 @@ import com.realkode.roomates.Helpers.Constants;
 import com.realkode.roomates.Helpers.ToastMaker;
 import com.realkode.roomates.ParseSubclassses.TaskList;
 import com.realkode.roomates.ParseSubclassses.TaskListElement;
-import com.realkode.roomates.ParseSubclassses.User;
 import com.realkode.roomates.R;
 import com.realkode.roomates.Tasks.Adapters.TaskListElementsAdapter;
+import com.realkode.roomates.Tasks.OnClickListeners.ChangeTaskListElementTitleOnClickListener;
+import com.realkode.roomates.Tasks.OnClickListeners.CreateNewTaskListElementOnClickListener;
+import com.realkode.roomates.Tasks.OnClickListeners.DeleteTaskListElementOnClickListener;
+import com.realkode.roomates.Tasks.OnClickListeners.RenameTaskListOnClickListener;
 
 public class TaskListElementsActivity extends Activity {
     private TaskListElementsAdapter adapter;
@@ -172,27 +175,11 @@ public class TaskListElementsActivity extends Activity {
 
     private void deleteElement(final TaskListElement taskListElement) {
         final AlertDialog.Builder myAlertDialog = new AlertDialog.Builder(this);
-        myAlertDialog.setTitle(getString(R.string.alert_dialog_delete_task_title));
-        myAlertDialog.setMessage(getString(R.string.alert_dialog_delete_task_message));
+        myAlertDialog.setTitle(getString(R.string.alert_dialog_delete_task_title))
+                .setMessage(getString(R.string.alert_dialog_delete_task_message))
+                .setPositiveButton(getString(R.string.alert_dialog_delete_task_yes), new DeleteTaskListElementOnClickListener(this, adapter, taskListElement))
+                .setNegativeButton(getString(R.string.alert_dialog_delete_task_cancel), null);
 
-        myAlertDialog.setPositiveButton(getString(R.string.alert_dialog_delete_task_yes), new DialogInterface.OnClickListener()
-        {
-            @Override
-            public void onClick(DialogInterface arg0, int arg1)
-            {
-                final ProgressDialog resetProgress = ProgressDialog.show(TaskListElementsActivity.this, "Deleting task" , " Please wait ... ", true);
-                taskListElement.deleteInBackground(new DeleteCallback() {
-                    @Override
-                    public void done(ParseException e) {
-                        resetProgress.dismiss();
-                        ToastMaker.makeLongToast("Task was deleted", getApplicationContext());
-                        adapter.loadObjects();
-                    }
-                });
-
-            }
-        });
-        myAlertDialog.setNegativeButton(getString(R.string.alert_dialog_delete_task_cancel), null);
         myAlertDialog.show();
 
     }
@@ -208,30 +195,10 @@ public class TaskListElementsActivity extends Activity {
                 .findViewById(R.id.editTextDialogUserInput);
         userInput.setText(taskListElement.getElementName());
 
-        alertDialogBuilder.setTitle("Rename task")
+        alertDialogBuilder.setTitle(getString(R.string.rename_task))
                 .setCancelable(false).setView(promptsView)
-                .setPositiveButton("Save", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-                        final String name = userInput.getText().toString();
-                        final ProgressDialog resetProgress = ProgressDialog.show(TaskListElementsActivity.this, "Changing name" , " Please wait ... ", true);
-                        taskListElement.setElementName(name);
-                        taskListElement.saveInBackground(new SaveCallback() {
-                            @Override
-                            public void done(ParseException e) {
-                                resetProgress.dismiss();
-
-                                ToastMaker.makeLongToast("Name was changed",getApplicationContext());
-                                adapter.loadObjects();
-                            }
-                        });
-                    }
-                }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int id) {
-                dialog.cancel();
-            }
-        });
+                .setPositiveButton(getString(R.string.save), new ChangeTaskListElementTitleOnClickListener(this, userInput, taskListElement, adapter))
+                .setNegativeButton(getString(R.string.cancel), null);
 
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
@@ -239,42 +206,18 @@ public class TaskListElementsActivity extends Activity {
     }
 
     private void startCreateNewTaskListElementDialog() {
-        LayoutInflater li = LayoutInflater.from(this);
-        View promptsView = li.inflate(R.layout.dialog_new_task_list_element, null);
+        LayoutInflater layoutInflater = LayoutInflater.from(this);
+        View promptsView = layoutInflater.inflate(R.layout.dialog_new_task_list_element, null);
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
 
         final EditText userInput = (EditText) promptsView.findViewById(R.id.elementNameEditText);
 
-        alertDialogBuilder.setTitle("Create new task list element")
-                .setCancelable(false).setView(promptsView)
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-                        TaskListElement taskListElement = new TaskListElement();
-                        String taskListName = userInput.getText().toString();
-                        taskListElement.setElementName(taskListName);
-                        taskListElement.setCreatedBy(User.getCurrentUser());
-                        taskListElement.setTaskList(TaskListElementsActivity.this.adapter.getTaskList());
-                        taskListElement.setUpdatedBy(User.getCurrentUser());
-
-                        taskListElement.saveInBackground(new SaveCallback() {
-                            @Override
-                            public void done(ParseException e) {
-                                TaskListElementsActivity.this.adapter.loadObjects();
-                                ToastMaker.makeShortToast("New Task List Element Created", TaskListElementsActivity.this);
-                            }
-                        });
-
-
-                    }
-                })
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-                    }
-                });
+        alertDialogBuilder.setTitle(getString(R.string.alert_dialog_create_new_task_list_element_title))
+                .setView(promptsView)
+                .setPositiveButton(getString(R.string.alert_dialog_create_new_task_list_element_message),
+                        new CreateNewTaskListElementOnClickListener(this, userInput, adapter))
+                .setNegativeButton(getString(R.string.cancel), null);
 
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.show();
@@ -291,31 +234,8 @@ public class TaskListElementsActivity extends Activity {
 
         alertDialogBuilder.setTitle("Rename Task List")
                 .setCancelable(false).setView(promptsView)
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-                        taskList.setListName(userInput.getText().toString());
-
-                        taskList.saveInBackground(new SaveCallback() {
-                            @Override
-                            public void done(ParseException e) {
-                                TaskListElementsActivity.this.setTitle(taskList.getListName());
-                                ToastMaker.makeShortToast("Task List Name Changed", TaskListElementsActivity.this);
-
-                                Intent intent = new Intent("expense-need-to-refresh");
-                                LocalBroadcastManager.getInstance(TaskListElementsActivity.this).sendBroadcast(intent);
-                            }
-                        });
-
-
-                    }
-                })
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-                    }
-                });
+                .setPositiveButton("OK", new RenameTaskListOnClickListener(this, taskList, userInput))
+                .setNegativeButton(getString(R.string.cancel), null);
 
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);

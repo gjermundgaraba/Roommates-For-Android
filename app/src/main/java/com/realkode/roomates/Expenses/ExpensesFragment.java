@@ -20,6 +20,7 @@ import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.realkode.roomates.Helpers.Constants;
 import com.realkode.roomates.ParseSubclassses.Expense;
 import com.realkode.roomates.ParseSubclassses.User;
 import com.realkode.roomates.R;
@@ -70,7 +71,7 @@ public class ExpensesFragment extends Fragment implements RefreshableFragment{
 
         if (User.loggedInAndMemberOfAHousehold()) {
             LocalBroadcastManager broadcastManager = LocalBroadcastManager.getInstance(getActivity());
-            broadcastManager.registerReceiver(mMessageReceiver, new IntentFilter("expense-need-to-refresh"));
+            broadcastManager.registerReceiver(mMessageReceiver, new IntentFilter(Constants.EXPENSE_NEED_TO_REFRESH));
 
             ListView expenseListView = (ListView) rootView.findViewById(R.id.expenseListView);
             adapter = new ExpenseAdapter(getActivity());
