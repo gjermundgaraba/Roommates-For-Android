@@ -2,7 +2,6 @@ package com.realkode.roomates.Tasks;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,7 +15,6 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 
-import com.parse.DeleteCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
@@ -30,6 +28,7 @@ import com.realkode.roomates.Tasks.Adapters.TaskListElementsAdapter;
 import com.realkode.roomates.Tasks.OnClickListeners.ChangeTaskListElementTitleOnClickListener;
 import com.realkode.roomates.Tasks.OnClickListeners.CreateNewTaskListElementOnClickListener;
 import com.realkode.roomates.Tasks.OnClickListeners.DeleteTaskListElementOnClickListener;
+import com.realkode.roomates.Tasks.OnClickListeners.DeleteTaskListOnClickListener;
 import com.realkode.roomates.Tasks.OnClickListeners.RenameTaskListOnClickListener;
 
 public class TaskListElementsActivity extends Activity {
@@ -232,9 +231,9 @@ public class TaskListElementsActivity extends Activity {
         final EditText userInput = (EditText) promptsView.findViewById(R.id.renameTaskListEditText);
         userInput.setText(taskList.getListName());
 
-        alertDialogBuilder.setTitle("Rename Task List")
+        alertDialogBuilder.setTitle(getString(R.string.rename_task_list))
                 .setCancelable(false).setView(promptsView)
-                .setPositiveButton("OK", new RenameTaskListOnClickListener(this, taskList, userInput))
+                .setPositiveButton(getString(R.string.ok), new RenameTaskListOnClickListener(this, taskList, userInput))
                 .setNegativeButton(getString(R.string.cancel), null);
 
         AlertDialog alertDialog = alertDialogBuilder.create();
@@ -245,29 +244,9 @@ public class TaskListElementsActivity extends Activity {
     private void startDeleteTaskListDialog() {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         alertDialogBuilder
-                .setTitle("Are You Sure You Want To Delete This Task List?")
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-                        final ProgressDialog progressDialog = ProgressDialog.show(TaskListElementsActivity.this,
-                                "Deleting List", " Please wait ... ", true);
-                        taskList.deleteInBackground(new DeleteCallback() {
-                            @Override
-                            public void done(ParseException e) {
-                                progressDialog.dismiss();
-                                Intent intent = new Intent("need-to-refresh");
-                                LocalBroadcastManager.getInstance(TaskListElementsActivity.this).sendBroadcast(intent);
-                                finish();
-                            }
-                        });
-                    }
-                })
-                .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-
-                    }
-                });
+                .setTitle(getString(R.string.delete_task_list_confirmation_title))
+                .setPositiveButton(getString(R.string.yes), new DeleteTaskListOnClickListener(this, taskList))
+                .setNegativeButton(getString(R.string.no), null);
 
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.show();

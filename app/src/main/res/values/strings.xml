@@ -117,5 +117,11 @@
     <string name="save">Save</string>
     <string name="cancel">Cancel</string>
     <string name="task_list_name_changed">Task List Name Changed</string>
+    <string name="rename_task_list">Rename Task List</string>
+    <string name="ok">OK</string>
+    <string name="delete_task_list_confirmation_title">Are You Sure You Want To Delete This Task List?</string>
+    <string name="yes">Yes</string>
+    <string name="deleting_list">Deleting List</string>
+    <string name="no">No</string>
 
 </resources>
