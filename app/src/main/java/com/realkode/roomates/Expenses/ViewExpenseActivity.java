@@ -113,7 +113,7 @@ public class ViewExpenseActivity extends Activity {
     private void edit_people() {
         Context context = getApplicationContext();
         Intent intent = new Intent(context, EditPeopleExpenseActivity.class);
-        intent.putExtra("objectID",(String) getIntent().getExtras().get("expenseID"));
+        intent.putExtra(Constants.EXTRA_NAME_EXPENSE_ID, activeExpense.getObjectId());
         startActivity(intent);
     }
 
@@ -319,7 +319,7 @@ public class ViewExpenseActivity extends Activity {
         listView = (ListView) findViewById(R.id.listViewExpenseUsers);
         final ProgressDialog progress = ProgressDialog.show(ViewExpenseActivity.this, "Loading expense" , " Please wait ... ", true);
         final Context context = this;
-        String objectId = (String) getIntent().getExtras().get("expenseID");
+        String objectId = (String) getIntent().getExtras().get(Constants.EXTRA_NAME_EXPENSE_ID);
         ParseQuery<Expense> query = new ParseQuery<Expense>("Expense");
         query.include("owed");
         query.include("notPaidUp");

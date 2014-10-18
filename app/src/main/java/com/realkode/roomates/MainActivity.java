@@ -1,7 +1,5 @@
 package com.realkode.roomates;
 
-import java.util.Locale;
-
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
@@ -13,11 +11,13 @@ import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.realkode.roomates.Expenses.ExpensesFragment;
+import com.realkode.roomates.Expenses.ExpenseOverview.ExpensesFragment;
 import com.realkode.roomates.Feed.FeedFragment;
 import com.realkode.roomates.Helpers.ToastMaker;
 import com.realkode.roomates.Me.MeFragment;
 import com.realkode.roomates.Tasks.TaskListFragment;
+
+import java.util.Locale;
 
 public class MainActivity extends FragmentActivity implements ActionBar.TabListener {
 
