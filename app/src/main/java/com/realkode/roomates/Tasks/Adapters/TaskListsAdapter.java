@@ -10,12 +10,12 @@ import android.widget.TextView;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
+import com.realkode.roomates.Helpers.AdapterItems.EntryItemForTaskList;
+import com.realkode.roomates.Helpers.AdapterItems.Item;
+import com.realkode.roomates.Helpers.AdapterItems.SectionItem;
 import com.realkode.roomates.ParseSubclassses.TaskList;
 import com.realkode.roomates.ParseSubclassses.User;
 import com.realkode.roomates.R;
-import com.realkode.roomates.Tasks.AdapterItems.EntryItemForTaskList;
-import com.realkode.roomates.Tasks.AdapterItems.Item;
-import com.realkode.roomates.Tasks.AdapterItems.SectionItem;
 
 import java.util.ArrayList;
 import java.util.List;

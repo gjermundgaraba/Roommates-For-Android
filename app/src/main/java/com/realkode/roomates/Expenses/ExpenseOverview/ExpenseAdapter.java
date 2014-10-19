@@ -10,7 +10,9 @@ import android.widget.TextView;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
-import com.parse.ParseUser;
+import com.realkode.roomates.Helpers.AdapterItems.EntryItemForExpenses;
+import com.realkode.roomates.Helpers.AdapterItems.Item;
+import com.realkode.roomates.Helpers.AdapterItems.SectionItem;
 import com.realkode.roomates.ParseSubclassses.Expense;
 import com.realkode.roomates.ParseSubclassses.User;
 import com.realkode.roomates.R;
@@ -35,34 +37,47 @@ public class ExpenseAdapter extends BaseAdapter {
         if (expenses != null) {
             items.clear();
 
-            ArrayList<Expense> unfinishedElements = new ArrayList<Expense>(expenses);
-            ArrayList<Expense> finishedElements = new ArrayList<Expense>();
+            ArrayList<Expense> paidUpElements = getPaidUpElements();
+            ArrayList<Expense> unpaidElements = getUnpaidElements(paidUpElements);
 
+            setUpPaidUpSection(paidUpElements);
+            setUpUnpaidSection(unpaidElements);
 
-            // Generating the two sections of the list
+            notifyDataSetChanged(); // UI Update
+        }
+    }
 
-            for (Expense expense : unfinishedElements) {
-                if (expense.getNotPaidUp().isEmpty()) {
-                    finishedElements.add(expense);
-                }
+    private ArrayList<Expense> getPaidUpElements() {
+        ArrayList<Expense> paidUpElements = new ArrayList<Expense>();
+
+        for (Expense expense : expenses) {
+            ArrayList<User> notPaidUpUsers = expense.getNotPaidUp();
+            if (notPaidUpUsers.isEmpty()) {
+                paidUpElements.add(expense);
             }
-            unfinishedElements.removeAll(finishedElements);
-
-
-            items.add(new SectionItem("Not paid up"));
-            for (Expense expense : unfinishedElements) {
-                items.add(new EntryItem(expense.getName(), "Created by " + expense.getOwed().getDisplayName(), expense));
-            }
-
-            items.add(new SectionItem("Paid up"));
-            for (Expense expense : finishedElements) {
-                items.add(new EntryItem(expense.getName(), "Created by " + expense.getOwed().getDisplayName(), expense));
-            }
-
-            // Called for updating UI
-            notifyDataSetChanged();
         }
 
+        return paidUpElements;
+    }
+
+    private ArrayList<Expense> getUnpaidElements(ArrayList<Expense> paidUpElements) {
+        ArrayList<Expense> unPaidElements = new ArrayList<Expense>(expenses);
+        unPaidElements.removeAll(paidUpElements);
+        return unPaidElements;
+    }
+
+    private void setUpUnpaidSection(ArrayList<Expense> unpaidElements) {
+        items.add(new SectionItem(context.getString(R.string.unpaid_section_title)));
+        for (Expense expense : unpaidElements) {
+            items.add(new EntryItemForExpenses(expense.getName(), context.getString(R.string.created_by) + expense.getOwed().getDisplayName(), expense));
+        }
+    }
+
+    private void setUpPaidUpSection(ArrayList<Expense> paidUpElements) {
+        items.add(new SectionItem(context.getString(R.string.paid_section_title)));
+        for (Expense expense : paidUpElements) {
+            items.add(new EntryItemForExpenses(expense.getName(), context.getString(R.string.created_by) + expense.getOwed().getDisplayName(), expense));
+        }
     }
 
     public void loadObjects() {
@@ -72,14 +87,15 @@ public class ExpenseAdapter extends BaseAdapter {
         expenseParseQuery.orderByAscending("createdAt");
         expenseParseQuery.whereEqualTo("household", User.getCurrentUser().getActiveHousehold());
 
-        // Setting Cache-policy
+        ParseQuery.CachePolicy cachePolicy = (expenses.size() == 0) ?
+                ParseQuery.CachePolicy.CACHE_THEN_NETWORK : ParseQuery.CachePolicy.NETWORK_ELSE_CACHE;
+        expenseParseQuery.setCachePolicy(cachePolicy);
         if (expenses.size() == 0) {
             expenseParseQuery.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
         }
         else {
             expenseParseQuery.setCachePolicy(ParseQuery.CachePolicy.NETWORK_ELSE_CACHE);
         }
-
 
         expenseParseQuery.findInBackground(new FindCallback<Expense>() {
             @Override
@@ -90,8 +106,6 @@ public class ExpenseAdapter extends BaseAdapter {
                 }
             }
         });
-
-
     }
 
     @Override
@@ -109,9 +123,8 @@ public class ExpenseAdapter extends BaseAdapter {
         if (items != null) {
             Item item = items.get(i);
             if (!item.isSection()) {
-                EntryItem entryItem = (EntryItem)item;
-                System.out.println(entryItem.expense.getName());
-                return entryItem.expense;
+                EntryItemForExpenses entryItem = (EntryItemForExpenses)item;
+                return entryItem.getExpense();
             }
             else {
                 return null;
@@ -131,88 +144,81 @@ public class ExpenseAdapter extends BaseAdapter {
     public View getView(int position, View view, ViewGroup viewGroup) {
         final Item item = items.get(position);
 
-        if (item != null) {
-            if (item.isSection()) {
-                SectionItem sectionItem = (SectionItem) item;
-                view = View.inflate(context, R.layout.list_element_section, null);
-                view.setBackgroundColor(Color.LTGRAY);
-                view.setOnClickListener(null);
-                view.setOnLongClickListener(null);
-                view.setLongClickable(false);
-                TextView title = (TextView) view.findViewById(R.id.sectionTitleTextView);
-
-                title.setText(sectionItem.getTitle());
-            } else {
-                EntryItem entryItem = (EntryItem) item;
-                view = View.inflate(context, R.layout.list_expenses_layout, null);
-                TextView title = (TextView) view.findViewById(R.id.textViewList);
-                TextView subTitle = (TextView) view.findViewById(R.id.textViewSubTitle);
-
-                title.setText(entryItem.title);
-                DecimalFormat df = new DecimalFormat(".00");
-                double amount = (entryItem.expense.getTotalAmount().doubleValue())/(entryItem.expense.getPaidUp().size() + entryItem.expense.getNotPaidUp().size());
-                if (entryItem.expense.getOwed().getObjectId().equals(ParseUser.getCurrentUser().getObjectId()) && entryItem.expense.getNotPaidUp().size() > 0)
-                {
-                    amount *= entryItem.expense.getNotPaidUp().size();
-
-                    subTitle.setText("You are owed " + df.format(amount) + " for this expense");
-                }
-                else if (entryItem.expense.getNotPaidUp().size() > 0  && entryItem.expense.getNotPaidUp().contains(ParseUser.getCurrentUser()))
-                {
-                    subTitle.setText("You owe " + df.format(amount) + " for this expense");
-                }
-                else if(entryItem.expense.getNotPaidUp().size() > 0)
-                {
-                    subTitle.setText("You do not owe anything for this");
-                }
-                else
-                {
-                    subTitle.setText("");
-                }
-            }
+        if (item != null && item.isSection()) {
+            view = setUpSectionItemView((SectionItem) item);
+        } else {
+            view = setUpEntryItemView((EntryItemForExpenses) item);
         }
 
         return view;
     }
 
-    private interface Item {
-        public boolean isSection();
+    private View setUpEntryItemView(EntryItemForExpenses entryItemForExpense) {
+        View view = View.inflate(context, R.layout.list_expenses_layout, null);
+
+        TextView title = (TextView) view.findViewById(R.id.textViewList);
+        title.setText(entryItemForExpense.getTitle());
+
+        TextView subTitle = (TextView) view.findViewById(R.id.textViewSubTitle);
+        subTitle.setText(getSubTitleText(entryItemForExpense));
+
+        return view;
     }
 
-    private class SectionItem implements Item{
+    private String getSubTitleText(EntryItemForExpenses entryItemForExpense) {
+        Expense expense = entryItemForExpense.getExpense();
 
-        private final String title;
+        DecimalFormat df = new DecimalFormat(".00");
+        double amountOwedByEachPerson = getAmountOwedByEachPerson(expense);
 
-        public SectionItem(String title) {
-            this.title = title;
+        if (currentUserIsTheOwedForExpense(expense) && expenseIsNotSettled(expense)) {
+            double amountOwedToYou = amountOwedByEachPerson * expense.getNumberOfPeopleNotPaidUp();
+
+            return context.getString(R.string.subtitle_you_are_owed_1) + df.format(amountOwedToYou) + context.getString(R.string.subtitle_you_are_owed_2);
         }
-
-        public String getTitle(){
-            return title;
+        else if (expenseIsNotSettled(expense) && currentUserOwesForExpense(expense)) {
+            return context.getString(R.string.subtitle_you_owe) + df.format(amountOwedByEachPerson) + context.getString(R.string.subtitle_you_owe_2);
         }
-
-        @Override
-        public boolean isSection() {
-            return true;
+        else if(expenseIsNotSettled(expense)) {
+            return context.getString(R.string.subtitle_you_do_not_owe_anything);
+        }
+        else {
+            return context.getString(R.string.subtitle_expense_is_settled);
         }
     }
 
-    public class EntryItem implements Item{
+    private double getAmountOwedByEachPerson(Expense expense) {
+        double totalAmount = expense.getTotalAmount().doubleValue();
+        double numberOfPeople = expense.getNumberOfPeopleInExpense();
 
-        public final String title;
-        public final String subtitle;
-        public final Expense expense;
-
-        public EntryItem(String title, String subtitle, Expense element) {
-            this.title = title;
-            this.subtitle = subtitle;
-            this.expense = element;
-        }
-
-        @Override
-        public boolean isSection() {
-            return false;
-        }
-
+        return (totalAmount / numberOfPeople);
     }
+
+    private boolean currentUserIsTheOwedForExpense(Expense expense) {
+        String owedPersonObjectId = expense.getOwed().getObjectId();
+        String currentUserObjectId = User.getCurrentUser().getObjectId();
+
+        return currentUserObjectId.equals(owedPersonObjectId);
+    }
+
+    private boolean expenseIsNotSettled(Expense expense) {
+        return expense.getNotPaidUp().size() > 0;
+    }
+
+    private boolean currentUserOwesForExpense(Expense expense) {
+        return expense.getNotPaidUp().contains(User.getCurrentUser());
+    }
+
+    private View setUpSectionItemView(SectionItem item) {
+        View view = View.inflate(context, R.layout.list_element_section, null);
+        view.setBackgroundColor(Color.LTGRAY);
+        view.setOnClickListener(null);
+        view.setOnLongClickListener(null);
+        view.setLongClickable(false);
+        TextView title = (TextView) view.findViewById(R.id.sectionTitleTextView);
+
+        title.setText(item.getTitle());
+        return view;
+    }
+
 }

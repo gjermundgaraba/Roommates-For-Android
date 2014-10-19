@@ -123,5 +123,14 @@
     <string name="yes">Yes</string>
     <string name="deleting_list">Deleting List</string>
     <string name="no">No</string>
+    <string name="unpaid_section_title">Not paid up</string>
+    <string name="created_by">Created by </string>
+    <string name="paid_section_title">Paid up</string>
+    <string name="subtitle_expense_is_settled">Expense settled</string>
+    <string name="subtitle_you_do_not_owe_anything">You do not owe anything for this</string>
+    <string name="subtitle_you_owe">You owe </string>
+    <string name="subtitle_you_owe_2"> for this expense</string>
+    <string name="subtitle_you_are_owed_1">You are owed </string>
+    <string name="subtitle_you_are_owed_2"> for this expense</string>
 
 </resources>

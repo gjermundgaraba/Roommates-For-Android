@@ -1,4 +1,4 @@
-package com.realkode.roomates.Tasks.AdapterItems;
+package com.realkode.roomates.Helpers.AdapterItems;
 
 import com.realkode.roomates.ParseSubclassses.TaskList;
 

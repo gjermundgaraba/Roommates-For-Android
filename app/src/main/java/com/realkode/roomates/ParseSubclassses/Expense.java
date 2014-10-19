@@ -67,4 +67,16 @@ public class Expense extends ParseObject {
     public void setPaidUp(ArrayList<User> arrayList) {
         put("paidUp", arrayList);
     }
+
+    public int getNumberOfPeoplePaidUp() {
+        return getPaidUp().size();
+    }
+
+    public int getNumberOfPeopleNotPaidUp() {
+        return getNotPaidUp().size();
+    }
+
+    public int getNumberOfPeopleInExpense() {
+        return getNumberOfPeoplePaidUp() + getNumberOfPeopleNotPaidUp();
+    }
 }
