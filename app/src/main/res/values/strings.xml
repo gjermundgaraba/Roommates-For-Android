@@ -132,5 +132,16 @@
     <string name="subtitle_you_owe_2"> for this expense</string>
     <string name="subtitle_you_are_owed_1">You are owed </string>
     <string name="subtitle_you_are_owed_2"> for this expense</string>
+    <string name="edit_expense_not_allowed">You cannot edit this expense. It is not yours.</string>
+    <string name="edit_description">Edit description</string>
+    <string name="description_was_changed">Description was changed</string>
+    <string name="changing_description">Changing description</string>
+    <string name="total_expense_amount">Total expense amount</string>
+    <string name="changing_amount">Changing amount</string>
+    <string name="amount_was_changed">Amount was changed</string>
+    <string name="not_paid_up">Not paid up</string>
+    <string name="paid_up">Paid up</string>
+    <string name="has_paid_up">Has paid up</string>
+    <string name="owes">Owes </string>
 
 </resources>

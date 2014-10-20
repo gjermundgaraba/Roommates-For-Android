@@ -53,7 +53,7 @@
             android:name=".Me.EditProfileActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Expenses.ViewExpenseActivity"
+            android:name=".Expenses.ViewExpense.ViewExpenseActivity"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".Expenses.NewExpenseActivity"
