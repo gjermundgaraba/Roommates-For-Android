@@ -143,5 +143,12 @@
     <string name="paid_up">Paid up</string>
     <string name="has_paid_up">Has paid up</string>
     <string name="owes">Owes </string>
+    <string name="rename_expense">Rename expense</string>
+    <string name="changing_name">Changing name</string>
+    <string name="name_was_changed">Name was changed</string>
+    <string name="delete_expense_question_mark">Delete expense?</string>
+    <string name="are_you_sure_you_want_to_delete_this_expense">Are you sure you want to delete this expense?</string>
+    <string name="loading_expense">Loading expense</string>
+    <string name="could_not_get_expense">Error: Could not get expense!</string>
 
 </resources>

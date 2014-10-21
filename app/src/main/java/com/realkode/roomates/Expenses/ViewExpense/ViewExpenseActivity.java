@@ -5,7 +5,6 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
@@ -21,12 +20,10 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.parse.DeleteCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
-import com.parse.SaveCallback;
 import com.realkode.roomates.Expenses.EditPeopleExpenseActivity;
 import com.realkode.roomates.Helpers.Constants;
 import com.realkode.roomates.Helpers.ToastMaker;
@@ -34,9 +31,6 @@ import com.realkode.roomates.ParseSubclassses.Expense;
 import com.realkode.roomates.ParseSubclassses.User;
 import com.realkode.roomates.R;
 
-/**
- * This activity shows details of an expense
- */
 public class ViewExpenseActivity extends Activity {
     private Expense activeExpense;
     private TextView expenseNameView;
@@ -69,6 +63,73 @@ public class ViewExpenseActivity extends Activity {
         getMenuInflater().inflate(R.menu.view_expense_menu, menu);
         return true;
     }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_view_expense);
+
+        setUpBroadcastReceiver();
+        setUpViews();
+        queryForExpense();
+    }
+
+    private void queryForExpense() {
+        final ProgressDialog progress = ProgressDialog.show(ViewExpenseActivity.this, getString(R.string.loading_expense) ,
+                getString(R.string.please_wait), true);
+
+        String expenseObjectId = (String) getIntent().getExtras().get(Constants.EXTRA_NAME_EXPENSE_ID);
+
+        ParseQuery<Expense> query = new ParseQuery<Expense>("Expense");
+        query.include("owed");
+        query.include("notPaidUp");
+        query.include("paidUp");
+        query.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
+
+        query.getInBackground(expenseObjectId, new GetCallback<Expense>() {
+            @Override
+            public void done(final Expense expense, ParseException e) {
+                if (e == null) {
+                    progress.dismiss();
+                    activeExpense = expense;
+                    expenseNameView.setText(expense.getName());
+                    expenseOwedView.setText(expense.getOwed().getDisplayName());
+                    expenseAmountView.setText("" + expense.getTotalAmount());
+                    expenseDetailsView.setText(expense.getDetails());
+                    final ViewExpenseAdapter adapter = new ViewExpenseAdapter(ViewExpenseActivity.this, expense);
+                    ViewExpenseActivity.this.viewExpenseAdapter = adapter;
+                    listView.setAdapter(adapter);
+
+                    listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long l) {
+                            User theUser = (User) parent.getItemAtPosition(position);
+                            adapter.swapElement(theUser);
+                        }
+                    });
+                }
+                else {
+                    ToastMaker.makeLongToast(R.string.could_not_get_expense, ViewExpenseActivity.this);
+                    ViewExpenseActivity.this.finish();
+                }
+
+            }
+        });
+    }
+
+    private void setUpBroadcastReceiver() {
+        LocalBroadcastManager broadcastManager = LocalBroadcastManager.getInstance(this);
+        broadcastManager.registerReceiver(mMessageReceiver, new IntentFilter(Constants.EXPENSE_NEED_TO_REFRESH));
+    }
+
+    private void setUpViews() {
+        expenseNameView = (TextView) findViewById(R.id.expenseTextViewName);
+        expenseOwedView = (TextView) findViewById(R.id.expenseTextViewOwed);
+        expenseAmountView = (TextView) findViewById(R.id.expenseTextViewAmount);
+        expenseDetailsView = (TextView) findViewById(R.id.expenseTextViewDetails);
+        listView = (ListView) findViewById(R.id.listViewExpenseUsers);
+    }
+
 
     // Called when item on action bar is pressed
     @Override
@@ -151,144 +212,34 @@ public class ViewExpenseActivity extends Activity {
     }
 
     private void renameExpense() {
-        LayoutInflater li = LayoutInflater.from(this);
-        View promptsView = li.inflate(R.layout.dialog_text_prompt, null);
+        LayoutInflater layoutInflater = LayoutInflater.from(this);
+        View promptsView = layoutInflater.inflate(R.layout.dialog_text_prompt, null);
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
 
-        final EditText userInput = (EditText) promptsView
-                .findViewById(R.id.editTextDialogUserInput);
-        userInput.setText(activeExpense.getName());
+        final EditText expenseNameField = (EditText) promptsView.findViewById(R.id.editTextDialogUserInput);
+        expenseNameField.setText(activeExpense.getName());
 
-        // set dialog message
-        alertDialogBuilder.setTitle("Rename expense")
-                .setCancelable(false).setView(promptsView)
-                .setPositiveButton("Save", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-                        // get user input and set it to result
-                        // edit text
-                        final String name = userInput.getText().toString();
-                        final ProgressDialog resetProgress = ProgressDialog.show(ViewExpenseActivity.this, "Changing name" , " Please wait ... ", true);
-                        activeExpense.setName(name);
-                        activeExpense.saveInBackground(new SaveCallback() {
-                            @Override
-                            public void done(ParseException e) {
-                                resetProgress.dismiss();
-                                expenseNameView.setText(name);
-                                ToastMaker.makeLongToast("Name was changed",getApplicationContext());
-                                Intent intent = new Intent(Constants.EXPENSE_NEED_TO_REFRESH);
-                                LocalBroadcastManager.getInstance(ViewExpenseActivity.this).sendBroadcast(intent);
+        alertDialogBuilder.setTitle(getString(R.string.rename_expense))
+                .setView(promptsView)
+                .setPositiveButton(getString(R.string.save), new RenameExpenseOnClickListener(this, expenseNameField, activeExpense, expenseNameView))
+                .setNegativeButton(getString(R.string.cancel), null);
 
-                            }
-                        });
-                    }
-                }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int id) {
-                dialog.cancel();
-            }
-        });
-
-        // create alert dialog
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
-        // show it
         alertDialog.show();
     }
-    // Prompt to delete the expense
+
     private void deleteExpense() {
-        final AlertDialog.Builder myAlertDialog = new AlertDialog.Builder(this);
-        myAlertDialog.setTitle("Delete expense?");
-        myAlertDialog.setMessage("Are you sure you want to delete this expense?");
+        final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setTitle(getString(R.string.delete_expense_question_mark))
+                .setMessage(getString(R.string.are_you_sure_you_want_to_delete_this_expense))
+                .setPositiveButton(getString(R.string.yes), new DeleteExpenseOnClickListener(this, activeExpense))
+                .setNegativeButton(getString(R.string.cancel), null);
 
-        myAlertDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener()
-        {
-            public void onClick(DialogInterface arg0, int arg1)
-            {
-                final ProgressDialog resetProgress = ProgressDialog.show(ViewExpenseActivity.this, "Deleting expense" , " Please wait ... ", true);
-                activeExpense.deleteInBackground(new DeleteCallback() {
-                    @Override
-                    public void done(ParseException e) {
-                        // Returns to the previous activity
-                        resetProgress.dismiss();
-                        ToastMaker.makeLongToast("Expense was deleted",getApplicationContext());
-                        Intent intent = new Intent(Constants.EXPENSE_NEED_TO_REFRESH);
-                        LocalBroadcastManager.getInstance(ViewExpenseActivity.this).sendBroadcast(intent);
-                        finish();
-                    }
-                });
-
-            }
-        });
-
-        myAlertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener()
-        {
-            public void onClick(DialogInterface dialog, int arg1)
-            {
-                dialog.cancel();
-            }
-        });
-        myAlertDialog.show();
-    }
-
-    // Called when activity is started
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_view_expense);
-
-        expenseNameView = (TextView) findViewById(R.id.expenseTextViewName);
-        expenseOwedView = (TextView) findViewById(R.id.expenseTextViewOwed);
-        expenseAmountView = (TextView) findViewById(R.id.expenseTextViewAmount);
-        expenseDetailsView = (TextView) findViewById(R.id.expenseTextViewDetails);
-        listView = (ListView) findViewById(R.id.listViewExpenseUsers);
-        final ProgressDialog progress = ProgressDialog.show(ViewExpenseActivity.this, "Loading expense" , " Please wait ... ", true);
-        final Context context = this;
-        String objectId = (String) getIntent().getExtras().get(Constants.EXTRA_NAME_EXPENSE_ID);
-        ParseQuery<Expense> query = new ParseQuery<Expense>("Expense");
-        query.include("owed");
-        query.include("notPaidUp");
-        query.include("paidUp");
-        query.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
-
-        LocalBroadcastManager broadcastManager = LocalBroadcastManager.getInstance(this);
-        broadcastManager.registerReceiver(mMessageReceiver, new IntentFilter(Constants.EXPENSE_NEED_TO_REFRESH));
-
-
-        query.getInBackground(objectId, new GetCallback<Expense>() {
-            @Override
-            public void done(final Expense expense, ParseException e) {
-                if (e == null) {
-                    // Set up the UI when the query is finished
-                    progress.dismiss();
-                    activeExpense = expense;
-                    expenseNameView.setText(expense.getName());
-                    expenseOwedView.setText(expense.getOwed().getDisplayName());
-                    expenseAmountView.setText("" + expense.getTotalAmount());
-                    expenseDetailsView.setText(expense.getDetails());
-                    final ViewExpenseAdapter adapter = new ViewExpenseAdapter(context, expense);
-                    ViewExpenseActivity.this.viewExpenseAdapter = adapter;
-                    listView.setAdapter(adapter);
-
-                    listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(AdapterView<?> parent, View view, int position, long l) {
-                            User theUser = (User) parent.getItemAtPosition(position);
-
-                            System.out.println(theUser.getDisplayName() + " was clicked");
-                            adapter.swapElement(theUser);
-
-
-                        }
-                    });
-                }
-                else {
-                    System.out.println("DAFUQ SOMETHING HAPPEND!");
-                }
-
-            }
-        });
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+        alertDialog.show();
     }
 
 }
