@@ -130,8 +130,6 @@ public class ViewExpenseActivity extends Activity {
         listView = (ListView) findViewById(R.id.listViewExpenseUsers);
     }
 
-
-    // Called when item on action bar is pressed
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle presses on the action bar items

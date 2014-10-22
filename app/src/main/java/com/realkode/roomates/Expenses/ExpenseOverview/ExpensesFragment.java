@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.realkode.roomates.Expenses.NewExpenseActivity;
+import com.realkode.roomates.Expenses.NewExpense.NewExpenseActivity;
 import com.realkode.roomates.Expenses.ViewExpense.ViewExpenseActivity;
 import com.realkode.roomates.Helpers.Constants;
 import com.realkode.roomates.ParseSubclassses.Expense;
