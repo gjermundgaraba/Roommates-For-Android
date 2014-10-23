@@ -59,7 +59,7 @@
             android:name=".Expenses.NewExpense.NewExpenseActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".Expenses.EditPeopleExpenseActivity"
+            android:name=".Expenses.EditPeople.EditPeopleExpenseActivity"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".NotLoggedIn.LoginActivity"

@@ -1,4 +1,4 @@
-package com.realkode.roomates.Expenses;
+package com.realkode.roomates.Expenses.EditPeople;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -23,47 +23,34 @@ import com.realkode.roomates.R;
 
 import java.util.ArrayList;
 
-
-/**
- * Activity to edit people in an expense
- */
 public class EditPeopleExpenseActivity extends Activity{
     Expense activeExpense;
     ArrayList<User> paidList;
     ArrayList<User> notPaidList;
 
-
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.new_expense_menu, menu);
-        //optionsMenu = menu;
-
         return true;
     }
 
-
-    // The method called when a button on the actionbar is pressed
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == findViewById(R.id.action_save).getId())
-        {
+        if (item.getItemId() == findViewById(R.id.action_save).getId()) {
             saveExpense();
         }
+
         return true;
     }
 
 
-    // Saving the edited expense
     private void saveExpense() {
         activeExpense.setPaidUp(paidList);
         activeExpense.setNotPaidUp(notPaidList);
-        final ProgressDialog resetProgress = ProgressDialog.show(EditPeopleExpenseActivity.this, "Saving" , " Please wait ... ", true);
+        final ProgressDialog resetProgress = ProgressDialog.show(EditPeopleExpenseActivity.this, getString(R.string.saving) , getString(R.string.please_wait), true);
         activeExpense.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
-                // When expense is saved, activity is finished and the first activity on the backstack is resumed.
                 resetProgress.dismiss();
                 Intent intent = new Intent(Constants.EXPENSE_NEED_TO_REFRESH);
                 LocalBroadcastManager.getInstance(EditPeopleExpenseActivity.this).sendBroadcast(intent);
@@ -76,21 +63,26 @@ public class EditPeopleExpenseActivity extends Activity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        final ProgressDialog resetProgress = ProgressDialog.show(EditPeopleExpenseActivity.this, "Loading" , " Please wait ... ", true);
-        final String objectid = getIntent().getExtras().getString("objectID");
 
+        queryMemberList();
+    }
 
-        // Making the query
+    private void queryMemberList() {
+        final String objectID = getIntent().getExtras().getString("objectID");
+
+        final ProgressDialog resetProgress = ProgressDialog.show(EditPeopleExpenseActivity.this, getString(R.string.loading),
+                getString(R.string.please_wait), true);
+
         ParseQuery<Expense> query = new ParseQuery<Expense>("Expense");
         query.include("owed");
         query.include("notPaidUp");
         query.include("paidUp");
 
-        query.getInBackground(objectid,new GetCallback<Expense>() {
+        query.getInBackground(objectID,new GetCallback<Expense>() {
             @Override
             public void done(Expense expense, ParseException e) {
+                resetProgress.dismiss();
                 activeExpense = expense;
-                System.out.println("Expense:   " + expense.getOwed().getDisplayName());
 
                 setContentView(R.layout.activity_edit_people_expense);
                 final ListView list = (ListView) findViewById(R.id.edit_people_listview);
@@ -98,7 +90,7 @@ public class EditPeopleExpenseActivity extends Activity{
                 userList.addAll(expense.getPaidUp());
                 ArrayList<String> objectIDs = new ArrayList<String>();
 
-                for (User users : userList){
+                for (User users : userList) {
                     objectIDs.add(users.getObjectId());
                 }
                 HouseholdMembersAdapterEditExpense membersListViewAdapter = new HouseholdMembersAdapterEditExpense(getApplicationContext(),objectIDs);
@@ -106,14 +98,12 @@ public class EditPeopleExpenseActivity extends Activity{
                 notPaidList = expense.getNotPaidUp();
                 list.setAdapter(membersListViewAdapter);
 
-                resetProgress.dismiss();
                 list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
                         User clickedUser = (User) list.getItemAtPosition(i);
 
-                        // Check if user is part of the expense
                         for (User user : notPaidList) {
                             if (user.getObjectId().equals(clickedUser.getObjectId())) {
                                 System.out.println("notPaid contains clicked user");
@@ -144,9 +134,5 @@ public class EditPeopleExpenseActivity extends Activity{
                 });
             }
         });
-
-
-
-
     }
 }

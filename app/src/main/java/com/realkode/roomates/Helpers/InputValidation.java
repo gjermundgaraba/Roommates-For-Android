@@ -3,9 +3,6 @@ package com.realkode.roomates.Helpers;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/**
- * Class to check password complexity.
- */
 public class InputValidation {
     public static boolean passwordIsValid(String password) {
         Pattern pattern;

@@ -1,4 +1,4 @@
-package com.realkode.roomates.Expenses;
+package com.realkode.roomates.Expenses.EditPeople;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -11,15 +11,11 @@ import com.parse.ParseFile;
 import com.parse.ParseImageView;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
-import com.parse.ParseUser;
 import com.realkode.roomates.ParseSubclassses.User;
 import com.realkode.roomates.R;
 
 import java.util.ArrayList;
 
-/**
- * The list adapter for the expenselist in the EditPeopleExpenseActivity
- */
 public class HouseholdMembersAdapterEditExpense extends ParseQueryAdapter<User> {
     private ArrayList<String> objectIDs;
 
@@ -27,9 +23,9 @@ public class HouseholdMembersAdapterEditExpense extends ParseQueryAdapter<User> 
 
         super(context, new ParseQueryAdapter.QueryFactory<User>() {
 
-            public ParseQuery create() {
-                ParseQuery query = new ParseQuery("_User");
-                query.whereEqualTo("activeHousehold", ParseUser.getCurrentUser().getParseObject("activeHousehold"));
+            public ParseQuery<User> create() {
+                ParseQuery<User> query = new ParseQuery<User>(User.class);
+                query.whereEqualTo("activeHousehold", User.getCurrentUser().getActiveHousehold());
                 query.orderByAscending("displayName");
                 return query;
             }
@@ -37,7 +33,6 @@ public class HouseholdMembersAdapterEditExpense extends ParseQueryAdapter<User> 
         this.objectIDs = objectIDs;
     }
 
-    // Customize the layout by overriding getItemView
     @Override
     public View getItemView(User user, View view, ViewGroup parent) {
         if (view == null) {

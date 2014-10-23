@@ -154,5 +154,9 @@
     <string name="fill_out_all_fields_new_expense">Fill out all the fields. There must be at least one person paying</string>
     <string name="saving">Saving</string>
     <string name="expense_saved">Expense was saved</string>
+    <string name="loading">Loading</string>
+    <string name="forgot_password">Forgot password</string>
+    <string name="enter_your_email">Enter your e-mail</string>
+    <string name="reset_email_sent_with_instructions">An e-mail was successfully sent with reset instructions</string>
 
 </resources>

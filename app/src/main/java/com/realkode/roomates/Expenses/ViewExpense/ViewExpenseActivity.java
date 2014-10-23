@@ -24,7 +24,7 @@ import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
-import com.realkode.roomates.Expenses.EditPeopleExpenseActivity;
+import com.realkode.roomates.Expenses.EditPeople.EditPeopleExpenseActivity;
 import com.realkode.roomates.Helpers.Constants;
 import com.realkode.roomates.Helpers.ToastMaker;
 import com.realkode.roomates.ParseSubclassses.Expense;
