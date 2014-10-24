@@ -82,57 +82,30 @@ public class EditPeopleExpenseActivity extends Activity{
             @Override
             public void done(Expense expense, ParseException e) {
                 resetProgress.dismiss();
-                activeExpense = expense;
-
-                setContentView(R.layout.activity_edit_people_expense);
-                final ListView list = (ListView) findViewById(R.id.edit_people_listview);
-                ArrayList<User> userList = expense.getNotPaidUp();
-                userList.addAll(expense.getPaidUp());
-                ArrayList<String> objectIDs = new ArrayList<String>();
-
-                for (User users : userList) {
-                    objectIDs.add(users.getObjectId());
-                }
-                HouseholdMembersAdapterEditExpense membersListViewAdapter = new HouseholdMembersAdapterEditExpense(getApplicationContext(),objectIDs);
-                paidList = expense.getPaidUp();
-                notPaidList = expense.getNotPaidUp();
-                list.setAdapter(membersListViewAdapter);
-
-                list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
-                        User clickedUser = (User) list.getItemAtPosition(i);
-
-                        for (User user : notPaidList) {
-                            if (user.getObjectId().equals(clickedUser.getObjectId())) {
-                                System.out.println("notPaid contains clicked user");
-                                // part of, lets remove
-                                notPaidList.remove(user);
-                                adapterView.getChildAt(i).setBackgroundColor(Color.WHITE);
-                                return;
-                            }
-                        }
-
-                        for (User user : paidList) {
-                            if (user.getObjectId().equals(clickedUser.getObjectId())) {
-                                System.out.println("paid contains clicked user");
-                                // part of, lets remove
-                                paidList.remove(user);
-                                adapterView.getChildAt(i).setBackgroundColor(Color.WHITE);
-                                return;
-                            }
-                        }
-
-                        // Else
-                        System.out.println("else");
-                        // not part of the expense, lets add him
-                        notPaidList.add(clickedUser);
-                        adapterView.getChildAt(i).setBackgroundColor(Color.LTGRAY);
-
-                    }
-                });
+                setUpExpense(expense);
             }
         });
+    }
+
+    private void setUpExpense(Expense expense) {
+        activeExpense = expense;
+
+        setContentView(R.layout.activity_edit_people_expense);
+        final ListView list = (ListView) findViewById(R.id.edit_people_listview);
+        ArrayList<User> userList = expense.getNotPaidUp();
+        userList.addAll(expense.getPaidUp());
+        ArrayList<String> objectIDs = new ArrayList<String>();
+
+        for (User users : userList) {
+            objectIDs.add(users.getObjectId());
+        }
+
+        HouseholdMembersAdapterEditExpense membersListViewAdapter = new HouseholdMembersAdapterEditExpense(getApplicationContext(),objectIDs);
+
+        paidList = expense.getPaidUp();
+        notPaidList = expense.getNotPaidUp();
+
+        list.setAdapter(membersListViewAdapter);
+        list.setOnItemClickListener(new PersonItemOnClickListener(list, paidList, notPaidList));
     }
 }
