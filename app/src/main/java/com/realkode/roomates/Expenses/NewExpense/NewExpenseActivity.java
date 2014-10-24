@@ -41,7 +41,7 @@ public class NewExpenseActivity extends Activity {
         HouseholdMembersAdapter membersListViewAdapter = new HouseholdMembersAdapter(this);
         membersListView.setAdapter(membersListViewAdapter);
 
-        membersListView.setOnItemClickListener(new MemberListOnClickListener());
+        membersListView.setOnItemClickListener(new MemberListOnClickListener(notPaidList, paidList, membersListView));
     }
 
     @Override

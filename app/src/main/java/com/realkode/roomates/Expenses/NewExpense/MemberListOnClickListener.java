@@ -15,6 +15,12 @@ public class MemberListOnClickListener implements AdapterView.OnItemClickListene
     ArrayList<User> paidList;
     ListView membersListView;
 
+    public MemberListOnClickListener(ArrayList<User> notPaidList, ArrayList<User> paidList, ListView membersListView) {
+        this.notPaidList = notPaidList;
+        this.paidList = paidList;
+        this.membersListView = membersListView;
+    }
+
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
         User clickedUser = (User) membersListView.getItemAtPosition(position);
