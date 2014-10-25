@@ -1,4 +1,4 @@
-package com.realkode.roomates;
+package com.realkode.roomates.Helpers;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -31,11 +31,9 @@ public class FacebookProfilePictureDownloader extends AsyncTask<String, Integer,
             ParseUser currentUser = ParseUser.getCurrentUser();
             if (currentUser != null) {
                 ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                // Saving the image in the PNG-format.
                 result.compress(Bitmap.CompressFormat.PNG, 100, stream);
                 byte[] byteArray = stream.toByteArray();
 
-                // Saving the image as "objectID".png
                 ParseFile image = new ParseFile(currentUser.getObjectId() + ".png", byteArray);
 
                 try {
@@ -46,42 +44,32 @@ public class FacebookProfilePictureDownloader extends AsyncTask<String, Integer,
                     e.printStackTrace();
                 }
             }
-
         }
-        return;
-
     }
 
-    // The method with the task that shall be executed in background
     @Override
     protected Bitmap doInBackground(String... strings) {
-
-        Bitmap bmp = getBitmapFromURL(strings[0]);
-
-        return bmp;
+        return getBitmapFromURL(strings[0]);
     }
-    // The method called for downloading the picture. Takes an URL as parameter.
-    public Bitmap getBitmapFromURL(String src) {
-        Bitmap bitmap = null;
-        try {
 
-            HttpURLConnection con = (HttpURLConnection) new URL(src).openConnection();
+    public Bitmap getBitmapFromURL(String urlString) {
+        try {
+            HttpURLConnection con = (HttpURLConnection) new URL(urlString).openConnection();
             con.setInstanceFollowRedirects(false);
             con.connect();
+
             // The link to the facebookpicture will redirect, and we need the second URL to fetch the picture
-            String realURL = con.getHeaderField("Location").toString();  // Get the redirected URL
-
+            String realURL = con.getHeaderField("Location");  // Get the redirected URL
             URL url = new URL(realURL);
-
             InputStream in = url.openStream();
 
-            bitmap = BitmapFactory.decodeStream(in);
-
-            return bitmap;
+            return BitmapFactory.decodeStream(in);
         } catch (Exception e) {
+            e.printStackTrace();
             Log.e("ImageDownlaod", e.getMessage());
         }
-        return bitmap;
+
+        return null;
     }
 
 }

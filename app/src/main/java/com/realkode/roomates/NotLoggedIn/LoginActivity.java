@@ -31,7 +31,7 @@ import com.parse.ParseUser;
 import com.parse.PushService;
 import com.parse.RequestPasswordResetCallback;
 import com.parse.SaveCallback;
-import com.realkode.roomates.FacebookProfilePictureDownloader;
+import com.realkode.roomates.Helpers.FacebookProfilePictureDownloader;
 import com.realkode.roomates.Helpers.ToastMaker;
 import com.realkode.roomates.MainActivity;
 import com.realkode.roomates.ParseSubclassses.User;
