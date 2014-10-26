@@ -11,7 +11,6 @@ public class Note extends ParseObject {
     public String getBody() {
         return getString("body");
     }
-
     public void setBody(String body) {
         put("body", body);
     }
@@ -19,7 +18,6 @@ public class Note extends ParseObject {
     public User getCreatedBy() {
         return (User)getParseUser("createdBy");
     }
-
     public void setCreatedBy(User createdBy) {
         put("createdBy", createdBy);
     }
@@ -27,7 +25,6 @@ public class Note extends ParseObject {
     public Household getHousehold() {
         return (Household)getParseObject("household");
     }
-
     public void setHousehold(Household household) {
         put("household", household);
     }

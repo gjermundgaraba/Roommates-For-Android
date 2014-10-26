@@ -21,7 +21,6 @@ public class Event extends ParseObject {
         return new ArrayList(getList("objects"));
     }
 
-
     // Get description for different types of events
     public String getDescriptionString() {
         int type = getType().intValue();

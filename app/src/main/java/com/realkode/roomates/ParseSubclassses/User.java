@@ -15,22 +15,9 @@ import java.util.HashMap;
 @ParseClassName("_User")
 public class User extends ParseUser {
 
-
-    public void leaveHousehold(FunctionCallback<Object> callback) {
-        if (isMemberOfHousehold()) {
-            HashMap<String, Object> params = new HashMap<String, Object>();
-            Household household = getActiveHousehold();
-            params.put("householdId", household.getObjectId());
-            ParseCloud.callFunctionInBackground("leaveHousehold", params, callback);
-        }
-    }
-
-
-
     public String getDisplayName() {
         return getString("displayName");
     }
-
     public void setDisplayName(String displayName) {
         put("displayName", displayName);
     }
@@ -38,7 +25,6 @@ public class User extends ParseUser {
     public ParseFile getProfilePicture() {
         return getParseFile("profilePicture");
     }
-
     public void setProfilePicture(ParseFile profilePicture) {
         put("profilePicture", profilePicture);
     }
@@ -92,6 +78,15 @@ public class User extends ParseUser {
         ParseACL.setDefaultACL(defaultACL, false);
 
         currentInstallation.saveEventually();
+    }
+
+    public void leaveHousehold(FunctionCallback<Object> callback) {
+        if (isMemberOfHousehold()) {
+            HashMap<String, Object> params = new HashMap<String, Object>();
+            Household household = getActiveHousehold();
+            params.put("householdId", household.getObjectId());
+            ParseCloud.callFunctionInBackground("leaveHousehold", params, callback);
+        }
     }
 
 

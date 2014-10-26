@@ -33,8 +33,8 @@ public class SignupActivity extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		//Set up UI
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		super.onCreate(savedInstanceState);
+        super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_signup);
 		
 		// Get UI-elements
@@ -47,11 +47,9 @@ public class SignupActivity extends Activity {
 			public boolean onTouch(View v, MotionEvent event) {
 				switch (event.getAction()) {
 				case MotionEvent.ACTION_DOWN:
-					// PRESSED
 					signup.setTextColor(Color.BLACK);
 					return true; 
 				case MotionEvent.ACTION_UP:
-					// RELEASED CLICK
 					signup.setTextColor(0xFF9933CC);
 					signUp();
 					return true;
@@ -70,7 +68,6 @@ public class SignupActivity extends Activity {
 	}
 
 	private void signUp() {
-		
 		// get all UI-elements
 		EditText displayNameEditText = (EditText) findViewById(R.id.editTextDisplayName_signup);
 		EditText emailEditText = (EditText) findViewById(R.id.editTextEmail_signup);
@@ -82,7 +79,6 @@ public class SignupActivity extends Activity {
 		String email = emailEditText.getText().toString().trim().toLowerCase();
 		String password = passwordEditText.getText().toString();
 		String repeatPassword = repeatPasswordEditText.getText().toString();
-
 
         // Testing that fields are filled out correctly
 		if (displayName.isEmpty() || email.isEmpty() || password.isEmpty() || repeatPassword.isEmpty()) {

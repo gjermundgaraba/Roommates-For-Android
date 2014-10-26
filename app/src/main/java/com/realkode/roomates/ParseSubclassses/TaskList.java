@@ -14,7 +14,6 @@ public class TaskList extends ParseObject implements Serializable{
     public String getListName() {
         return getString("listName");
     }
-
     public void setListName(String listName) {
         put("listName", listName);
     }
@@ -22,7 +21,6 @@ public class TaskList extends ParseObject implements Serializable{
     public Household getHousehold() {
         return (Household)getParseObject("household");
     }
-
     public void setHousehold(Household household) {
         put("household", household);
     }
@@ -30,7 +28,6 @@ public class TaskList extends ParseObject implements Serializable{
     public User getCreatedBy() {
         return (User)getParseUser("createdBy");
     }
-
     public void setCreatedBy(ParseUser createdBy) {
         put("createdBy", createdBy);
     }
@@ -38,7 +35,6 @@ public class TaskList extends ParseObject implements Serializable{
     public User getUpdatedBy() {
         return (User)getParseUser("updatedBy");
     }
-
     public void setUpdatedBy(User updatedBy) {
         put("updatedBy", updatedBy);
     }
@@ -46,7 +42,6 @@ public class TaskList extends ParseObject implements Serializable{
     public Boolean getDone() {
         return getBoolean("done");
     }
-
     public void setDone(boolean done) {
         put("done", done);
     }

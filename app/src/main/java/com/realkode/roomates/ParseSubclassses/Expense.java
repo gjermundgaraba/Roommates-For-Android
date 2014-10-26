@@ -11,11 +11,9 @@ import java.util.ArrayList;
 @ParseClassName("Expense")
 public class Expense extends ParseObject {
 
-
     public String getName() {
         return getString("name");
     }
-
     public void setName(String name) {
         put("name", name);
     }
@@ -23,7 +21,6 @@ public class Expense extends ParseObject {
     public Number getTotalAmount() {
         return getNumber("totalAmount");
     }
-
     public void setTotalAmount(Double totalAmount) {
         put("totalAmount", totalAmount);
     }
@@ -31,7 +28,6 @@ public class Expense extends ParseObject {
     public User getOwed() {
         return (User) getParseUser("owed");
     }
-
     public void setOwed(User owed) {
         put("owed", owed);
     }
@@ -39,7 +35,6 @@ public class Expense extends ParseObject {
     public Household getHousehold() {
         return (Household) getParseObject("household");
     }
-
     public void setHousehold(Household household) {
         put("household", household);
     }
@@ -47,7 +42,6 @@ public class Expense extends ParseObject {
     public String getDetails() {
         return getString("details");
     }
-
     public void setDetails(String details) {
         put("details", details);
     }
@@ -55,7 +49,6 @@ public class Expense extends ParseObject {
     public ArrayList<User> getNotPaidUp() {
         return new ArrayList<User>(this.<User>getList("notPaidUp"));
     }
-
     public void setNotPaidUp(ArrayList<User> arrayList) {
         put("notPaidUp", arrayList);
     }
@@ -63,15 +56,15 @@ public class Expense extends ParseObject {
     public ArrayList<User> getPaidUp() {
         return new ArrayList<User>(this.<User>getList("paidUp"));
     }
-
     public void setPaidUp(ArrayList<User> arrayList) {
         put("paidUp", arrayList);
     }
 
+    /* Helpers */
+
     public int getNumberOfPeoplePaidUp() {
         return getPaidUp().size();
     }
-
     public int getNumberOfPeopleNotPaidUp() {
         return getNotPaidUp().size();
     }
