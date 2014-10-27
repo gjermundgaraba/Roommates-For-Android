@@ -158,5 +158,14 @@
     <string name="forgot_password">Forgot password</string>
     <string name="enter_your_email">Enter your e-mail</string>
     <string name="reset_email_sent_with_instructions">An e-mail was successfully sent with reset instructions</string>
+    <string name="all_fields_must_be_filled_out">All fields must be filled out</string>
+    <string name="email_not_valid">Email address not valid</string>
+    <string name="password_not_valid">Password is not valid. A Valid password needs to be at least 6 characters long, have at least one upper and one lower case letters and at least one number</string>
+    <string name="passwords_dont_match">Passwords does not match</string>
+    <string name="signing_up">Signing Up</string>
+    <string name="sign_up_successful">New user successfully created</string>
+    <string name="username_email_taken">E-mail already in use. Try resetting your password</string>
+    <string name="email_taken">E-mail already in use. Try resetting your password</string>
+    <string name="something_went_wrong">Something went wrong. Try again later</string>
 
 </resources>

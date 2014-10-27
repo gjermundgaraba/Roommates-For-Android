@@ -7,11 +7,9 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -31,6 +29,7 @@ import com.parse.ParseUser;
 import com.parse.PushService;
 import com.parse.RequestPasswordResetCallback;
 import com.parse.SaveCallback;
+import com.realkode.roomates.Helpers.ButtonOnTouchListener;
 import com.realkode.roomates.Helpers.FacebookProfilePictureDownloader;
 import com.realkode.roomates.Helpers.ToastMaker;
 import com.realkode.roomates.MainActivity;
@@ -53,91 +52,60 @@ public class LoginActivity extends Activity {
         PushService.setDefaultPushCallback(this, MainActivity.class);
         ParseInstallation.getCurrentInstallation().saveInBackground();
 
-        // Check if we are logged in or not.
-        if (User.getCurrentUser()!= null) {
-            startMain();
+        if (User.someoneIsLoggedIn()) {
+            startMainActivity();
         }
 
         super.onCreate(savedInstanceState);
 
-        // Set up some layout
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.activity_login);
-        progressBar = (ProgressBar) findViewById(R.id.progressBar_Login);
+        setUpLayout();
         setUpButtons();
     }
 
+    private void startMainActivity() {
+        if (progressDialog != null) {
+            progressDialog.dismiss();
+        }
+
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
     private void setUpButtons() {
-        final Button login = (Button) findViewById(R.id.buttonLogin);
-        final Button signUp = (Button) findViewById(R.id.buttonSignup);
-        final Button facebookLogin = (Button) findViewById(R.id.facebookLoginButton);
-        final Button resetPassword = (Button) findViewById(R.id.buttonForgot);
+        Button login = (Button) findViewById(R.id.buttonLogin);
+        Button signUp = (Button) findViewById(R.id.buttonSignup);
+        Button facebookLogin = (Button) findViewById(R.id.facebookLoginButton);
+        Button resetPassword = (Button) findViewById(R.id.buttonForgot);
         EditText passwordField = (EditText) findViewById(R.id.editTextPassword);
 
-        signUp.setOnTouchListener(new View.OnTouchListener() {
+        signUp.setOnTouchListener(new ButtonOnTouchListener(new ButtonOnTouchListener.TouchActionHandler() {
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        signUp.setTextColor(Color.BLACK);
-                        return true;
-                    case MotionEvent.ACTION_UP:
-                        signUp.setTextColor(0xFFFFFFFF);
-                        signup();
-                        return true;
-                }
-                return false;
+            public void performAction() {
+                startSignupActivity();
             }
-        });
+        }));
 
-        login.setOnTouchListener(new View.OnTouchListener() {
+        login.setOnTouchListener(new ButtonOnTouchListener(new ButtonOnTouchListener.TouchActionHandler() {
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        login.setTextColor(Color.BLACK);
-                        return true;
-                    case MotionEvent.ACTION_UP:
-                        login.setTextColor(0xFFFFFFFF);
-                        loginUser();
-                        return true;
-                }
-                return false;
+            public void performAction() {
+                loginUser();
             }
-        });
+        }));
 
-        facebookLogin.setOnTouchListener(new View.OnTouchListener() {
+        facebookLogin.setOnTouchListener(new ButtonOnTouchListener(new ButtonOnTouchListener.TouchActionHandler() {
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        login.setTextColor(Color.BLACK);
-                        return true;
-                    case MotionEvent.ACTION_UP:
-                        login.setTextColor(0xFFFFFFFF);
-                        facebookLogin();
-                        return true;
-                }
-                return false;
+            public void performAction() {
+                facebookLogin();
             }
-        });
+        }));
 
-        resetPassword.setOnTouchListener(new View.OnTouchListener() {
+        resetPassword.setOnTouchListener(new ButtonOnTouchListener(new ButtonOnTouchListener.TouchActionHandler() {
             @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                switch (motionEvent.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        resetPassword.setTextColor(Color.BLACK);
-                        return true;
-                    case MotionEvent.ACTION_UP:
-                        resetPassword.setTextColor(0xFFFFFFFF);
-                        forgotPassword();
-
-                        return true;
-                }
-                return false;
+            public void performAction() {
+                forgotPassword();
             }
-        });
+        }));
 
         passwordField.setOnEditorActionListener(new EditText.OnEditorActionListener() {
             @Override
@@ -146,6 +114,12 @@ public class LoginActivity extends Activity {
                 return false;
             }
         });
+    }
+
+    private void setUpLayout() {
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        setContentView(R.layout.activity_login);
+        progressBar = (ProgressBar) findViewById(R.id.progressBar_Login);
     }
 
     // The result for facebookloginactivity.
@@ -161,8 +135,7 @@ public class LoginActivity extends Activity {
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
 
-        final EditText userInput = (EditText) promptsView
-                .findViewById(R.id.editTextDialogUserInput);
+        final EditText userInput = (EditText) promptsView.findViewById(R.id.editTextDialogUserInput);
 
         alertDialogBuilder
                 .setTitle(getString(R.string.forgot_password))
@@ -195,9 +168,9 @@ public class LoginActivity extends Activity {
 
     }
 
-    private void signup() {
+    private void startSignupActivity() {
         Context context = this;
-        Intent intent = new Intent(context, SignupActivity.class);
+        Intent intent = new Intent(context, SignUpActivity.class);
         startActivity(intent);
     }
 
@@ -210,37 +183,20 @@ public class LoginActivity extends Activity {
         ParseFacebookUtils.logIn(permissions, this, new LogInCallback() {
             @Override
             public void done(ParseUser parseUser, ParseException e) {
-                if (e == null) {
-
-                    if (parseUser == null) {
-                        System.out.println("Uh oh. The user cancelled the Facebook login.");
-                        if (e != null) {
-                            e.printStackTrace();
-                        }
+                if (e == null && parseUser != null) {
+                    User user = (User) parseUser;
+                    if (user.isNew()) {
+                        User.refreshChannels();
+                        updateUserData();
                     } else {
-                        User user = (User)parseUser;
-                        if (user.isNew()) {
-                            System.out.println("User signed up and logged in through Facebook!");
-                            // Add user to channels:
-                            User.refreshChannels();
-                            updateUserData();
-
-                        } else {
-                            System.out.println("User logged in through Facebook!");
-                            // Add user to channels:
-                            User.refreshChannels();
-
-                            startMain();
-                        }
+                        // Facebook login
+                        User.refreshChannels();
+                        startMainActivity();
                     }
+                } else {
+                    ToastMaker.makeLongToast(getString(R.string.something_went_wrong), LoginActivity.this);
                 }
-
-                else {
-                    e.printStackTrace();
-                }
-
             }
-
         });
     }
 
@@ -257,7 +213,6 @@ public class LoginActivity extends Activity {
                         final String profile_picture_URL = "http://graph.facebook.com/" + facebookID + "/picture?type=large";
                         facebookLogin.setClickable(false);
                         facebookLogin.setEnabled(false);
-
 
                         final ParseUser currentUser = ParseUser.getCurrentUser();
 
@@ -279,7 +234,7 @@ public class LoginActivity extends Activity {
                                     new FacebookProfilePictureDownloader().execute(profile_picture_URL);
                                     facebookLogin.setClickable(true);
                                     facebookLogin.setEnabled(true);
-                                    startMain();
+                                    startMainActivity();
                                 }
 
                             }
@@ -291,9 +246,7 @@ public class LoginActivity extends Activity {
 
     }
 
-
     private void loginUser() {
-
         final Button login = (Button) findViewById(R.id.buttonLogin);
         EditText email = (EditText) findViewById(R.id.editTextEmail);
         EditText password = (EditText) findViewById(R.id.editTextPassword);
@@ -312,7 +265,7 @@ public class LoginActivity extends Activity {
                     progressBar.setVisibility(View.INVISIBLE);
                     if (e == null) {
                         User.refreshChannels();
-                        startMain();
+                        startMainActivity();
                     } else {
                         login.setClickable(true);
                         login.setEnabled(true);
@@ -330,15 +283,5 @@ public class LoginActivity extends Activity {
             progressBar.setVisibility(View.INVISIBLE);
             ToastMaker.makeLongToast("email/password must be filled out.",this);
         }
-    }
-
-    private void startMain() {
-        if (progressDialog != null) {
-            progressDialog.dismiss();
-        }
-
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
-        finish();
     }
 }
