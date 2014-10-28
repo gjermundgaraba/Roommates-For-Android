@@ -26,8 +26,7 @@ public class ChangePasswordActivity extends Activity {
 
         Button changePasswordButton = (Button) findViewById(R.id.buttonChangePwd);
         changePasswordButton.setOnClickListener(
-                new ChangePasswordOnClickListener(oldPasswordField, newPasswordField, repeatPasswordField, this)
-        );
+                new ChangePasswordOnClickListener(oldPasswordField, newPasswordField, repeatPasswordField, this));
     }
 
 

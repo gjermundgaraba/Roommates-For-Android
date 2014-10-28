@@ -21,21 +21,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TaskListElementsAdapter extends BaseAdapter {
-    private Context context;
-    private TaskList taskList;
-
-    public TaskList getTaskList() {
-        return taskList;
-    }
-
-    private ArrayList<Item> items = new ArrayList<Item>();
+    private final Context context;
+    private final TaskList taskList;
+    private final ArrayList<Item> items = new ArrayList<Item>();
     private ArrayList<TaskListElement> elements = new ArrayList<TaskListElement>();
-
 
     public TaskListElementsAdapter(Context context, TaskList taskList) {
         this.context = context;
         this.taskList = taskList;
         loadObjects();
+    }
+
+    public TaskList getTaskList() {
+        return taskList;
     }
 
     public void reloadElements() {
@@ -56,13 +54,15 @@ public class TaskListElementsAdapter extends BaseAdapter {
             items.add(new SectionItem(context.getString(R.string.tasks_section_item_title_todo)));
             for (TaskListElement element : unfinishedElements) {
                 items.add(new EntryItemForTaskListElement(element.getElementName(),
-                        context.getString(R.string.tasks_item_created_by) + element.getCreatedBy().getDisplayName(), element));
+                        context.getString(R.string.tasks_item_created_by) + element.getCreatedBy().getDisplayName(),
+                        element));
             }
 
             items.add(new SectionItem(context.getString(R.string.tasks_section_item_title_finished)));
             for (TaskListElement element : finishedElements) {
                 items.add(new EntryItemForTaskListElement(element.getElementName(),
-                        context.getString(R.string.tasks_item_created_by) + element.getFinishedBy().getDisplayName(), element));
+                        context.getString(R.string.tasks_item_created_by) + element.getFinishedBy().getDisplayName(),
+                        element));
             }
 
 

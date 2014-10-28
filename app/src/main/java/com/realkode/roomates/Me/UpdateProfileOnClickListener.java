@@ -16,15 +16,16 @@ import com.realkode.roomates.Helpers.ToastMaker;
 import com.realkode.roomates.ParseSubclassses.User;
 import com.realkode.roomates.R;
 
-public class UpdateProfileOnClickListener implements View.OnClickListener {
-    private Activity activity;
-    private Context context;
-    private EditText displayNameEditText;
-    private EditText emailEditText;
-    private Bitmap newPic;
-    private User user;
+class UpdateProfileOnClickListener implements View.OnClickListener {
+    private final Activity activity;
+    private final Context context;
+    private final EditText displayNameEditText;
+    private final EditText emailEditText;
+    private final Bitmap newPic;
+    private final User user;
 
-    UpdateProfileOnClickListener(EditText displayNameEditText, EditText emailEditText, Bitmap newPic, Activity activity) {
+    UpdateProfileOnClickListener(EditText displayNameEditText, EditText emailEditText, Bitmap newPic,
+                                 Activity activity) {
         this.activity = activity;
         this.context = activity;
         this.displayNameEditText = displayNameEditText;
@@ -46,16 +47,16 @@ public class UpdateProfileOnClickListener implements View.OnClickListener {
             user.setEmail(email);
             user.setDisplayName(displayName);
             if (newPic != null) {
-                ParseFile parsePicture = new ParseFile(user.getObjectId() + ".png", BitmapUtils.bitmapToByteArray(newPic)); //TODO: IS THIS DOCUMENTED ANYWHERE?
+                ParseFile parsePicture = new ParseFile(user.getObjectId() + ".png",
+                        BitmapUtils.bitmapToByteArray(newPic)); //TODO: IS THIS DOCUMENTED ANYWHERE?
                 if (!parsePicture.equals(user.getProfilePicture())) {
                     user.setProfilePicture(parsePicture);
                 }
             }
 
-            ProgressDialog progressDialog = ProgressDialog.show(context,
-                    context.getString(R.string.toast_update_profile_saving_title),
-                    context.getString(R.string.toast_update_profile_saving_message),
-                    true);
+            ProgressDialog progressDialog = ProgressDialog
+                    .show(context, context.getString(R.string.toast_update_profile_saving_title),
+                            context.getString(R.string.toast_update_profile_saving_message), true);
             user.saveInBackground(new ProfileUpdatedSaveCallBack(progressDialog));
 
         } else {
@@ -64,7 +65,7 @@ public class UpdateProfileOnClickListener implements View.OnClickListener {
     }
 
     private class ProfileUpdatedSaveCallBack extends SaveCallback {
-        private ProgressDialog progressDialog;
+        private final ProgressDialog progressDialog;
 
         ProfileUpdatedSaveCallBack(ProgressDialog progressDialog) {
             this.progressDialog = progressDialog;

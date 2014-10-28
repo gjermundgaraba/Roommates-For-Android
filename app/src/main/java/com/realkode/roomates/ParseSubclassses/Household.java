@@ -8,6 +8,7 @@ import com.parse.ParseObject;
  */
 @ParseClassName("Household")
 public class Household extends ParseObject {
-    public String getHouseholdName() { return getString("householdName"); }
-    public void setHouseholdName(String householdName) { put("householdName", householdName); }
+    public String getHouseholdName() {
+        return getString("householdName");
+    }
 }

@@ -15,13 +15,14 @@ import com.realkode.roomates.Helpers.ToastMaker;
 import com.realkode.roomates.ParseSubclassses.Expense;
 import com.realkode.roomates.R;
 
-public class RenameExpenseOnClickListener implements DialogInterface.OnClickListener {
-    Context context;
-    EditText expenseNameField;
-    Expense activeExpense;
-    TextView expenseNameView;
+class RenameExpenseOnClickListener implements DialogInterface.OnClickListener {
+    private final Context context;
+    private final EditText expenseNameField;
+    private final Expense activeExpense;
+    private final TextView expenseNameView;
 
-    public RenameExpenseOnClickListener(Context context, EditText expenseNameField, Expense activeExpense, TextView expenseNameView) {
+    public RenameExpenseOnClickListener(Context context, EditText expenseNameField, Expense activeExpense,
+                                        TextView expenseNameView) {
         this.context = context;
         this.expenseNameField = expenseNameField;
         this.activeExpense = activeExpense;
@@ -31,8 +32,9 @@ public class RenameExpenseOnClickListener implements DialogInterface.OnClickList
     @Override
     public void onClick(DialogInterface dialog, int id) {
         final String name = expenseNameField.getText().toString();
-        final ProgressDialog resetProgress = ProgressDialog.show(context, context.getString(R.string.changing_name),
-                context.getString(R.string.please_wait), true);
+        final ProgressDialog resetProgress = ProgressDialog
+                .show(context, context.getString(R.string.changing_name), context.getString(R.string.please_wait),
+                        true);
         activeExpense.setName(name);
         activeExpense.saveInBackground(new SaveCallback() {
             @Override

@@ -13,11 +13,12 @@ import com.realkode.roomates.R;
 import com.realkode.roomates.Tasks.Adapters.TaskListElementsAdapter;
 
 public class CreateNewTaskListElementOnClickListener implements DialogInterface.OnClickListener {
-    Context context;
-    EditText taskListElementNameField;
-    TaskListElementsAdapter taskListElementsAdapter;
+    private final Context context;
+    private final EditText taskListElementNameField;
+    private final TaskListElementsAdapter taskListElementsAdapter;
 
-    public CreateNewTaskListElementOnClickListener(Context context, EditText taskListElementNameField, TaskListElementsAdapter taskListElementsAdapter) {
+    public CreateNewTaskListElementOnClickListener(Context context, EditText taskListElementNameField,
+                                                   TaskListElementsAdapter taskListElementsAdapter) {
         this.context = context;
         this.taskListElementNameField = taskListElementNameField;
         this.taskListElementsAdapter = taskListElementsAdapter;

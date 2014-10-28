@@ -10,10 +10,10 @@ import com.realkode.roomates.ParseSubclassses.User;
 
 import java.util.ArrayList;
 
-public class MemberListOnClickListener implements AdapterView.OnItemClickListener {
-    ArrayList<User> notPaidList;
-    ArrayList<User> paidList;
-    ListView membersListView;
+class MemberListOnClickListener implements AdapterView.OnItemClickListener {
+    private final ArrayList<User> notPaidList;
+    private final ArrayList<User> paidList;
+    private final ListView membersListView;
 
     public MemberListOnClickListener(ArrayList<User> notPaidList, ArrayList<User> paidList, ListView membersListView) {
         this.notPaidList = notPaidList;
@@ -27,7 +27,8 @@ public class MemberListOnClickListener implements AdapterView.OnItemClickListene
 
         // Checking if clicked user should be put in or removed from paidlist or notpaidlist. If the user is currentuser, it
         // should be associated with paidlist, else notpaidlist
-        if (clickedUser.getObjectId().equals(ParseUser.getCurrentUser().getObjectId()) && paidList.contains(clickedUser)) {
+        if (clickedUser.getObjectId().equals(ParseUser.getCurrentUser().getObjectId()) &&
+                paidList.contains(clickedUser)) {
             adapterView.getChildAt(position).setBackgroundColor(Color.WHITE);
             paidList.remove(clickedUser);
         } else if (clickedUser.getObjectId().equals(ParseUser.getCurrentUser().getObjectId())) {

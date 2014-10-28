@@ -17,13 +17,14 @@ import com.realkode.roomates.R;
 
 import java.text.DecimalFormat;
 
-public class EditAmountOnClickListener implements DialogInterface.OnClickListener{
-    Context context;
-    EditText amountField;
-    TextView expenseAmountView;
-    Expense activeExpense;
+class EditAmountOnClickListener implements DialogInterface.OnClickListener {
+    private final Context context;
+    private final EditText amountField;
+    private final TextView expenseAmountView;
+    private final Expense activeExpense;
 
-    public EditAmountOnClickListener(Context context, EditText amountField, TextView expenseAmountView, Expense activeExpense) {
+    public EditAmountOnClickListener(Context context, EditText amountField, TextView expenseAmountView,
+                                     Expense activeExpense) {
         this.context = context;
         this.amountField = amountField;
         this.expenseAmountView = expenseAmountView;
@@ -41,7 +42,9 @@ public class EditAmountOnClickListener implements DialogInterface.OnClickListene
             ToastMaker.makeLongToast(e.getLocalizedMessage(), context);
         }
 
-        final ProgressDialog resetProgress = ProgressDialog.show(context, context.getString(R.string.changing_amount), context.getString(R.string.please_wait), true);
+        final ProgressDialog resetProgress = ProgressDialog
+                .show(context, context.getString(R.string.changing_amount), context.getString(R.string.please_wait),
+                        true);
         activeExpense.setTotalAmount(Double.parseDouble(totalAmount));
         final String finalTotalAmount = totalAmount;
         activeExpense.saveInBackground(new SaveCallback() {

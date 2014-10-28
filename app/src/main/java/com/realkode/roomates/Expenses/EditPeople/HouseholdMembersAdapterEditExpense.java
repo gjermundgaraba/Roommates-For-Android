@@ -16,8 +16,8 @@ import com.realkode.roomates.R;
 
 import java.util.ArrayList;
 
-public class HouseholdMembersAdapterEditExpense extends ParseQueryAdapter<User> {
-    private ArrayList<String> objectIDs;
+class HouseholdMembersAdapterEditExpense extends ParseQueryAdapter<User> {
+    private final ArrayList<String> objectIDs;
 
     public HouseholdMembersAdapterEditExpense(Context context, ArrayList<String> objectIDs) {
 

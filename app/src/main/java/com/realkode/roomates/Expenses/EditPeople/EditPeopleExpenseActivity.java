@@ -3,13 +3,10 @@ package com.realkode.roomates.Expenses.EditPeople;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.parse.GetCallback;
@@ -23,10 +20,10 @@ import com.realkode.roomates.R;
 
 import java.util.ArrayList;
 
-public class EditPeopleExpenseActivity extends Activity{
-    Expense activeExpense;
-    ArrayList<User> paidList;
-    ArrayList<User> notPaidList;
+public class EditPeopleExpenseActivity extends Activity {
+    private Expense activeExpense;
+    private ArrayList<User> paidList;
+    private ArrayList<User> notPaidList;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -47,7 +44,9 @@ public class EditPeopleExpenseActivity extends Activity{
     private void saveExpense() {
         activeExpense.setPaidUp(paidList);
         activeExpense.setNotPaidUp(notPaidList);
-        final ProgressDialog resetProgress = ProgressDialog.show(EditPeopleExpenseActivity.this, getString(R.string.saving) , getString(R.string.please_wait), true);
+        final ProgressDialog resetProgress = ProgressDialog
+                .show(EditPeopleExpenseActivity.this, getString(R.string.saving), getString(R.string.please_wait),
+                        true);
         activeExpense.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
@@ -70,15 +69,16 @@ public class EditPeopleExpenseActivity extends Activity{
     private void queryMemberList() {
         final String objectID = getIntent().getExtras().getString("objectID");
 
-        final ProgressDialog resetProgress = ProgressDialog.show(EditPeopleExpenseActivity.this, getString(R.string.loading),
-                getString(R.string.please_wait), true);
+        final ProgressDialog resetProgress = ProgressDialog
+                .show(EditPeopleExpenseActivity.this, getString(R.string.loading), getString(R.string.please_wait),
+                        true);
 
         ParseQuery<Expense> query = new ParseQuery<Expense>("Expense");
         query.include("owed");
         query.include("notPaidUp");
         query.include("paidUp");
 
-        query.getInBackground(objectID,new GetCallback<Expense>() {
+        query.getInBackground(objectID, new GetCallback<Expense>() {
             @Override
             public void done(Expense expense, ParseException e) {
                 resetProgress.dismiss();
@@ -100,7 +100,8 @@ public class EditPeopleExpenseActivity extends Activity{
             objectIDs.add(users.getObjectId());
         }
 
-        HouseholdMembersAdapterEditExpense membersListViewAdapter = new HouseholdMembersAdapterEditExpense(getApplicationContext(),objectIDs);
+        HouseholdMembersAdapterEditExpense membersListViewAdapter =
+                new HouseholdMembersAdapterEditExpense(getApplicationContext(), objectIDs);
 
         paidList = expense.getPaidUp();
         notPaidList = expense.getNotPaidUp();

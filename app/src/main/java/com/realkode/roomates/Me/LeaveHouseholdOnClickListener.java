@@ -15,9 +15,9 @@ import com.realkode.roomates.Helpers.ToastMaker;
 import com.realkode.roomates.ParseSubclassses.User;
 import com.realkode.roomates.R;
 
-public class LeaveHouseholdOnClickListener implements View.OnClickListener {
-    Context context;
-    Activity activity;
+class LeaveHouseholdOnClickListener implements View.OnClickListener {
+    private final Context context;
+    private final Activity activity;
 
     LeaveHouseholdOnClickListener(Activity activity) {
         this.context = activity;
@@ -35,10 +35,10 @@ public class LeaveHouseholdOnClickListener implements View.OnClickListener {
         myAlertDialog.setTitle(R.string.dialog_title_leave_household)
                 .setMessage(R.string.dialog_message_leave_household)
                 .setPositiveButton(R.string.button_confirm_leave_household, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface arg0, int arg1) {
-                leaveHousehold();
-            }
-        });
+                            public void onClick(DialogInterface arg0, int arg1) {
+                                leaveHousehold();
+                            }
+                        });
 
         myAlertDialog.show();
 
@@ -46,9 +46,9 @@ public class LeaveHouseholdOnClickListener implements View.OnClickListener {
     }
 
     private void leaveHousehold() {
-        final ProgressDialog leaveHouseholdProgress = ProgressDialog.show(context,
-                context.getString(R.string.leaving_household) ,
-                context.getString(R.string.please_wait), true);
+        final ProgressDialog leaveHouseholdProgress = ProgressDialog
+                .show(context, context.getString(R.string.leaving_household), context.getString(R.string.please_wait),
+                        true);
 
         User.getCurrentUser().leaveHousehold(new FunctionCallback<Object>() {
             @Override

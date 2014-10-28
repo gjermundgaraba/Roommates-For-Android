@@ -10,11 +10,7 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.text.InputType;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.WindowManager;
+import android.view.*;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -40,10 +36,10 @@ public class ViewExpenseActivity extends Activity {
     private ListView listView;
     private ViewExpenseAdapter viewExpenseAdapter;
 
-    private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
+    private final BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            ParseQuery<Expense> query = new ParseQuery("Expense");
+            ParseQuery<Expense> query = new ParseQuery<Expense>(Expense.class);
             query.include("owed");
             query.include("notPaidUp");
             query.include("paidUp");
@@ -75,8 +71,9 @@ public class ViewExpenseActivity extends Activity {
     }
 
     private void queryForExpense() {
-        final ProgressDialog progress = ProgressDialog.show(ViewExpenseActivity.this, getString(R.string.loading_expense) ,
-                getString(R.string.please_wait), true);
+        final ProgressDialog progress = ProgressDialog
+                .show(ViewExpenseActivity.this, getString(R.string.loading_expense), getString(R.string.please_wait),
+                        true);
 
         String expenseObjectId = (String) getIntent().getExtras().get(Constants.EXTRA_NAME_EXPENSE_ID);
 
@@ -107,8 +104,7 @@ public class ViewExpenseActivity extends Activity {
                             adapter.swapElement(theUser);
                         }
                     });
-                }
-                else {
+                } else {
                     ToastMaker.makeLongToast(R.string.could_not_get_expense, ViewExpenseActivity.this);
                     ViewExpenseActivity.this.finish();
                 }
@@ -172,13 +168,12 @@ public class ViewExpenseActivity extends Activity {
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
 
-        final EditText descriptionField = (EditText) promptsView
-                .findViewById(R.id.editTextDialogUserInput);
+        final EditText descriptionField = (EditText) promptsView.findViewById(R.id.editTextDialogUserInput);
         descriptionField.setText(activeExpense.getDetails());
 
-        alertDialogBuilder.setTitle(getString(R.string.edit_description))
-                .setView(promptsView)
-                .setPositiveButton(getString(R.string.save), new EditDescriptionOnClickListener(this, activeExpense, descriptionField, expenseDetailsView))
+        alertDialogBuilder.setTitle(getString(R.string.edit_description)).setView(promptsView)
+                .setPositiveButton(getString(R.string.save),
+                        new EditDescriptionOnClickListener(this, activeExpense, descriptionField, expenseDetailsView))
                 .setNegativeButton(getString(R.string.cancel), null);
 
         AlertDialog alertDialog = alertDialogBuilder.create();
@@ -193,15 +188,14 @@ public class ViewExpenseActivity extends Activity {
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
 
-        final EditText amountField = (EditText) promptsView
-                .findViewById(R.id.editTextDialogUserInput);
+        final EditText amountField = (EditText) promptsView.findViewById(R.id.editTextDialogUserInput);
         amountField.setText(activeExpense.getTotalAmount() + "");
         amountField.setRawInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
 
 
-        alertDialogBuilder.setTitle(getString(R.string.total_expense_amount))
-                .setView(promptsView)
-                .setPositiveButton(getString(R.string.save), new EditAmountOnClickListener(this, amountField, expenseAmountView, activeExpense))
+        alertDialogBuilder.setTitle(getString(R.string.total_expense_amount)).setView(promptsView)
+                .setPositiveButton(getString(R.string.save),
+                        new EditAmountOnClickListener(this, amountField, expenseAmountView, activeExpense))
                 .setNegativeButton(getString(R.string.cancel), null);
 
         AlertDialog alertDialog = alertDialogBuilder.create();
@@ -218,9 +212,9 @@ public class ViewExpenseActivity extends Activity {
         final EditText expenseNameField = (EditText) promptsView.findViewById(R.id.editTextDialogUserInput);
         expenseNameField.setText(activeExpense.getName());
 
-        alertDialogBuilder.setTitle(getString(R.string.rename_expense))
-                .setView(promptsView)
-                .setPositiveButton(getString(R.string.save), new RenameExpenseOnClickListener(this, expenseNameField, activeExpense, expenseNameView))
+        alertDialogBuilder.setTitle(getString(R.string.rename_expense)).setView(promptsView)
+                .setPositiveButton(getString(R.string.save),
+                        new RenameExpenseOnClickListener(this, expenseNameField, activeExpense, expenseNameView))
                 .setNegativeButton(getString(R.string.cancel), null);
 
         AlertDialog alertDialog = alertDialogBuilder.create();

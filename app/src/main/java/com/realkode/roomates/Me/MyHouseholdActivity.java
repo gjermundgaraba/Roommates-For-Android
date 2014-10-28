@@ -15,7 +15,7 @@ import com.realkode.roomates.R;
 
 
 public class MyHouseholdActivity extends Activity {
-    TextView textViewHouseholdName;
+    private TextView textViewHouseholdName;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -39,9 +39,10 @@ public class MyHouseholdActivity extends Activity {
     }
 
     private void setHouseholdNameTitle() {
-        ParseQuery query = new ParseQuery("Household");
+        ParseQuery<Household> query = new ParseQuery<Household>(Household.class);
         query.setCachePolicy(ParseQuery.CachePolicy.CACHE_ELSE_NETWORK);
-        query.getInBackground(User.getCurrentUser().getActiveHousehold().getObjectId(), new GetCallback<Household>() {
+        String householdObjectId = User.getCurrentUser().getActiveHousehold().getObjectId();
+        query.getInBackground(householdObjectId, new GetCallback<Household>() {
             @Override
             public void done(Household household, ParseException e) {
                 textViewHouseholdName.setText(household.getHouseholdName());

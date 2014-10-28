@@ -60,8 +60,8 @@ public class TaskListFragment extends Fragment implements RefreshableFragment {
         final EditText taskListNameInput = (EditText) promptsView.findViewById(R.id.editTextDialogUserInput);
 
         alertDialogBuilder.setTitle(getActivity().getString(R.string.dialog_create_new_task_list_title))
-                .setView(promptsView)
-                .setPositiveButton(getActivity().getString(R.string.dialog_OK), new CreateNewTaskListOnClickListener(getActivity(), taskListNameInput));
+                .setView(promptsView).setPositiveButton(getActivity().getString(R.string.dialog_OK),
+                new CreateNewTaskListOnClickListener(getActivity(), taskListNameInput));
 
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);

@@ -9,10 +9,10 @@ import com.realkode.roomates.ParseSubclassses.User;
 
 import java.util.ArrayList;
 
-public class PersonItemOnClickListener implements AdapterView.OnItemClickListener {
-    ListView listView;
-    ArrayList<User> paidList;
-    ArrayList<User> notPaidList;
+class PersonItemOnClickListener implements AdapterView.OnItemClickListener {
+    private final ListView listView;
+    private final ArrayList<User> paidList;
+    private final ArrayList<User> notPaidList;
 
     public PersonItemOnClickListener(ListView listView, ArrayList<User> paidList, ArrayList<User> notPaidList) {
         this.listView = listView;

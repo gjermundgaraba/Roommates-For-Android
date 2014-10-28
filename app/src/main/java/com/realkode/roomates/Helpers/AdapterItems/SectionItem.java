@@ -12,7 +12,7 @@ public class SectionItem implements Item {
         return true;
     }
 
-    public String getTitle(){
+    public String getTitle() {
         return title;
     }
 }

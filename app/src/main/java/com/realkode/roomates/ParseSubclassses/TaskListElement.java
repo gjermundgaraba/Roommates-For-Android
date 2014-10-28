@@ -5,7 +5,7 @@ import com.parse.ParseException;
 import com.parse.ParseObject;
 
 @ParseClassName("TaskListElement")
-public class TaskListElement extends ParseObject{
+public class TaskListElement extends ParseObject {
     public String getElementName() {
         return getString("elementName");
     }
@@ -14,29 +14,21 @@ public class TaskListElement extends ParseObject{
         put("elementName", elementName);
     }
 
-    public TaskList getTaskList() {
-        return (TaskList)getParseObject("taskList");
-    }
-
     public void setTaskList(TaskList taskList) {
         put("taskList", taskList);
     }
 
     public User getCreatedBy() {
         try {
-            return (User)getParseUser("createdBy").fetchIfNeeded();
+            return (User) getParseUser("createdBy").fetchIfNeeded();
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        return (User)getParseUser("createdBy");
+        return (User) getParseUser("createdBy");
     }
 
     public void setCreatedBy(User createdBy) {
         put("createdBy", createdBy);
-    }
-
-    public User getUpdatedBy() {
-        return (User)getParseUser("updatedBy");
     }
 
     public void setUpdatedBy(User updatedBy) {
@@ -44,10 +36,10 @@ public class TaskListElement extends ParseObject{
     }
 
     public User getFinishedBy() {
-        return (User)getParseUser("finishedBy");
+        return (User) getParseUser("finishedBy");
     }
 
-    public void setFinishedBy(User finishedBy) {
+    void setFinishedBy(User finishedBy) {
         put("finishedBy", finishedBy);
     }
 
@@ -58,8 +50,7 @@ public class TaskListElement extends ParseObject{
     public void setDone(boolean done) {
         if (done) {
             setFinishedBy(User.getCurrentUser());
-        }
-        else {
+        } else {
             remove("finishedBy");
         }
     }

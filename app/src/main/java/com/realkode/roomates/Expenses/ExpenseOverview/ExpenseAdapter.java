@@ -21,10 +21,10 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ExpenseAdapter extends BaseAdapter {
-    private Context context;
+class ExpenseAdapter extends BaseAdapter {
+    private final Context context;
 
-    private ArrayList<Item> items = new ArrayList<Item>();
+    private final ArrayList<Item> items = new ArrayList<Item>();
     private ArrayList<Expense> expenses = new ArrayList<Expense>();
 
 
@@ -33,7 +33,7 @@ public class ExpenseAdapter extends BaseAdapter {
         loadObjects();
     }
 
-    public void reloadElements() {
+    void reloadElements() {
         if (expenses != null) {
             items.clear();
 
@@ -69,14 +69,16 @@ public class ExpenseAdapter extends BaseAdapter {
     private void setUpUnpaidSection(ArrayList<Expense> unpaidElements) {
         items.add(new SectionItem(context.getString(R.string.unpaid_section_title)));
         for (Expense expense : unpaidElements) {
-            items.add(new EntryItemForExpenses(expense.getName(), context.getString(R.string.created_by) + expense.getOwed().getDisplayName(), expense));
+            items.add(new EntryItemForExpenses(expense.getName(),
+                    context.getString(R.string.created_by) + expense.getOwed().getDisplayName(), expense));
         }
     }
 
     private void setUpPaidUpSection(ArrayList<Expense> paidUpElements) {
         items.add(new SectionItem(context.getString(R.string.paid_section_title)));
         for (Expense expense : paidUpElements) {
-            items.add(new EntryItemForExpenses(expense.getName(), context.getString(R.string.created_by) + expense.getOwed().getDisplayName(), expense));
+            items.add(new EntryItemForExpenses(expense.getName(),
+                    context.getString(R.string.created_by) + expense.getOwed().getDisplayName(), expense));
         }
     }
 
@@ -87,13 +89,12 @@ public class ExpenseAdapter extends BaseAdapter {
         expenseParseQuery.orderByAscending("createdAt");
         expenseParseQuery.whereEqualTo("household", User.getCurrentUser().getActiveHousehold());
 
-        ParseQuery.CachePolicy cachePolicy = (expenses.size() == 0) ?
-                ParseQuery.CachePolicy.CACHE_THEN_NETWORK : ParseQuery.CachePolicy.NETWORK_ELSE_CACHE;
+        ParseQuery.CachePolicy cachePolicy = (expenses.size() == 0) ? ParseQuery.CachePolicy.CACHE_THEN_NETWORK :
+                ParseQuery.CachePolicy.NETWORK_ELSE_CACHE;
         expenseParseQuery.setCachePolicy(cachePolicy);
         if (expenses.size() == 0) {
             expenseParseQuery.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
-        }
-        else {
+        } else {
             expenseParseQuery.setCachePolicy(ParseQuery.CachePolicy.NETWORK_ELSE_CACHE);
         }
 
@@ -112,8 +113,7 @@ public class ExpenseAdapter extends BaseAdapter {
     public int getCount() {
         if (items != null) {
             return items.size();
-        }
-        else {
+        } else {
             return 0;
         }
     }
@@ -123,14 +123,12 @@ public class ExpenseAdapter extends BaseAdapter {
         if (items != null) {
             Item item = items.get(i);
             if (!item.isSection()) {
-                EntryItemForExpenses entryItem = (EntryItemForExpenses)item;
+                EntryItemForExpenses entryItem = (EntryItemForExpenses) item;
                 return entryItem.getExpense();
-            }
-            else {
+            } else {
                 return null;
             }
-        }
-        else {
+        } else {
             return null;
         }
     }
@@ -174,15 +172,16 @@ public class ExpenseAdapter extends BaseAdapter {
         if (currentUserIsTheOwedForExpense(expense) && expenseIsNotSettled(expense)) {
             double amountOwedToYou = amountOwedByEachPerson * expense.getNumberOfPeopleNotPaidUp();
 
-            return context.getString(R.string.subtitle_you_are_owed_1) + df.format(amountOwedToYou) + context.getString(R.string.subtitle_you_are_owed_2);
-        }
-        else if (expenseIsNotSettled(expense) && currentUserOwesForExpense(expense)) {
-            return context.getString(R.string.subtitle_you_owe) + df.format(amountOwedByEachPerson) + context.getString(R.string.subtitle_you_owe_2);
-        }
-        else if(expenseIsNotSettled(expense)) {
+            return context.getString(R.string.subtitle_you_are_owed_1) +
+                    df.format(amountOwedToYou) +
+                    context.getString(R.string.subtitle_you_are_owed_2);
+        } else if (expenseIsNotSettled(expense) && currentUserOwesForExpense(expense)) {
+            return context.getString(R.string.subtitle_you_owe) +
+                    df.format(amountOwedByEachPerson) +
+                    context.getString(R.string.subtitle_you_owe_2);
+        } else if (expenseIsNotSettled(expense)) {
             return context.getString(R.string.subtitle_you_do_not_owe_anything);
-        }
-        else {
+        } else {
             return context.getString(R.string.subtitle_expense_is_settled);
         }
     }

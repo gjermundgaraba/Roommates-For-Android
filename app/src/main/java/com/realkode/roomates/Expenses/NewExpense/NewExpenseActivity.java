@@ -20,11 +20,11 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class NewExpenseActivity extends Activity {
-    EditText expenseNameText;
-    EditText totalAmountText;
-    EditText descriptionText;
-    ArrayList<User> notPaidList;
-    ArrayList<User> paidList;
+    private EditText expenseNameText;
+    private EditText totalAmountText;
+    private EditText descriptionText;
+    private ArrayList<User> notPaidList;
+    private ArrayList<User> paidList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,8 +63,8 @@ public class NewExpenseActivity extends Activity {
         Double totalAmount = getTotalAmount();
         String description = descriptionText.getText().toString();
 
-        if ((notPaidList.isEmpty() && paidList.isEmpty()) || expenseName.isEmpty() || totalAmount.isNaN()
-                || description.isEmpty() || totalAmount <= 0) {
+        if ((notPaidList.isEmpty() && paidList.isEmpty()) || expenseName.isEmpty() ||
+                totalAmount.isNaN() || description.isEmpty() || totalAmount <= 0) {
             ToastMaker.makeLongToast(R.string.fill_out_all_fields_new_expense, this);
         } else {
             Expense expense = new Expense();
@@ -76,7 +76,8 @@ public class NewExpenseActivity extends Activity {
             expense.setTotalAmount(totalAmount);
             expense.setOwed(User.getCurrentUser());
             expense.setName(expenseName);
-            final ProgressDialog resetProgress = ProgressDialog.show(NewExpenseActivity.this, getString(R.string.saving), getString(R.string.please_wait), true);
+            final ProgressDialog resetProgress = ProgressDialog
+                    .show(NewExpenseActivity.this, getString(R.string.saving), getString(R.string.please_wait), true);
             expense.saveInBackground(new SaveCallback() {
                 @Override
                 public void done(ParseException e) {
@@ -92,7 +93,7 @@ public class NewExpenseActivity extends Activity {
         DecimalFormat df = new DecimalFormat(".00");
 
         try {
-           return Double.parseDouble(df.format(Double.parseDouble(totalAmountText.getText().toString())));
+            return Double.parseDouble(df.format(Double.parseDouble(totalAmountText.getText().toString())));
         } catch (NumberFormatException e) {
             ToastMaker.makeLongToast(R.string.could_not_parse_amount, this);
         }

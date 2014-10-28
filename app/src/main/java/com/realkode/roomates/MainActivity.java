@@ -20,34 +20,20 @@ import com.realkode.roomates.Tasks.TaskListFragment;
 import java.util.Locale;
 
 public class MainActivity extends FragmentActivity implements ActionBar.TabListener {
-
-    /**
-     * The {@link android.support.v4.view.PagerAdapter} that will provide
-     * fragments for each of the sections. We use a
-     * {@link android.support.v4.app.FragmentPagerAdapter} derivative, which
-     * will keep every loaded fragment in memory. If this becomes too memory
-     * intensive, it may be best to switch to a
-     * {@link android.support.v4.app.FragmentStatePagerAdapter}.
-     */
+    private static final int NUMBER_OF_FRAGMENTS = 4;
+    // provide fragments for each of the sections
     private SectionsPagerAdapter mSectionsPagerAdapter;
 
-    /**
-     * The {@link ViewPager} that will host the section contents.
-     */
-    private ViewPager            mViewPager;
-    private Menu                 optionsMenu;
+    // host the section contents
+    private ViewPager mViewPager;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_main);
 
-        // Set up the action bar.
-        final ActionBar actionBar = getActionBar();
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+        final ActionBar actionBar = setUpActionBar();
 
         // Create the adapter that will return a fragment for each of the four
         // primary sections of the app.
@@ -63,7 +49,9 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         mViewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
-                actionBar.setSelectedNavigationItem(position);
+                if (actionBar != null) {
+                    actionBar.setSelectedNavigationItem(position);
+                }
                 invalidateOptionsMenu();
 
             }
@@ -75,15 +63,22 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
             // the adapter. Also specify this Activity object, which implements
             // the TabListener interface, as the callback (listener) for when
             // this tab is selected.
-            actionBar.addTab(actionBar.newTab().setText(mSectionsPagerAdapter.getPageTitle(i))
-                    .setTabListener(this));
+            assert actionBar != null;
+            actionBar.addTab(actionBar.newTab().setText(mSectionsPagerAdapter.getPageTitle(i)).setTabListener(this));
         }
 
     }
 
+    private ActionBar setUpActionBar() {
+        final ActionBar actionBar = getActionBar();
+        if (actionBar != null) {
+            actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+        }
+        return actionBar;
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        this.optionsMenu = menu;
         // Inflate the menu; this adds items to the action bar if it is present.
 
         int currentItem = mViewPager.getCurrentItem();
@@ -112,52 +107,36 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == R.id.action_refresh) {
-//            setRefreshActionButtonState(true);
-
-            System.out.println("Refreshing?");
             ToastMaker.makeShortToast("Refreshing...", this);
-            RefreshableFragment fragment = (RefreshableFragment)mSectionsPagerAdapter.getItem(mViewPager.getCurrentItem());
+            RefreshableFragment fragment =
+                    (RefreshableFragment) mSectionsPagerAdapter.getItem(mViewPager.getCurrentItem());
             fragment.refreshFragment();
             return true;
-        }
-        else if (id == R.id.action_new) {
+        } else if (id == R.id.action_new) {
             int currentItem = mViewPager.getCurrentItem();
             switch (currentItem) {
                 case 0:
                     // Add Note
-                    FeedFragment feedFragment = (FeedFragment)mSectionsPagerAdapter.getItem(mViewPager.getCurrentItem());
+                    FeedFragment feedFragment =
+                            (FeedFragment) mSectionsPagerAdapter.getItem(mViewPager.getCurrentItem());
                     feedFragment.startCreateNewNoteDialog();
                     break;
                 case 1:
                     break;
                 case 2:
-                    TaskListFragment taskListFragment = (TaskListFragment)mSectionsPagerAdapter.getItem(mViewPager.getCurrentItem());
+                    TaskListFragment taskListFragment =
+                            (TaskListFragment) mSectionsPagerAdapter.getItem(mViewPager.getCurrentItem());
                     taskListFragment.startCreateNewTaskListDialog();
                     break;
                 case 3:
-                    ExpensesFragment expensesFragment = (ExpensesFragment)mSectionsPagerAdapter.getItem(mViewPager.getCurrentItem());
+                    ExpensesFragment expensesFragment =
+                            (ExpensesFragment) mSectionsPagerAdapter.getItem(mViewPager.getCurrentItem());
                     expensesFragment.createNewExpense();
             }
             return true;
         }
 
-
         return super.onOptionsItemSelected(item);
-    }
-
-    // Making refreshbutton spin when loading
-    public void setRefreshActionButtonState(final boolean refreshing) {
-        if (optionsMenu != null) {
-            final MenuItem refreshItem = optionsMenu
-                    .findItem(R.id.action_refresh);
-            if (refreshItem != null) {
-                if (refreshing) {
-                    refreshItem.setActionView(R.layout.actionbar_indeterminate_progress);
-                } else {
-                    refreshItem.setActionView(null);
-                }
-            }
-        }
     }
 
     @Override
@@ -185,6 +164,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         private MeFragment meFragment;
         private TaskListFragment taskListFragment;
         private ExpensesFragment expensesFragment;
+
         public SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
         }
@@ -197,49 +177,43 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                     feedFragment = new FeedFragment();
                 }
                 return feedFragment;
-            }
-            else if (position == 1) {
+            } else if (position == 1) {
                 if (meFragment == null) {
                     meFragment = new MeFragment();
                 }
                 return meFragment;
-            }
-            else if (position == 2) {
+            } else if (position == 2) {
                 if (taskListFragment == null) {
                     taskListFragment = new TaskListFragment();
                 }
                 return taskListFragment;
-            }
-            else if (position == 3) {
+            } else if (position == 3) {
                 if (expensesFragment == null) {
                     expensesFragment = new ExpensesFragment();
                 }
                 return expensesFragment;
-            }
-            else {
+            } else {
                 throw new IllegalArgumentException("Invalid section number");
             }
         }
-        // Number of fragments that should be present
+
         @Override
         public int getCount() {
-            // Show 4 total pages.
-            return 4;
+            return NUMBER_OF_FRAGMENTS;
         }
 
-        // Set the title for each fragment
         @Override
         public CharSequence getPageTitle(int position) {
             Locale l = Locale.getDefault();
             switch (position) {
-            case 0:
-                return getString(R.string.title_section1).toUpperCase(l);
-            case 1:
-                return getString(R.string.title_section2).toUpperCase(l);
-            case 2:
-                return getString(R.string.title_section3).toUpperCase(l);
-            case 3:
-                return getString(R.string.title_section4).toUpperCase();
+                case 0:
+                    return getString(R.string.title_section1).toUpperCase(l);
+                case 1:
+                    return getString(R.string.title_section2).toUpperCase(l);
+                case 2:
+                    return getString(R.string.title_section3).toUpperCase(l);
+                case 3:
+                    return getString(R.string.title_section4).toUpperCase();
             }
             return null;
         }

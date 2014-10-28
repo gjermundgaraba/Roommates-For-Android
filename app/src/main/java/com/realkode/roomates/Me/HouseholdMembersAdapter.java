@@ -13,7 +13,7 @@ import com.parse.ParseQueryAdapter;
 import com.realkode.roomates.ParseSubclassses.User;
 import com.realkode.roomates.R;
 
-public class HouseholdMembersAdapter extends ParseQueryAdapter<User>  {
+public class HouseholdMembersAdapter extends ParseQueryAdapter<User> {
 
     public HouseholdMembersAdapter(Context context) {
 

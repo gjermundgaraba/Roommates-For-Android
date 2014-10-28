@@ -21,9 +21,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TaskListsAdapter extends BaseAdapter {
-    private Context context;
+    private final Context context;
 
-    private ArrayList<Item> items = new ArrayList<Item>();
+    private final ArrayList<Item> items = new ArrayList<Item>();
     private ArrayList<TaskList> taskLists = new ArrayList<TaskList>();
 
 
@@ -32,7 +32,7 @@ public class TaskListsAdapter extends BaseAdapter {
         loadObjects();
     }
 
-    public void reloadElements() {
+    void reloadElements() {
         if (taskLists != null) {
             items.clear();
 
@@ -50,13 +50,15 @@ public class TaskListsAdapter extends BaseAdapter {
             items.add(new SectionItem(context.getString(R.string.tasks_section_item_title_todo)));
             for (TaskList taskList : unfinishedElements) {
                 items.add(new EntryItemForTaskList(taskList.getListName(),
-                        context.getString(R.string.tasks_item_created_by) + taskList.getCreatedBy().getDisplayName(), taskList));
+                        context.getString(R.string.tasks_item_created_by) + taskList.getCreatedBy().getDisplayName(),
+                        taskList));
             }
 
             items.add(new SectionItem(context.getString(R.string.tasks_section_item_title_finished)));
             for (TaskList taskList : finishedElements) {
                 items.add(new EntryItemForTaskList(taskList.getListName(),
-                        context.getString(R.string.tasks_item_created_by) + taskList.getCreatedBy().getDisplayName(), taskList));
+                        context.getString(R.string.tasks_item_created_by) + taskList.getCreatedBy().getDisplayName(),
+                        taskList));
             }
 
 
@@ -73,8 +75,7 @@ public class TaskListsAdapter extends BaseAdapter {
 
         if (taskLists.size() == 0) {
             taskListParseQuery.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
-        }
-        else {
+        } else {
             taskListParseQuery.setCachePolicy(ParseQuery.CachePolicy.NETWORK_ELSE_CACHE);
         }
 
@@ -96,8 +97,7 @@ public class TaskListsAdapter extends BaseAdapter {
     public int getCount() {
         if (items != null) {
             return items.size();
-        }
-        else {
+        } else {
             return 0;
         }
     }
@@ -107,15 +107,13 @@ public class TaskListsAdapter extends BaseAdapter {
         if (items != null) {
             Item item = items.get(i);
             if (!item.isSection()) {
-                EntryItemForTaskList entryItemForTaskList = (EntryItemForTaskList)item;
+                EntryItemForTaskList entryItemForTaskList = (EntryItemForTaskList) item;
                 System.out.println(entryItemForTaskList.getTaskList().getListName());
                 return entryItemForTaskList.getTaskList();
-            }
-            else {
+            } else {
                 return null;
             }
-        }
-        else {
+        } else {
             return null;
         }
     }
@@ -131,20 +129,20 @@ public class TaskListsAdapter extends BaseAdapter {
 
         if (item != null) {
             if (item.isSection()) {
-                SectionItem sectionItem = (SectionItem)item;
+                SectionItem sectionItem = (SectionItem) item;
                 view = View.inflate(context, R.layout.list_element_section, null);
                 view.setBackgroundColor(Color.LTGRAY);
                 view.setOnClickListener(null);
                 view.setOnLongClickListener(null);
                 view.setLongClickable(false);
-                TextView title = (TextView)view.findViewById(R.id.sectionTitleTextView);
+                TextView title = (TextView) view.findViewById(R.id.sectionTitleTextView);
 
                 title.setText(sectionItem.getTitle());
             } else {
-                EntryItemForTaskList entryItemForTaskList = (EntryItemForTaskList)item;
+                EntryItemForTaskList entryItemForTaskList = (EntryItemForTaskList) item;
                 view = View.inflate(context, R.layout.list_task_element_layout, null);
-                TextView title = (TextView)view.findViewById(R.id.textViewList);
-                TextView subTitle = (TextView)view.findViewById(R.id.textViewCreatedBy);
+                TextView title = (TextView) view.findViewById(R.id.textViewList);
+                TextView subTitle = (TextView) view.findViewById(R.id.textViewCreatedBy);
 
                 title.setText(entryItemForTaskList.getTitle());
                 subTitle.setText(entryItemForTaskList.getSubtitle());

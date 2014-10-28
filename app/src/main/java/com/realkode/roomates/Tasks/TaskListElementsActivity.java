@@ -6,11 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.WindowManager;
+import android.view.*;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -25,11 +21,7 @@ import com.realkode.roomates.ParseSubclassses.TaskList;
 import com.realkode.roomates.ParseSubclassses.TaskListElement;
 import com.realkode.roomates.R;
 import com.realkode.roomates.Tasks.Adapters.TaskListElementsAdapter;
-import com.realkode.roomates.Tasks.OnClickListeners.ChangeTaskListElementTitleOnClickListener;
-import com.realkode.roomates.Tasks.OnClickListeners.CreateNewTaskListElementOnClickListener;
-import com.realkode.roomates.Tasks.OnClickListeners.DeleteTaskListElementOnClickListener;
-import com.realkode.roomates.Tasks.OnClickListeners.DeleteTaskListOnClickListener;
-import com.realkode.roomates.Tasks.OnClickListeners.RenameTaskListOnClickListener;
+import com.realkode.roomates.Tasks.OnClickListeners.*;
 
 public class TaskListElementsActivity extends Activity {
     private TaskListElementsAdapter adapter;
@@ -149,24 +141,22 @@ public class TaskListElementsActivity extends Activity {
         });
     }
 
-    public void TaskListLongPressedDialog(final TaskListElement taskListElement) {
+    void TaskListLongPressedDialog(final TaskListElement taskListElement) {
         AlertDialog.Builder myAlertDialog = new AlertDialog.Builder(this);
 
         myAlertDialog.setPositiveButton(getString(R.string.alert_dialog_task_list_long_press_change_title),
-                new DialogInterface.OnClickListener()
-        {
-            public void onClick(DialogInterface arg0, int arg1) {
-                changeTaskListElementTitle(taskListElement);
-            }
-        });
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        changeTaskListElementTitle(taskListElement);
+                    }
+                });
 
         myAlertDialog.setNegativeButton(getString(R.string.alert_dialog_task_list_long_press_delete),
-                new DialogInterface.OnClickListener()
-         {
-            public void onClick(DialogInterface arg0, int arg1) {
-                deleteElement(taskListElement);
-            }
-        });
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        deleteElement(taskListElement);
+                    }
+                });
 
         myAlertDialog.show();
 
@@ -176,7 +166,8 @@ public class TaskListElementsActivity extends Activity {
         final AlertDialog.Builder myAlertDialog = new AlertDialog.Builder(this);
         myAlertDialog.setTitle(getString(R.string.alert_dialog_delete_task_title))
                 .setMessage(getString(R.string.alert_dialog_delete_task_message))
-                .setPositiveButton(getString(R.string.alert_dialog_delete_task_yes), new DeleteTaskListElementOnClickListener(this, adapter, taskListElement))
+                .setPositiveButton(getString(R.string.alert_dialog_delete_task_yes),
+                        new DeleteTaskListElementOnClickListener(this, adapter, taskListElement))
                 .setNegativeButton(getString(R.string.alert_dialog_delete_task_cancel), null);
 
         myAlertDialog.show();
@@ -190,13 +181,12 @@ public class TaskListElementsActivity extends Activity {
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
 
-        final EditText userInput = (EditText) promptsView
-                .findViewById(R.id.editTextDialogUserInput);
+        final EditText userInput = (EditText) promptsView.findViewById(R.id.editTextDialogUserInput);
         userInput.setText(taskListElement.getElementName());
 
-        alertDialogBuilder.setTitle(getString(R.string.rename_task))
-                .setCancelable(false).setView(promptsView)
-                .setPositiveButton(getString(R.string.save), new ChangeTaskListElementTitleOnClickListener(this, userInput, taskListElement, adapter))
+        alertDialogBuilder.setTitle(getString(R.string.rename_task)).setCancelable(false).setView(promptsView)
+                .setPositiveButton(getString(R.string.save),
+                        new ChangeTaskListElementTitleOnClickListener(this, userInput, taskListElement, adapter))
                 .setNegativeButton(getString(R.string.cancel), null);
 
         AlertDialog alertDialog = alertDialogBuilder.create();
@@ -231,8 +221,7 @@ public class TaskListElementsActivity extends Activity {
         final EditText userInput = (EditText) promptsView.findViewById(R.id.renameTaskListEditText);
         userInput.setText(taskList.getListName());
 
-        alertDialogBuilder.setTitle(getString(R.string.rename_task_list))
-                .setCancelable(false).setView(promptsView)
+        alertDialogBuilder.setTitle(getString(R.string.rename_task_list)).setCancelable(false).setView(promptsView)
                 .setPositiveButton(getString(R.string.ok), new RenameTaskListOnClickListener(this, taskList, userInput))
                 .setNegativeButton(getString(R.string.cancel), null);
 
@@ -243,8 +232,7 @@ public class TaskListElementsActivity extends Activity {
 
     private void startDeleteTaskListDialog() {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-        alertDialogBuilder
-                .setTitle(getString(R.string.delete_task_list_confirmation_title))
+        alertDialogBuilder.setTitle(getString(R.string.delete_task_list_confirmation_title))
                 .setPositiveButton(getString(R.string.yes), new DeleteTaskListOnClickListener(this, taskList))
                 .setNegativeButton(getString(R.string.no), null);
 

@@ -20,11 +20,10 @@ import com.realkode.roomates.R;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
-public class ViewExpenseAdapter extends BaseAdapter {
-    private Context context;
-
-    private ArrayList<Item> items = new ArrayList<Item>();
+class ViewExpenseAdapter extends BaseAdapter {
     public Expense expense;
+    private final Context context;
+    private final ArrayList<Item> items = new ArrayList<Item>();
 
     ViewExpenseAdapter(Context context, Expense expense) {
         this.context = context;

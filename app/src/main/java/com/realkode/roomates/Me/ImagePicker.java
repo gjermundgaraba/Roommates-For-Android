@@ -7,12 +7,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.provider.MediaStore;
 
-public class ImagePicker {
+class ImagePicker {
     public static final int IMAGE_PICKER_SELECT = 0;
     public static final int REQUEST_IMAGE_CAPTURE = 1;
 
-    Activity activity;
-    Context context;
+    private final Activity activity;
+    private final Context context;
 
     ImagePicker(Activity activity) {
         this.activity = activity;

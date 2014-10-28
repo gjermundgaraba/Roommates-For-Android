@@ -1,11 +1,11 @@
 package com.realkode.roomates.Helpers.AdapterItems;
 
-public class EntryItem implements Item{
+public class EntryItem implements Item {
 
     private final String title;
     private final String subtitle;
 
-    public EntryItem(String title, String subtitle) {
+    EntryItem(String title, String subtitle) {
         this.title = title;
         this.subtitle = subtitle;
     }

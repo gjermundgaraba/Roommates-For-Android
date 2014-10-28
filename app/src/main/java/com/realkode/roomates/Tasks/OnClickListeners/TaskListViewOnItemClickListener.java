@@ -9,7 +9,7 @@ import com.realkode.roomates.ParseSubclassses.TaskList;
 import com.realkode.roomates.Tasks.TaskListElementsActivity;
 
 public class TaskListViewOnItemClickListener implements AdapterView.OnItemClickListener {
-    Context context;
+    private final Context context;
 
     public TaskListViewOnItemClickListener(Context context) {
         this.context = context;

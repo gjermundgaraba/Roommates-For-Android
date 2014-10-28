@@ -11,9 +11,9 @@ import com.realkode.roomates.ParseSubclassses.Note;
 import com.realkode.roomates.ParseSubclassses.User;
 import com.realkode.roomates.R;
 
-public class NoteAdapter extends ParseQueryAdapter<Note>  {
+class NoteAdapter extends ParseQueryAdapter<Note> {
 
-    public static final int NOTES_PER_PAGE = 4;
+    private static final int NOTES_PER_PAGE = 4;
 
     public NoteAdapter(Context context) {
         super(context, new ParseQueryAdapter.QueryFactory<Note>() {
@@ -46,9 +46,8 @@ public class NoteAdapter extends ParseQueryAdapter<Note>  {
     }
 
 
-
     @Override
-    public View getNextPageView(View view,ViewGroup parent) {
+    public View getNextPageView(View view, ViewGroup parent) {
         if (view == null) {
             view = View.inflate(getContext(), R.layout.list_load_more, null);
         }

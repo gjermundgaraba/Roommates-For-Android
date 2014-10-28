@@ -20,9 +20,9 @@ import com.realkode.roomates.R;
 import java.util.HashMap;
 import java.util.Locale;
 
-public class InviteUserOnClickListener implements View.OnClickListener{
-    Context context;
-    View inviteRoommateDialog;
+class InviteUserOnClickListener implements View.OnClickListener {
+    private final Context context;
+    private View inviteRoommateDialog;
 
     InviteUserOnClickListener(Context context) {
         this.context = context;
@@ -36,7 +36,6 @@ public class InviteUserOnClickListener implements View.OnClickListener{
     private void inviteUserToHousehold() {
         LayoutInflater inflater = LayoutInflater.from(context);
         inviteRoommateDialog = inflater.inflate(R.layout.dialog_invite_roommate, null);
-
 
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
@@ -60,13 +59,11 @@ public class InviteUserOnClickListener implements View.OnClickListener{
             HashMap<String, Object> params = new HashMap<String, Object>();
             params.put("username", inviteeUsername);
             params.put("householdId", householdObjectId);
-            final ProgressDialog inviteProgress = ProgressDialog.show(context,
-                    context.getString(R.string.progressdialog_title_inviting_user),
-                    context.getString(R.string.progressdialog_message_inviting_user),
-                    true);
+            final ProgressDialog inviteProgress = ProgressDialog
+                    .show(context, context.getString(R.string.progressdialog_title_inviting_user),
+                            context.getString(R.string.progressdialog_message_inviting_user), true);
 
-            ParseCloud.callFunctionInBackground("inviteUserToHousehold", params,
-                    new FunctionCallback<Object>() {
+            ParseCloud.callFunctionInBackground("inviteUserToHousehold", params, new FunctionCallback<Object>() {
                         @Override
                         public void done(Object noReturnValue, ParseException e) {
                             inviteProgress.dismiss();
@@ -78,8 +75,7 @@ public class InviteUserOnClickListener implements View.OnClickListener{
                                 Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
                             }
                         }
-                    }
-            );
+                    });
 
         }
     }

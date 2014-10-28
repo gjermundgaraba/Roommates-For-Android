@@ -4,12 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.WindowManager;
+import android.view.*;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -47,7 +42,8 @@ public class WithoutHouseholdActivity extends Activity {
                 if (lastPosition != position) {
                     try {
                         adapterView.getChildAt(lastPosition).setBackgroundColor(Color.WHITE);
-                    } catch (NullPointerException ignored) { }
+                    } catch (NullPointerException ignored) {
+                    }
 
                     adapterView.getChildAt(position).setBackgroundColor(Color.LTGRAY);
                     selectedInvitation = invitation;
@@ -84,8 +80,7 @@ public class WithoutHouseholdActivity extends Activity {
 
         EditText householdNameInput = (EditText) promptsView.findViewById(R.id.editTextDialogUserInput);
 
-        alertDialogBuilder.setTitle(getString(R.string.dialog_title_create_new_household))
-                .setView(promptsView)
+        alertDialogBuilder.setTitle(getString(R.string.dialog_title_create_new_household)).setView(promptsView)
                 .setPositiveButton(getString(R.string.dialog_positive_button_create_new_household),
                         new CreateHouseholdOnClickListener(householdNameInput, this));
 

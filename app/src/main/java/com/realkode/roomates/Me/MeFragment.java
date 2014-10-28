@@ -13,23 +13,19 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.parse.ParseFacebookUtils;
-import com.parse.ParseFile;
-import com.parse.ParseImageView;
-import com.parse.ParseQuery;
-import com.parse.ParseUser;
+import com.parse.*;
 import com.realkode.roomates.NotLoggedIn.LoginActivity;
 import com.realkode.roomates.ParseSubclassses.User;
 import com.realkode.roomates.R;
 import com.realkode.roomates.RefreshableFragment;
 
 public class MeFragment extends Fragment implements RefreshableFragment {
-    ParseImageView profilePictureView;
-    User currentUser;
-    TextView nameTextView;
-    TextView nameTextView2;
-    TextView emailTextView;
-    Button editProfileButton;
+    private ParseImageView profilePictureView;
+    private User currentUser;
+    private TextView nameTextView;
+    private TextView nameTextView2;
+    private TextView emailTextView;
+    private Button editProfileButton;
 
     @Override
     public void onResume() {
@@ -78,14 +74,14 @@ public class MeFragment extends Fragment implements RefreshableFragment {
         logoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               logout_dialog();
+                logout_dialog();
             }
         });
 
         return rootView;
     }
 
-    public void setUpUI() {
+    void setUpUI() {
         ParseFile profilePictureParseFile = currentUser.getProfilePicture();
 
         if (profilePictureParseFile != null) {
@@ -109,22 +105,19 @@ public class MeFragment extends Fragment implements RefreshableFragment {
         setUpUI();
     }
 
-    public void logout_dialog() {
+    void logout_dialog() {
         final AlertDialog.Builder myAlertDialog = new AlertDialog.Builder(getActivity());
         myAlertDialog.setTitle(R.string.dialog_title_log_out);
         myAlertDialog.setMessage(R.string.dialog_message_log_out);
 
         myAlertDialog.setPositiveButton(R.string.button_log_out, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface arg0, int arg1)
-            {
+            public void onClick(DialogInterface arg0, int arg1) {
                 performUserLogOut();
             }
         });
 
-        myAlertDialog.setNegativeButton(R.string.button_cancel, new DialogInterface.OnClickListener()
-        {
-            public void onClick(DialogInterface dialog, int arg1)
-            {
+        myAlertDialog.setNegativeButton(R.string.button_cancel, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int arg1) {
                 dialog.cancel();
             }
         });

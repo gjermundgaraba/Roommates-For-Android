@@ -2,7 +2,7 @@ package com.realkode.roomates.Helpers.AdapterItems;
 
 import com.realkode.roomates.ParseSubclassses.Expense;
 
-public class EntryItemForExpenses extends EntryItem{
+public class EntryItemForExpenses extends EntryItem {
     private final Expense expense;
 
     public EntryItemForExpenses(String title, String subtitle, Expense element) {

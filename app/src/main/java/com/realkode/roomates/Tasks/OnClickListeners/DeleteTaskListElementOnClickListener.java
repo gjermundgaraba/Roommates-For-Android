@@ -12,11 +12,12 @@ import com.realkode.roomates.R;
 import com.realkode.roomates.Tasks.Adapters.TaskListElementsAdapter;
 
 public class DeleteTaskListElementOnClickListener implements DialogInterface.OnClickListener {
-    private Context context;
-    private TaskListElementsAdapter taskListElementsAdapter;
-    private TaskListElement taskListElement;
+    private final Context context;
+    private final TaskListElementsAdapter taskListElementsAdapter;
+    private final TaskListElement taskListElement;
 
-    public DeleteTaskListElementOnClickListener(Context context, TaskListElementsAdapter taskListElementsAdapter, TaskListElement taskListElement) {
+    public DeleteTaskListElementOnClickListener(Context context, TaskListElementsAdapter taskListElementsAdapter,
+                                                TaskListElement taskListElement) {
         this.context = context;
         this.taskListElementsAdapter = taskListElementsAdapter;
         this.taskListElement = taskListElement;
@@ -24,7 +25,9 @@ public class DeleteTaskListElementOnClickListener implements DialogInterface.OnC
 
     @Override
     public void onClick(DialogInterface dialog, int which) {
-        final ProgressDialog deleteProgress = ProgressDialog.show(context, context.getString(R.string.deleting_task), context.getString(R.string.please_wait), true);
+        final ProgressDialog deleteProgress = ProgressDialog
+                .show(context, context.getString(R.string.deleting_task), context.getString(R.string.please_wait),
+                        true);
         taskListElement.deleteInBackground(new DeleteCallback() {
             @Override
             public void done(ParseException e) {

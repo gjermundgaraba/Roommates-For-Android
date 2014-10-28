@@ -16,8 +16,8 @@ import com.realkode.roomates.ParseSubclassses.User;
 import com.realkode.roomates.R;
 
 public class CreateNewTaskListOnClickListener implements DialogInterface.OnClickListener {
-    Context context;
-    EditText taskListNameInput;
+    private final Context context;
+    private final EditText taskListNameInput;
 
     public CreateNewTaskListOnClickListener(Context context, EditText taskListNameInput) {
         this.context = context;

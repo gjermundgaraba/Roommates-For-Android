@@ -13,7 +13,7 @@ import android.provider.MediaStore;
 import java.io.ByteArrayOutputStream;
 
 public class BitmapUtils {
-    public static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
+    private static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
         // Raw height and width of image
         final int height = options.outHeight;
         final int width = options.outWidth;
@@ -26,8 +26,7 @@ public class BitmapUtils {
 
             // Calculate the largest inSampleSize value that is a power of 2 and keeps both
             // height and width larger than the requested height and width.
-            while ((halfHeight / inSampleSize) > reqHeight
-                    && (halfWidth / inSampleSize) > reqWidth) {
+            while ((halfHeight / inSampleSize) > reqHeight && (halfWidth / inSampleSize) > reqWidth) {
                 inSampleSize *= 2;
             }
         }
@@ -72,7 +71,8 @@ public class BitmapUtils {
             } else if (orientation == 8) {
                 matrix.postRotate(270);
             }
-            bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true); // rotating bitmap
+            bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix,
+                    true); // rotating bitmap
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -87,23 +87,13 @@ public class BitmapUtils {
         Bitmap dstBmp;
         if (bitmap.getWidth() >= bitmap.getHeight()) {
 
-            dstBmp = Bitmap.createBitmap(
-                    bitmap,
-                    bitmap.getWidth() / 2 - bitmap.getHeight() / 2,
-                    0,
-                    bitmap.getHeight(),
-                    bitmap.getHeight()
-            );
+            dstBmp = Bitmap.createBitmap(bitmap, bitmap.getWidth() / 2 - bitmap.getHeight() / 2, 0, bitmap.getHeight(),
+                    bitmap.getHeight());
 
         } else {
 
-            dstBmp = Bitmap.createBitmap(
-                    bitmap,
-                    0,
-                    bitmap.getHeight() / 2 - bitmap.getWidth() / 2,
-                    bitmap.getWidth(),
-                    bitmap.getWidth()
-            );
+            dstBmp = Bitmap.createBitmap(bitmap, 0, bitmap.getHeight() / 2 - bitmap.getWidth() / 2, bitmap.getWidth(),
+                    bitmap.getWidth());
         }
         return dstBmp;
     }

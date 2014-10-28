@@ -20,7 +20,7 @@ import com.realkode.roomates.R;
  * Activity to edit the user profile
  */
 public class EditProfileActivity extends Activity {
-    private  Bitmap newPic;
+    private Bitmap newPic;
     private ParseImageView profilePictureImageView;
     private ImagePicker imagePicker;
 
@@ -48,7 +48,8 @@ public class EditProfileActivity extends Activity {
         changePasswordButton.setOnClickListener(new ChangePasswordOnClickListener());
 
         Button updateButton = (Button) findViewById(R.id.buttonUpdateProfile);
-        updateButton.setOnClickListener(new UpdateProfileOnClickListener(displayNameEditText, emailEditText, newPic, this));
+        updateButton
+                .setOnClickListener(new UpdateProfileOnClickListener(displayNameEditText, emailEditText, newPic, this));
 
         profilePictureImageView = (ParseImageView) findViewById(R.id.imageViewChangePicture);
         profilePictureImageView.setOnClickListener(new ProfilePicturePickerOnClickListener());

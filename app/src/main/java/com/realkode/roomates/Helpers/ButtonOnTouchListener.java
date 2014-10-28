@@ -6,7 +6,7 @@ import android.view.View;
 import android.widget.Button;
 
 public class ButtonOnTouchListener implements View.OnTouchListener {
-    TouchActionHandler touchActionHandler;
+    private final TouchActionHandler touchActionHandler;
 
     public ButtonOnTouchListener(TouchActionHandler touchActionHandler) {
         this.touchActionHandler = touchActionHandler;

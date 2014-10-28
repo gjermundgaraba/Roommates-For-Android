@@ -11,7 +11,7 @@ import com.realkode.roomates.ParseSubclassses.Event;
 import com.realkode.roomates.ParseSubclassses.User;
 import com.realkode.roomates.R;
 
-public class FeedAdapter extends ParseQueryAdapter<Event> {
+class FeedAdapter extends ParseQueryAdapter<Event> {
 
     private static final int EVENTS_PER_PAGE = 4;
 
@@ -43,7 +43,7 @@ public class FeedAdapter extends ParseQueryAdapter<Event> {
     }
 
     @Override
-    public View getNextPageView(View view,ViewGroup parent) {
+    public View getNextPageView(View view, ViewGroup parent) {
         if (view == null) {
             view = View.inflate(getContext(), R.layout.list_load_more, null);
         }

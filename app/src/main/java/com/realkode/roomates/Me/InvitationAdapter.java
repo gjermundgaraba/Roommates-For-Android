@@ -14,7 +14,7 @@ import com.realkode.roomates.R;
 /**
  * List adapter for the invitations
  */
-public class InvitationAdapter extends ParseQueryAdapter<Invitation> {
+class InvitationAdapter extends ParseQueryAdapter<Invitation> {
     public InvitationAdapter(Context context) {
 
         super(context, new ParseQueryAdapter.QueryFactory<Invitation>() {

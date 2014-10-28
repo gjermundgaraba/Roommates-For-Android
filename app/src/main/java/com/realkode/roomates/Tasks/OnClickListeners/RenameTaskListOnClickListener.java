@@ -15,10 +15,10 @@ import com.realkode.roomates.ParseSubclassses.TaskList;
 import com.realkode.roomates.R;
 
 public class RenameTaskListOnClickListener implements DialogInterface.OnClickListener {
-    private Activity activity;
-    private Context context;
-    private TaskList taskList;
-    private EditText listNameField;
+    private final Activity activity;
+    private final Context context;
+    private final TaskList taskList;
+    private final EditText listNameField;
 
     public RenameTaskListOnClickListener(Activity activity, TaskList taskList, EditText listNameField) {
         this.activity = activity;

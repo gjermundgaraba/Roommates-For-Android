@@ -12,11 +12,11 @@ import com.realkode.roomates.ParseSubclassses.Note;
 import com.realkode.roomates.ParseSubclassses.User;
 import com.realkode.roomates.R;
 
-public class AddNoteOnClickListener implements DialogInterface.OnClickListener {
+class AddNoteOnClickListener implements DialogInterface.OnClickListener {
 
-    EditText noteEditText;
-    Context context;
-    NoteAdapter noteAdapter;
+    private final EditText noteEditText;
+    private final Context context;
+    private final NoteAdapter noteAdapter;
 
     AddNoteOnClickListener(EditText noteEditText, NoteAdapter noteAdapter, Context context) {
         this.noteEditText = noteEditText;

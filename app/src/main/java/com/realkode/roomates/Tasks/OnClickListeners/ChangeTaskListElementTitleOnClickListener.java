@@ -12,12 +12,14 @@ import com.realkode.roomates.ParseSubclassses.TaskListElement;
 import com.realkode.roomates.Tasks.Adapters.TaskListElementsAdapter;
 
 public class ChangeTaskListElementTitleOnClickListener implements DialogInterface.OnClickListener {
-    private Context context;
-    private EditText titleField;
-    private TaskListElement taskListElement;
-    private TaskListElementsAdapter taskListElementsAdapter;
+    private final Context context;
+    private final EditText titleField;
+    private final TaskListElement taskListElement;
+    private final TaskListElementsAdapter taskListElementsAdapter;
 
-    public ChangeTaskListElementTitleOnClickListener(Context context, EditText titleField, TaskListElement taskListElement, TaskListElementsAdapter taskListElementsAdapter) {
+    public ChangeTaskListElementTitleOnClickListener(Context context, EditText titleField,
+                                                     TaskListElement taskListElement,
+                                                     TaskListElementsAdapter taskListElementsAdapter) {
         this.context = context;
         this.titleField = titleField;
         this.taskListElement = taskListElement;
@@ -27,7 +29,7 @@ public class ChangeTaskListElementTitleOnClickListener implements DialogInterfac
     @Override
     public void onClick(DialogInterface dialog, int which) {
         final String name = titleField.getText().toString();
-        final ProgressDialog resetProgress = ProgressDialog.show(context, "Changing name" , " Please wait ... ", true);
+        final ProgressDialog resetProgress = ProgressDialog.show(context, "Changing name", " Please wait ... ", true);
         taskListElement.setElementName(name);
         taskListElement.saveInBackground(new SaveCallback() {
             @Override

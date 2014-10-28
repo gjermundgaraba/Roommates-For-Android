@@ -15,18 +15,15 @@ import com.realkode.roomates.Helpers.ToastMaker;
 import com.realkode.roomates.ParseSubclassses.User;
 import com.realkode.roomates.R;
 
-public class ChangePasswordOnClickListener implements View.OnClickListener {
-    private EditText oldPasswordField;
-    private EditText newPasswordField;
-    private EditText repeatPasswordField;
-    private Activity activity;
-    private Context context;
+class ChangePasswordOnClickListener implements View.OnClickListener {
+    private final EditText oldPasswordField;
+    private final EditText newPasswordField;
+    private final EditText repeatPasswordField;
+    private final Activity activity;
+    private final Context context;
 
-    ChangePasswordOnClickListener(EditText oldPasswordField,
-                                  EditText newPasswordField,
-                                  EditText repeatPasswordField,
-                                  Activity activity)
-    {
+    ChangePasswordOnClickListener(EditText oldPasswordField, EditText newPasswordField, EditText repeatPasswordField,
+                                  Activity activity) {
         this.oldPasswordField = oldPasswordField;
         this.newPasswordField = newPasswordField;
         this.repeatPasswordField = repeatPasswordField;
@@ -44,20 +41,20 @@ public class ChangePasswordOnClickListener implements View.OnClickListener {
         if (newPassword.equals(repeatPassword)) {
 
             if (InputValidation.passwordIsValid(newPassword)) {
-                final ProgressDialog loginProgress = ProgressDialog.show(context,
-                        context.getString(R.string.progress_bar_change_password_login_title),
-                        context.getString(R.string.progress_bar_change_password_login_message),
-                        true);
+                final ProgressDialog loginProgress = ProgressDialog
+                        .show(context, context.getString(R.string.progress_bar_change_password_login_title),
+                                context.getString(R.string.progress_bar_change_password_login_message), true);
 
                 // Log in to check if old password is correct
                 ParseUser.logInInBackground(username, oldPassword, new LogInCallback() {
                     @Override
                     public void done(ParseUser user, ParseException exception) {
                         loginProgress.dismiss();
-                        if (user != null)
+                        if (user != null) {
                             changePassword(newPassword);
-                        else
+                        } else {
                             ToastMaker.makeLongToast(R.string.toast_change_password_wrong_password, context);
+                        }
                     }
                 });
             } else {
@@ -74,10 +71,9 @@ public class ChangePasswordOnClickListener implements View.OnClickListener {
         ParseUser.getCurrentUser().setPassword(newPassword);
 
 
-        final ProgressDialog changeProgress = ProgressDialog.show(context,
-                context.getString(R.string.progress_dialog_change_password_title),
-                context.getString(R.string.progress_dialog_change_password_message),
-                true);
+        final ProgressDialog changeProgress = ProgressDialog
+                .show(context, context.getString(R.string.progress_dialog_change_password_title),
+                        context.getString(R.string.progress_dialog_change_password_message), true);
         ParseUser.getCurrentUser().saveInBackground(new SaveCallback() {
 
             public void done(ParseException exception) {
@@ -85,8 +81,7 @@ public class ChangePasswordOnClickListener implements View.OnClickListener {
                 if (exception == null) {
                     ToastMaker.makeLongToast(R.string.toast_change_password_success, context);
                     activity.finish();
-                }
-                else {
+                } else {
                     ToastMaker.makeLongToast(exception.getMessage(), context);
                 }
             }
