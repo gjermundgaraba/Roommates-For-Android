@@ -3,34 +3,34 @@ package com.realkode.roomates.ParseSubclassses;
 import com.parse.ParseClassName;
 import com.parse.ParseInstallation;
 
-/**
- * Parse subclass for the "_Installation" table.
- */
 @ParseClassName("_Installation")
 public class Installation extends ParseInstallation {
+
+    private static final String USER = "user";
+    private static final String HOUSEHOLD = "household";
 
     public static Installation getCurrentInstallation() {
         return (Installation) ParseInstallation.getCurrentInstallation();
     }
 
     public User getUser() {
-        return (User) getParseUser("user");
+        return (User) getParseUser(USER);
     }
 
     public void setUser(User user) {
-        put("user", user);
+        put(USER, user);
     }
 
     public Household getHousehold() {
-        return (Household) getParseObject("household");
+        return (Household) getParseObject(HOUSEHOLD);
     }
 
     public void setHousehold(Household household) {
-        put("household", household);
+        put(HOUSEHOLD, household);
     }
 
     public void reset() {
-        remove("user");
-        remove("household");
+        remove(USER);
+        remove(HOUSEHOLD);
     }
 }

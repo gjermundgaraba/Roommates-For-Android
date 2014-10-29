@@ -6,44 +6,48 @@ import com.parse.ParseUser;
 
 import java.io.Serializable;
 
-/**
- * Parse subclass for the "TaskList" table.
- */
 @ParseClassName("TaskList")
 public class TaskList extends ParseObject implements Serializable {
+
+    public static final String LIST_NAME = "listName";
+    public static final String HOUSEHOLD = "household";
+    public static final String CREATED_BY = "createdBy";
+    public static final String UPDATED_BY = "updatedBy";
+    public static final String DONE = "done";
+
     public String getListName() {
-        return getString("listName");
+        return getString(LIST_NAME);
     }
 
     public void setListName(String listName) {
-        put("listName", listName);
+        put(LIST_NAME, listName);
     }
 
     public Household getHousehold() {
-        return (Household) getParseObject("household");
+        return (Household) getParseObject(HOUSEHOLD);
     }
 
     public void setHousehold(Household household) {
-        put("household", household);
+        put(HOUSEHOLD, household);
     }
 
     public User getCreatedBy() {
-        return (User) getParseUser("createdBy");
+        return (User) getParseUser(CREATED_BY);
     }
 
     public void setCreatedBy(ParseUser createdBy) {
-        put("createdBy", createdBy);
+        put(CREATED_BY, createdBy);
     }
 
     public void setUpdatedBy(User updatedBy) {
-        put("updatedBy", updatedBy);
+        put(UPDATED_BY, updatedBy);
     }
 
     public Boolean getDone() {
-        return getBoolean("done");
+        return getBoolean(DONE);
     }
 
     public void setDone(boolean done) {
-        put("done", done);
+        put(DONE, done);
     }
 }

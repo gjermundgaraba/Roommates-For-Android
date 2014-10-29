@@ -1,14 +1,16 @@
 package com.realkode.roomates.ParseSubclassses;
 
 import com.parse.*;
+import com.realkode.roomates.Helpers.ParseCloudFunctionNames;
 
 import java.util.HashMap;
 
-/**
- * Parse subclass for the "_User" table.
- */
 @ParseClassName("_User")
 public class User extends ParseUser {
+
+    private static final String DISPLAY_NAME = "displayName";
+    private static final String PROFILE_PICTURE = "profilePicture";
+    private static final String ACTIVE_HOUSEHOLD = "activeHousehold";
 
     public static User getCurrentUser() {
         return (User) ParseUser.getCurrentUser();
@@ -25,26 +27,20 @@ public class User extends ParseUser {
     public static void refreshChannels() {
         Installation currentInstallation = Installation.getCurrentInstallation();
 
-        // Start by remove all channels
         currentInstallation.reset();
 
-        // Set up empty ACL
         ParseACL defaultACL = new ParseACL();
 
-
         if (someoneIsLoggedIn()) {
-            // If logged in, add user channel
             User currentUser = User.getCurrentUser();
-            currentInstallation.setUser(currentUser);
+            currentInstallation.setUser(currentUser); // Subscribes to your user channel
 
-            if (currentUser.isMemberOfHousehold()) {
-                // Set up ACL
-                String householdRoleName = "household-" + currentUser.getActiveHousehold().getObjectId();
+            if (currentUser.isMemberOfAHousehold()) {
+                String householdRoleName = getHouseholdChannel(currentUser);
                 defaultACL.setRoleReadAccess(householdRoleName, true);
                 defaultACL.setRoleWriteAccess(householdRoleName, true);
 
-                // If member of a household, add household channel
-                currentInstallation.setHousehold(currentUser.getActiveHousehold());
+                currentInstallation.setHousehold(currentUser.getActiveHousehold()); // Subscribe to your household channel
             }
         }
 
@@ -53,36 +49,42 @@ public class User extends ParseUser {
         currentInstallation.saveEventually();
     }
 
+    private static String getHouseholdChannel(User currentUser) {
+        return "household-" + currentUser.getActiveHousehold().getObjectId();
+    }
+
     public String getDisplayName() {
-        return getString("displayName");
+        return getString(DISPLAY_NAME);
     }
 
     public void setDisplayName(String displayName) {
-        put("displayName", displayName);
+        put(DISPLAY_NAME, displayName);
     }
 
     public ParseFile getProfilePicture() {
-        return getParseFile("profilePicture");
+        return getParseFile(PROFILE_PICTURE);
     }
 
     public void setProfilePicture(ParseFile profilePicture) {
-        put("profilePicture", profilePicture);
+        put(PROFILE_PICTURE, profilePicture);
     }
 
     public Household getActiveHousehold() {
-        return (Household) getParseObject("activeHousehold");
+        return (Household) getParseObject(ACTIVE_HOUSEHOLD);
     }
 
-    boolean isMemberOfHousehold() {
+    private boolean isMemberOfAHousehold() {
         return this.getActiveHousehold() != null;
     }
 
     public void leaveHousehold(FunctionCallback<Object> callback) {
-        if (isMemberOfHousehold()) {
-            HashMap<String, Object> params = new HashMap<String, Object>();
-            Household household = getActiveHousehold();
-            params.put("householdId", household.getObjectId());
-            ParseCloud.callFunctionInBackground("leaveHousehold", params, callback);
+        if (this.isMemberOfAHousehold()) {
+            String householdObjectId = getActiveHousehold().getObjectId();
+
+            HashMap<String, Object> params = new HashMap<>();
+            params.put("householdId", householdObjectId);
+
+            ParseCloud.callFunctionInBackground(ParseCloudFunctionNames.LEAVE_HOUSEHOLD, params, callback);
         }
     }
 

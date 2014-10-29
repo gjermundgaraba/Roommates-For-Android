@@ -167,5 +167,9 @@
     <string name="username_email_taken">E-mail already in use. Try resetting your password</string>
     <string name="email_taken">E-mail already in use. Try resetting your password</string>
     <string name="something_went_wrong">Something went wrong. Try again later</string>
+    <string name="resetting_password">Resetting Password</string>
+    <string name="logging_in">Logging in</string>
+    <string name="wrong_email_password">Wrong email/password. Please try again</string>
+    <string name="email_password_must_be_filled_out">email/password must be filled out.</string>
 
 </resources>

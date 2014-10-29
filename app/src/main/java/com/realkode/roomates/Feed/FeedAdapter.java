@@ -18,7 +18,7 @@ class FeedAdapter extends ParseQueryAdapter<Event> {
     public FeedAdapter(Context context) {
         super(context, new ParseQueryAdapter.QueryFactory<Event>() {
             public ParseQuery<Event> create() {
-                ParseQuery<Event> query = new ParseQuery<Event>(Event.class);
+                ParseQuery<Event> query = new ParseQuery<>(Event.class);
                 query.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
                 query.whereEqualTo("household", User.getCurrentUser().getActiveHousehold());
                 query.include("household");
@@ -38,7 +38,7 @@ class FeedAdapter extends ParseQueryAdapter<Event> {
         view = View.inflate(getContext(), R.layout.list_event_feed_layout, null);
 
         TextView titleTextView = (TextView) view.findViewById(R.id.eventFeedTextView);
-        titleTextView.setText(event.getDescriptionString());
+        titleTextView.setText(event.getEventDescription());
         return view;
     }
 

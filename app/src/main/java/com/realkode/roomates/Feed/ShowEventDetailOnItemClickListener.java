@@ -26,7 +26,7 @@ class ShowEventDetailOnItemClickListener implements AdapterView.OnItemClickListe
         TextView eventTextView = (TextView) detailEventDialogView.findViewById(R.id.eventDetailsTextView);
         eventTextView.setText(context.getString(R.string.event_happened) + " " +
                 selectedEvent.getCreatedAt().toString() + "\n" +
-                selectedEvent.getDescriptionString());
+                selectedEvent.getEventDescription());
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
 

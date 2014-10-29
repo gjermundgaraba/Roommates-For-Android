@@ -21,12 +21,9 @@ import java.util.Locale;
 
 public class MainActivity extends FragmentActivity implements ActionBar.TabListener {
     private static final int NUMBER_OF_FRAGMENTS = 4;
-    // provide fragments for each of the sections
-    private SectionsPagerAdapter mSectionsPagerAdapter;
 
-    // host the section contents
-    private ViewPager mViewPager;
-
+    private SectionsPagerAdapter mSectionsPagerAdapter; // provide fragments for each of the sections
+    private ViewPager mViewPager; // host the section contents
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,9 +76,8 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-
         int currentItem = mViewPager.getCurrentItem();
+
         switch (currentItem) {
             case 0:
                 getMenuInflater().inflate(R.menu.feed_menu, menu);
@@ -141,8 +137,6 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 
     @Override
     public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
-        // When the given tab is selected, switch to the corresponding page in
-        // the ViewPager.
         mViewPager.setCurrentItem(tab.getPosition());
     }
 
@@ -154,10 +148,6 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
     }
 
-    /**
-     * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
-     * one of the sections/tabs/pages.
-     */
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
         private FeedFragment feedFragment;
@@ -169,7 +159,6 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
             super(fm);
         }
 
-        // Creating the fragment instances.
         @Override
         public Fragment getItem(int position) {
             if (position == 0) {

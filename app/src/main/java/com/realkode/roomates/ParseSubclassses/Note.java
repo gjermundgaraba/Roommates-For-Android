@@ -3,32 +3,34 @@ package com.realkode.roomates.ParseSubclassses;
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
 
-/**
- * Parse subclass for the "Note" table.
- */
 @ParseClassName("Note")
 public class Note extends ParseObject {
+
+    private static final String BODY = "body";
+    private static final String CREATED_BY = "createdBy";
+    private static final String HOUSEHOLD = "household";
+
     public String getBody() {
-        return getString("body");
+        return getString(BODY);
     }
 
     public void setBody(String body) {
-        put("body", body);
+        put(BODY, body);
     }
 
     public User getCreatedBy() {
-        return (User) getParseUser("createdBy");
+        return (User) getParseUser(CREATED_BY);
     }
 
     public void setCreatedBy(User createdBy) {
-        put("createdBy", createdBy);
+        put(CREATED_BY, createdBy);
     }
 
     public Household getHousehold() {
-        return (Household) getParseObject("household");
+        return (Household) getParseObject(HOUSEHOLD);
     }
 
     public void setHousehold(Household household) {
-        put("household", household);
+        put(HOUSEHOLD, household);
     }
 }

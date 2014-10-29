@@ -5,15 +5,19 @@ import com.parse.ParseObject;
 
 @ParseClassName("Invitation")
 public class Invitation extends ParseObject {
+
+    private static final String HOUSEHOLD = "household";
+    private static final String INVITER = "inviter";
+
     public Household getHousehold() {
-        return (Household) getParseObject("household");
+        return (Household) getParseObject(HOUSEHOLD);
     }
 
     public void setHousehold(Household household) {
-        put("household", household);
+        put(HOUSEHOLD, household);
     }
 
     public User getInviter() {
-        return (User) getParseUser("inviter");
+        return (User) getParseUser(INVITER);
     }
 }

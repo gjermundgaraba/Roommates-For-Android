@@ -6,41 +6,48 @@ import com.parse.ParseObject;
 
 @ParseClassName("TaskListElement")
 public class TaskListElement extends ParseObject {
+
+    private static final String ELEMENT_NAME = "elementName";
+    private static final String FINISHED_BY = "finishedBy";
+    private static final String CREATED_BY = "createdBy";
+    private static final String UPDATED_BY = "updatedBy";
+    private static final String TASK_LIST = "taskList";
+
     public String getElementName() {
-        return getString("elementName");
+        return getString(ELEMENT_NAME);
     }
 
     public void setElementName(String elementName) {
-        put("elementName", elementName);
+        put(ELEMENT_NAME, elementName);
     }
 
     public void setTaskList(TaskList taskList) {
-        put("taskList", taskList);
+        put(TASK_LIST, taskList);
     }
 
     public User getCreatedBy() {
         try {
-            return (User) getParseUser("createdBy").fetchIfNeeded();
+            return (User) getParseUser(CREATED_BY).fetchIfNeeded();
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        return (User) getParseUser("createdBy");
+        return (User) getParseUser(CREATED_BY);
     }
 
     public void setCreatedBy(User createdBy) {
-        put("createdBy", createdBy);
+        put(CREATED_BY, createdBy);
     }
 
     public void setUpdatedBy(User updatedBy) {
-        put("updatedBy", updatedBy);
+        put(UPDATED_BY, updatedBy);
     }
 
     public User getFinishedBy() {
-        return (User) getParseUser("finishedBy");
+        return (User) getParseUser(FINISHED_BY);
     }
 
     void setFinishedBy(User finishedBy) {
-        put("finishedBy", finishedBy);
+        put(FINISHED_BY, finishedBy);
     }
 
     public Boolean getDone() {
@@ -51,7 +58,7 @@ public class TaskListElement extends ParseObject {
         if (done) {
             setFinishedBy(User.getCurrentUser());
         } else {
-            remove("finishedBy");
+            remove(FINISHED_BY);
         }
     }
 }

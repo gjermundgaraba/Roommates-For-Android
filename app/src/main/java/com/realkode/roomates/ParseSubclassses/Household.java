@@ -3,12 +3,12 @@ package com.realkode.roomates.ParseSubclassses;
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
 
-/**
- * Parse subclass for the "Household" table.
- */
 @ParseClassName("Household")
 public class Household extends ParseObject {
+
+    private static final String HOUSEHOLD_NAME = "householdName";
+
     public String getHouseholdName() {
-        return getString("householdName");
+        return getString(HOUSEHOLD_NAME);
     }
 }

@@ -11,60 +11,68 @@ import java.util.ArrayList;
 @ParseClassName("Expense")
 public class Expense extends ParseObject {
 
+    private static final String NAME = "name";
+    private static final String TOTAL_AMOUNT = "totalAmount";
+    private static final String OWED = "owed";
+    private static final String HOUSEHOLD = "household";
+    private static final String DETAILS = "details";
+    private static final String NOT_PAID_UP = "notPaidUp";
+    private static final String PAID_UP = "paidUp";
+
     public String getName() {
-        return getString("name");
+        return getString(NAME);
     }
 
     public void setName(String name) {
-        put("name", name);
+        put(NAME, name);
     }
 
     public Number getTotalAmount() {
-        return getNumber("totalAmount");
+        return getNumber(TOTAL_AMOUNT);
     }
 
     public void setTotalAmount(Double totalAmount) {
-        put("totalAmount", totalAmount);
+        put(TOTAL_AMOUNT, totalAmount);
     }
 
     public User getOwed() {
-        return (User) getParseUser("owed");
+        return (User) getParseUser(OWED);
     }
 
     public void setOwed(User owed) {
-        put("owed", owed);
+        put(OWED, owed);
     }
 
     public Household getHousehold() {
-        return (Household) getParseObject("household");
+        return (Household) getParseObject(HOUSEHOLD);
     }
 
     public void setHousehold(Household household) {
-        put("household", household);
+        put(HOUSEHOLD, household);
     }
 
     public String getDetails() {
-        return getString("details");
+        return getString(DETAILS);
     }
 
     public void setDetails(String details) {
-        put("details", details);
+        put(DETAILS, details);
     }
 
     public ArrayList<User> getNotPaidUp() {
-        return new ArrayList<User>(this.<User>getList("notPaidUp"));
+        return new ArrayList<>(this.<User>getList(NOT_PAID_UP));
     }
 
     public void setNotPaidUp(ArrayList<User> arrayList) {
-        put("notPaidUp", arrayList);
+        put(NOT_PAID_UP, arrayList);
     }
 
     public ArrayList<User> getPaidUp() {
-        return new ArrayList<User>(this.<User>getList("paidUp"));
+        return new ArrayList<>(this.<User>getList(PAID_UP));
     }
 
     public void setPaidUp(ArrayList<User> arrayList) {
-        put("paidUp", arrayList);
+        put(PAID_UP, arrayList);
     }
 
     /* Helpers */

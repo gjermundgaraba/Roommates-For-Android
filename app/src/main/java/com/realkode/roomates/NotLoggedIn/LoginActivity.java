@@ -69,32 +69,32 @@ public class LoginActivity extends Activity {
         EditText passwordField = (EditText) findViewById(R.id.editTextPassword);
 
         signUp.setOnTouchListener(new ButtonOnTouchListener(new ButtonOnTouchListener.TouchActionHandler() {
-                    @Override
-                    public void performAction() {
-                        startSignupActivity();
-                    }
-                }));
+            @Override
+            public void performAction() {
+                startSignupActivity();
+            }
+        }));
 
         login.setOnTouchListener(new ButtonOnTouchListener(new ButtonOnTouchListener.TouchActionHandler() {
-                    @Override
-                    public void performAction() {
-                        loginUser();
-                    }
-                }));
+            @Override
+            public void performAction() {
+                loginUser();
+            }
+        }));
 
         facebookLogin.setOnTouchListener(new ButtonOnTouchListener(new ButtonOnTouchListener.TouchActionHandler() {
-                    @Override
-                    public void performAction() {
-                        facebookLogin();
-                    }
-                }));
+            @Override
+            public void performAction() {
+                facebookLogin();
+            }
+        }));
 
         resetPassword.setOnTouchListener(new ButtonOnTouchListener(new ButtonOnTouchListener.TouchActionHandler() {
-                    @Override
-                    public void performAction() {
-                        forgotPassword();
-                    }
-                }));
+            @Override
+            public void performAction() {
+                forgotPassword();
+            }
+        }));
 
         passwordField.setOnEditorActionListener(new EditText.OnEditorActionListener() {
             @Override
@@ -127,27 +127,29 @@ public class LoginActivity extends Activity {
         final EditText userInput = (EditText) promptsView.findViewById(R.id.editTextDialogUserInput);
 
         alertDialogBuilder.setTitle(getString(R.string.forgot_password))
-                .setMessage(getString(R.string.enter_your_email)).setCancelable(false).setView(promptsView)
+                .setMessage(getString(R.string.enter_your_email))
+                .setView(promptsView)
                 .setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
                         String email = userInput.getText().toString().toLowerCase().trim();
                         final ProgressDialog resetProgress = ProgressDialog
-                                .show(LoginActivity.this, "Resetting Password", " Please wait ... ", true);
+                                .show(LoginActivity.this, getString(R.string.resetting_password),
+                                        getString(R.string.please_wait), true);
                         ParseUser.requestPasswordResetInBackground(email, new RequestPasswordResetCallback() {
-                                    public void done(ParseException e) {
-                                        resetProgress.dismiss();
-                                        if (e == null) {
-                                            ToastMaker.makeLongToast(R.string.reset_email_sent_with_instructions,
-                                                    getApplicationContext());
-                                        } else {
-                                            ToastMaker.makeLongToast(e.getMessage(), getApplicationContext());
-                                        }
-                                    }
-                                });
-
+                            public void done(ParseException e) {
+                                resetProgress.dismiss();
+                                if (e == null) {
+                                    ToastMaker.makeLongToast(R.string.reset_email_sent_with_instructions,
+                                            getApplicationContext());
+                                } else {
+                                    ToastMaker.makeLongToast(e.getMessage(), getApplicationContext());
+                                }
+                            }
+                        });
                     }
-                }).setNegativeButton(getString(R.string.cancel), null);
+                })
+                .setNegativeButton(getString(R.string.cancel), null);
 
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
@@ -166,7 +168,7 @@ public class LoginActivity extends Activity {
         final Button facebookLogin = (Button) findViewById(R.id.facebookLoginButton);
         facebookLogin.setClickable(false);
         facebookLogin.setEnabled(false);
-        progressDialog = ProgressDialog.show(this, "Logging in", " Please wait ... ", true);
+        progressDialog = ProgressDialog.show(this, getString(R.string.logging_in), getString(R.string.please_wait), true);
         ParseFacebookUtils.logIn(permissions, this, new LogInCallback() {
             @Override
             public void done(ParseUser parseUser, ParseException e) {
@@ -191,43 +193,24 @@ public class LoginActivity extends Activity {
     private void updateUserData() {
         final Button facebookLogin = (Button) findViewById(R.id.facebookLoginButton);
         Request request = Request.newMeRequest(ParseFacebookUtils.getSession(), new Request.GraphUserCallback() {
-                    @Override
-                    public void onCompleted(GraphUser user, Response response) {
-                        facebookID = user.getId();
+            @Override
+            public void onCompleted(GraphUser user, Response response) {
+                facebookID = user.getId();
 
-                        // The URL for facebook profilepicture with the facebook user ID.
-                        final String profile_picture_URL =
-                                "http://graph.facebook.com/" + facebookID + "/picture?type=large";
-                        facebookLogin.setClickable(false);
-                        facebookLogin.setEnabled(false);
+                // The URL for facebook profilepicture with the facebook user ID.
+                final String profile_picture_URL =
+                        "http://graph.facebook.com/" + facebookID + "/picture?type=large";
+                facebookLogin.setClickable(false);
+                facebookLogin.setEnabled(false);
 
-                        final ParseUser currentUser = ParseUser.getCurrentUser();
+                final ParseUser currentUser = ParseUser.getCurrentUser();
 
-                        currentUser.setEmail((String) user.getProperty("email"));
-                        currentUser.setUsername((String) user.getProperty("email"));
-                        currentUser.put("displayName", user.getFirstName() + " " + user.getLastName());
-                        currentUser.saveInBackground(new SaveCallback() {
-                            @Override
-                            public void done(ParseException e) {
-                                if (e != null) {
-                                    ParseUser.getCurrentUser().deleteEventually();
-                                    ParseUser.logOut();
-                                    System.out.println("EMAILINUSE:   " + e.getMessage());
-                                    facebookLogin.setClickable(true);
-                                    facebookLogin.setEnabled(true);
-
-                                } else {
-                                    // The asyncprocess for downlading the picture
-                                    new FacebookProfilePictureDownloader().execute(profile_picture_URL);
-                                    facebookLogin.setClickable(true);
-                                    facebookLogin.setEnabled(true);
-                                    startMainActivity();
-                                }
-
-                            }
-                        });
-                    }
-                });
+                currentUser.setEmail((String) user.getProperty("email"));
+                currentUser.setUsername((String) user.getProperty("email"));
+                currentUser.put("displayName", user.getFirstName() + " " + user.getLastName());
+                currentUser.saveInBackground(new UserSaveCallback(facebookLogin, profile_picture_URL));
+            }
+        });
         request.executeAsync();
 
     }
@@ -244,7 +227,7 @@ public class LoginActivity extends Activity {
             login.setClickable(false);
             login.setEnabled(false);
             final ProgressDialog loginProgress =
-                    ProgressDialog.show(LoginActivity.this, "Logging in", " Please wait ... ", true);
+                    ProgressDialog.show(LoginActivity.this, getString(R.string.logging_in), getString(R.string.please_wait), true);
             ParseUser.logInInBackground(user, pwd, new LogInCallback() {
                 @Override
                 public void done(ParseUser user, ParseException e) {
@@ -258,9 +241,9 @@ public class LoginActivity extends Activity {
                         login.setEnabled(true);
 
                         if (e.getCode() == ParseException.OBJECT_NOT_FOUND) {
-                            ToastMaker.makeLongToast("Wrong email/password. Please try again", getApplicationContext());
+                            ToastMaker.makeLongToast(R.string.wrong_email_password, getApplicationContext());
                         } else {
-                            ToastMaker.makeLongToast("Something went wrong. Please try again", getApplicationContext());
+                            ToastMaker.makeLongToast(R.string.something_went_wrong, getApplicationContext());
                         }
 
                     }
@@ -268,7 +251,35 @@ public class LoginActivity extends Activity {
             });
         } else {
             progressBar.setVisibility(View.INVISIBLE);
-            ToastMaker.makeLongToast("email/password must be filled out.", this);
+            ToastMaker.makeLongToast(getString(R.string.email_password_must_be_filled_out), this);
+        }
+    }
+
+    private class UserSaveCallback extends SaveCallback {
+        private final Button facebookLogin;
+        private final String profilePictureURL;
+
+        public UserSaveCallback(Button facebookLogin, String profilePictureURL) {
+            this.facebookLogin = facebookLogin;
+            this.profilePictureURL = profilePictureURL;
+        }
+
+        @Override
+        public void done(ParseException e) {
+            if (e != null) {
+                ParseUser.getCurrentUser().deleteEventually();
+                ParseUser.logOut();
+                facebookLogin.setClickable(true);
+                facebookLogin.setEnabled(true);
+
+            } else {
+                // The asyncprocess for downlading the picture
+                new FacebookProfilePictureDownloader().execute(profilePictureURL);
+                facebookLogin.setClickable(true);
+                facebookLogin.setEnabled(true);
+                startMainActivity();
+            }
+
         }
     }
 }
