@@ -60,7 +60,7 @@ public class Expense extends ParseObject {
     }
 
     public ArrayList<User> getNotPaidUp() {
-        return new ArrayList<>(this.<User>getList(NOT_PAID_UP));
+        return new ArrayList<User>(this.<User>getList(NOT_PAID_UP));
     }
 
     public void setNotPaidUp(ArrayList<User> arrayList) {
@@ -68,7 +68,7 @@ public class Expense extends ParseObject {
     }
 
     public ArrayList<User> getPaidUp() {
-        return new ArrayList<>(this.<User>getList(PAID_UP));
+        return new ArrayList<User>(this.<User>getList(PAID_UP));
     }
 
     public void setPaidUp(ArrayList<User> arrayList) {

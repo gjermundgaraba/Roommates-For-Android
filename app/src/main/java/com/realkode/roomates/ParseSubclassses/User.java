@@ -81,7 +81,7 @@ public class User extends ParseUser {
         if (this.isMemberOfAHousehold()) {
             String householdObjectId = getActiveHousehold().getObjectId();
 
-            HashMap<String, Object> params = new HashMap<>();
+            HashMap<String, Object> params = new HashMap<String, Object>();
             params.put("householdId", householdObjectId);
 
             ParseCloud.callFunctionInBackground(ParseCloudFunctionNames.LEAVE_HOUSEHOLD, params, callback);

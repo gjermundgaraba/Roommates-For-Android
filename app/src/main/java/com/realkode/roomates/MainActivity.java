@@ -14,8 +14,8 @@ import android.view.MenuItem;
 import com.realkode.roomates.Expenses.ExpenseOverview.ExpensesFragment;
 import com.realkode.roomates.Feed.FeedFragment;
 import com.realkode.roomates.Helpers.ToastMaker;
-import com.realkode.roomates.Me.MeFragment;
-import com.realkode.roomates.Tasks.TaskListFragment;
+import com.realkode.roomates.Me.Fragment.MeFragment;
+import com.realkode.roomates.Tasks.Fragment.TaskListFragment;
 
 import java.util.Locale;
 

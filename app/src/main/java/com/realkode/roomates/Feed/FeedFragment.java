@@ -11,6 +11,11 @@ import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ListView;
 
+import com.realkode.roomates.Feed.Events.EventAdapter;
+import com.realkode.roomates.Feed.Events.ShowEventDetailOnItemClickListener;
+import com.realkode.roomates.Feed.Notes.AddNoteOnClickListener;
+import com.realkode.roomates.Feed.Notes.NoteAdapter;
+import com.realkode.roomates.Feed.Notes.ShowNoteDetailedOnItemClickListener;
 import com.realkode.roomates.ParseSubclassses.User;
 import com.realkode.roomates.R;
 import com.realkode.roomates.RefreshableFragment;
@@ -19,7 +24,7 @@ import com.realkode.roomates.RefreshableFragment;
 public class FeedFragment extends Fragment implements RefreshableFragment {
 
     private NoteAdapter noteAdapter;
-    private FeedAdapter feedAdapter;
+    private EventAdapter eventAdapter;
     private View rootView;
 
     @Override
@@ -40,8 +45,8 @@ public class FeedFragment extends Fragment implements RefreshableFragment {
         noteListView.setOnItemClickListener(new ShowNoteDetailedOnItemClickListener(getActivity()));
 
         ListView eventListView = (ListView) rootView.findViewById(R.id.eventListView);
-        feedAdapter = new FeedAdapter(getActivity());
-        eventListView.setAdapter(feedAdapter);
+        eventAdapter = new EventAdapter(getActivity());
+        eventListView.setAdapter(eventAdapter);
         eventListView.setOnItemClickListener(new ShowEventDetailOnItemClickListener(getActivity()));
     }
 
@@ -49,7 +54,7 @@ public class FeedFragment extends Fragment implements RefreshableFragment {
     public void onResume() {
         super.onResume();
 
-        if (noteAdapter == null || feedAdapter == null) {
+        if (noteAdapter == null || eventAdapter == null) {
             setUpListViews();
         }
     }
@@ -57,7 +62,7 @@ public class FeedFragment extends Fragment implements RefreshableFragment {
 
     public void refreshFragment() {
         this.noteAdapter.loadObjects();
-        this.feedAdapter.loadObjects();
+        this.eventAdapter.loadObjects();
     }
 
     public void startCreateNewNoteDialog() {

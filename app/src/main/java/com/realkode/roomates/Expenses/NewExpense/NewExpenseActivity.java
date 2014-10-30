@@ -11,7 +11,7 @@ import android.widget.ListView;
 import com.parse.ParseException;
 import com.parse.SaveCallback;
 import com.realkode.roomates.Helpers.ToastMaker;
-import com.realkode.roomates.Me.HouseholdMembersAdapter;
+import com.realkode.roomates.Me.Fragment.HouseholdMembersAdapter;
 import com.realkode.roomates.ParseSubclassses.Expense;
 import com.realkode.roomates.ParseSubclassses.User;
 import com.realkode.roomates.R;

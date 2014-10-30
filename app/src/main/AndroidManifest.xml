@@ -41,16 +41,16 @@
             android:name=".NotLoggedIn.SignUpActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Me.ChangePasswordActivity"
+            android:name=".Me.ProfileInformation.ChangePasswordActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Me.MyHouseholdActivity"
+            android:name=".Me.HouseholdSettings.MyHouseholdActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Me.WithoutHouseholdActivity"
+            android:name=".Me.NoHousehold.WithoutHouseholdActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Me.EditProfileActivity"
+            android:name=".Me.ProfileInformation.EditProfileActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".Expenses.ViewExpense.ViewExpenseActivity"
@@ -92,7 +92,7 @@
         </receiver>
 
         <activity
-            android:name=".Tasks.TaskListElementsActivity"
+            android:name=".Tasks.ViewTaskList.ViewTaskListActivity"
             android:label="@string/title_activity_test_task_list_elements" >
         </activity>
     </application>
