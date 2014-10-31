@@ -11,7 +11,6 @@ import android.os.Bundle;
 import android.view.*;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.facebook.Request;
@@ -31,8 +30,6 @@ import java.util.List;
 
 @SuppressLint("DefaultLocale")
 public class LoginActivity extends Activity {
-
-    private ProgressBar progressBar;
     private String facebookID;
     private ProgressDialog progressDialog;
 
@@ -108,7 +105,6 @@ public class LoginActivity extends Activity {
     private void setUpLayout() {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_login);
-        progressBar = (ProgressBar) findViewById(R.id.progressBar_Login);
     }
 
     // The result for facebookloginactivity.
@@ -221,7 +217,6 @@ public class LoginActivity extends Activity {
         EditText password = (EditText) findViewById(R.id.editTextPassword);
         String user = email.getText().toString().toLowerCase().trim();
         String pwd = password.getText().toString();
-        progressBar.setVisibility(View.VISIBLE);
 
         if (!user.isEmpty() && pwd != null && !pwd.isEmpty()) {
             login.setClickable(false);
@@ -232,7 +227,6 @@ public class LoginActivity extends Activity {
                 @Override
                 public void done(ParseUser user, ParseException e) {
                     loginProgress.dismiss();
-                    progressBar.setVisibility(View.INVISIBLE);
                     if (e == null) {
                         User.refreshChannels();
                         startMainActivity();
@@ -250,7 +244,6 @@ public class LoginActivity extends Activity {
                 }
             });
         } else {
-            progressBar.setVisibility(View.INVISIBLE);
             ToastMaker.makeLongToast(getString(R.string.email_password_must_be_filled_out), this);
         }
     }
