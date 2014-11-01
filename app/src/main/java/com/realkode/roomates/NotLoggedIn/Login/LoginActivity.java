@@ -16,7 +16,7 @@ import com.parse.*;
 import com.realkode.roomates.Helpers.ButtonOnTouchListener;
 import com.realkode.roomates.Helpers.ToastMaker;
 import com.realkode.roomates.MainActivity;
-import com.realkode.roomates.NotLoggedIn.SignUpActivity;
+import com.realkode.roomates.NotLoggedIn.SignUp.SignUpActivity;
 import com.realkode.roomates.ParseSubclassses.User;
 import com.realkode.roomates.R;
 

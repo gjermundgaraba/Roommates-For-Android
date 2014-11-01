@@ -1,10 +1,8 @@
-package com.realkode.roomates.NotLoggedIn;
+package com.realkode.roomates.NotLoggedIn.SignUp;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -15,11 +13,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.parse.ParseException;
-import com.parse.SignUpCallback;
 import com.realkode.roomates.Helpers.InputValidation;
 import com.realkode.roomates.Helpers.ToastMaker;
-import com.realkode.roomates.MainActivity;
 import com.realkode.roomates.ParseSubclassses.User;
 import com.realkode.roomates.R;
 
@@ -100,32 +95,6 @@ public class SignUpActivity extends Activity {
 
         final ProgressDialog signUpProgress =
                 ProgressDialog.show(this, getString(R.string.signing_up), getString(R.string.please_wait), true);
-        user.signUpInBackground(new SignUpCallback() {
-            @Override
-            public void done(ParseException e) {
-                signUpProgress.dismiss();
-                if (e == null) {
-                    ToastMaker.makeLongToast(R.string.sign_up_successful, SignUpActivity.this);
-                    startMainActivity();
-                } else {
-                    switch (e.getCode()) {
-                        case ParseException.USERNAME_TAKEN:
-                            ToastMaker.makeLongToast(R.string.username_email_taken, SignUpActivity.this);
-                            break;
-                        case ParseException.EMAIL_TAKEN:
-                            ToastMaker.makeLongToast(R.string.email_taken, SignUpActivity.this);
-                            break;
-                        default:
-                            ToastMaker.makeLongToast(R.string.something_went_wrong, SignUpActivity.this);
-                    }
-                }
-            }
-        });
-    }
-
-    private void startMainActivity() {
-        Context context = this;
-        Intent intent = new Intent(context, MainActivity.class);
-        startActivity(intent);
+        user.signUpInBackground(new UserSignUpCallback(signUpProgress, this));
     }
 }

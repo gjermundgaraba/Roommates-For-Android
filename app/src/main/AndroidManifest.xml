@@ -38,7 +38,7 @@
             android:name="com.realkode.roomates.MainActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".NotLoggedIn.SignUpActivity"
+            android:name=".NotLoggedIn.SignUp.SignUpActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".Me.ProfileInformation.ChangePasswordActivity"
