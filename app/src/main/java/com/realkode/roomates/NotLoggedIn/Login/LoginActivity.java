@@ -126,46 +126,21 @@ public class LoginActivity extends Activity {
         startActivity(intent);
     }
 
-
-
-
-
     private void loginUser() {
-        final Button login = (Button) findViewById(R.id.buttonLogin);
-        EditText email = (EditText) findViewById(R.id.editTextEmail);
-        EditText password = (EditText) findViewById(R.id.editTextPassword);
-        String user = email.getText().toString().toLowerCase().trim();
-        String pwd = password.getText().toString();
+        final Button loginButton = (Button) findViewById(R.id.buttonLogin);
+        EditText emailField = (EditText) findViewById(R.id.editTextEmail);
+        EditText passwordField = (EditText) findViewById(R.id.editTextPassword);
+        String email = emailField.getText().toString().toLowerCase().trim();
+        String password = passwordField.getText().toString();
 
-        if (!user.isEmpty() && pwd != null && !pwd.isEmpty()) {
-            login.setClickable(false);
-            login.setEnabled(false);
+        if (!email.isEmpty() && password != null && !password.isEmpty()) {
+            loginButton.setClickable(false);
+            loginButton.setEnabled(false);
             final ProgressDialog loginProgress =
                     ProgressDialog.show(LoginActivity.this, getString(R.string.logging_in), getString(R.string.please_wait), true);
-            ParseUser.logInInBackground(user, pwd, new LogInCallback() {
-                @Override
-                public void done(ParseUser user, ParseException e) {
-                    loginProgress.dismiss();
-                    if (e == null) {
-                        User.refreshChannels();
-                        startMainActivity();
-                    } else {
-                        login.setClickable(true);
-                        login.setEnabled(true);
-
-                        if (e.getCode() == ParseException.OBJECT_NOT_FOUND) {
-                            ToastMaker.makeLongToast(R.string.wrong_email_password, getApplicationContext());
-                        } else {
-                            ToastMaker.makeLongToast(R.string.something_went_wrong, getApplicationContext());
-                        }
-
-                    }
-                }
-            });
+            ParseUser.logInInBackground(email, password, new UserLogInCallback(this, this, loginButton, loginProgress));
         } else {
             ToastMaker.makeLongToast(getString(R.string.email_password_must_be_filled_out), this);
         }
     }
-
-
 }
