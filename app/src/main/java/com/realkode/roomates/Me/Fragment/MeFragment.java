@@ -17,7 +17,7 @@ import com.parse.*;
 import com.realkode.roomates.Me.HouseholdSettings.MyHouseholdActivity;
 import com.realkode.roomates.Me.NoHousehold.WithoutHouseholdActivity;
 import com.realkode.roomates.Me.ProfileInformation.EditProfileActivity;
-import com.realkode.roomates.NotLoggedIn.LoginActivity;
+import com.realkode.roomates.NotLoggedIn.Login.LoginActivity;
 import com.realkode.roomates.ParseSubclassses.User;
 import com.realkode.roomates.R;
 import com.realkode.roomates.RefreshableFragment;

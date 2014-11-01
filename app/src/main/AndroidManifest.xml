@@ -62,7 +62,7 @@
             android:name=".Expenses.EditPeople.EditPeopleExpenseActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".NotLoggedIn.LoginActivity"
+            android:name=".NotLoggedIn.Login.LoginActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
             <intent-filter>
