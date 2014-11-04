@@ -7,6 +7,7 @@ import android.widget.TextView;
 
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
+import com.realkode.roomates.Helpers.Utils;
 import com.realkode.roomates.ParseSubclassses.Event;
 import com.realkode.roomates.ParseSubclassses.User;
 import com.realkode.roomates.R;
@@ -45,7 +46,7 @@ public class EventAdapter extends ParseQueryAdapter<Event> {
     private static class EventQueryFactory implements QueryFactory<Event> {
         public ParseQuery<Event> create() {
             ParseQuery<Event> query = new ParseQuery<Event>(Event.class);
-            query.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
+            Utils.setSafeQueryCaching(query);
             query.whereEqualTo("household", User.getCurrentUser().getActiveHousehold());
             query.include("household");
             query.include("user");

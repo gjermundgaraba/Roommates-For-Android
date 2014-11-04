@@ -7,6 +7,7 @@ import android.widget.TextView;
 
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
+import com.realkode.roomates.Helpers.Utils;
 import com.realkode.roomates.ParseSubclassses.Invitation;
 import com.realkode.roomates.ParseSubclassses.User;
 import com.realkode.roomates.R;
@@ -20,7 +21,7 @@ class InvitationAdapter extends ParseQueryAdapter<Invitation> {
         super(context, new ParseQueryAdapter.QueryFactory<Invitation>() {
             public ParseQuery<Invitation> create() {
                 ParseQuery<Invitation> query = new ParseQuery<Invitation>(Invitation.class);
-                query.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
+                Utils.setSafeQueryCaching(query);
                 query.whereEqualTo("invitee", User.getCurrentUser());
                 query.include("inviter");
                 query.include("household");

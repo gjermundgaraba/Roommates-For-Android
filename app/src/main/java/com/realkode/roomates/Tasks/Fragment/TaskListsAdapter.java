@@ -13,6 +13,7 @@ import com.parse.ParseQuery;
 import com.realkode.roomates.Helpers.AdapterItems.EntryItemForTaskList;
 import com.realkode.roomates.Helpers.AdapterItems.Item;
 import com.realkode.roomates.Helpers.AdapterItems.SectionItem;
+import com.realkode.roomates.Helpers.Utils;
 import com.realkode.roomates.ParseSubclassses.TaskList;
 import com.realkode.roomates.ParseSubclassses.User;
 import com.realkode.roomates.R;
@@ -50,14 +51,14 @@ public class TaskListsAdapter extends BaseAdapter {
             items.add(new SectionItem(context.getString(R.string.tasks_section_item_title_todo)));
             for (TaskList taskList : unfinishedElements) {
                 items.add(new EntryItemForTaskList(taskList.getListName(),
-                        context.getString(R.string.tasks_item_created_by) + taskList.getCreatedBy().getDisplayName(),
+                        context.getString(R.string.tasks_item_created_by) + " " + taskList.getCreatedBy().getDisplayName(),
                         taskList));
             }
 
             items.add(new SectionItem(context.getString(R.string.tasks_section_item_title_finished)));
             for (TaskList taskList : finishedElements) {
                 items.add(new EntryItemForTaskList(taskList.getListName(),
-                        context.getString(R.string.tasks_item_created_by) + taskList.getCreatedBy().getDisplayName(),
+                        context.getString(R.string.tasks_item_created_by) + " " + taskList.getCreatedBy().getDisplayName(),
                         taskList));
             }
 
@@ -73,11 +74,7 @@ public class TaskListsAdapter extends BaseAdapter {
         taskListParseQuery.orderByAscending("createdAt");
         taskListParseQuery.whereEqualTo("household", User.getCurrentUser().getActiveHousehold());
 
-        if (taskLists.size() == 0) {
-            taskListParseQuery.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
-        } else {
-            taskListParseQuery.setCachePolicy(ParseQuery.CachePolicy.NETWORK_ELSE_CACHE);
-        }
+        Utils.setSafeQueryCaching(taskListParseQuery);
 
 
         taskListParseQuery.findInBackground(new FindCallback<TaskList>() {

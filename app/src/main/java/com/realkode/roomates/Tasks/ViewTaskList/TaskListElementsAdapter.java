@@ -13,6 +13,7 @@ import com.parse.ParseQuery;
 import com.realkode.roomates.Helpers.AdapterItems.EntryItemForTaskListElement;
 import com.realkode.roomates.Helpers.AdapterItems.Item;
 import com.realkode.roomates.Helpers.AdapterItems.SectionItem;
+import com.realkode.roomates.Helpers.Utils;
 import com.realkode.roomates.ParseSubclassses.TaskList;
 import com.realkode.roomates.ParseSubclassses.TaskListElement;
 import com.realkode.roomates.R;
@@ -54,14 +55,14 @@ public class TaskListElementsAdapter extends BaseAdapter {
             items.add(new SectionItem(context.getString(R.string.tasks_section_item_title_todo)));
             for (TaskListElement element : unfinishedElements) {
                 items.add(new EntryItemForTaskListElement(element.getElementName(),
-                        context.getString(R.string.tasks_item_created_by) + element.getCreatedBy().getDisplayName(),
+                        context.getString(R.string.tasks_item_created_by) + " " + element.getCreatedBy().getDisplayName(),
                         element));
             }
 
             items.add(new SectionItem(context.getString(R.string.tasks_section_item_title_finished)));
             for (TaskListElement element : finishedElements) {
                 items.add(new EntryItemForTaskListElement(element.getElementName(),
-                        context.getString(R.string.tasks_item_created_by) + element.getFinishedBy().getDisplayName(),
+                        context.getString(R.string.tasks_item_created_by) + " " + element.getFinishedBy().getDisplayName(),
                         element));
             }
 
@@ -77,7 +78,7 @@ public class TaskListElementsAdapter extends BaseAdapter {
         taskListElementParseQuery.include("finishedBy");
         taskListElementParseQuery.orderByAscending("createdAt");
         taskListElementParseQuery.whereEqualTo("taskList", this.taskList);
-        taskListElementParseQuery.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
+        Utils.setSafeQueryCaching(taskListElementParseQuery);
 
         taskListElementParseQuery.findInBackground(new FindCallback<TaskListElement>() {
             @Override

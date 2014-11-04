@@ -7,6 +7,7 @@ import android.widget.TextView;
 
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
+import com.realkode.roomates.Helpers.Utils;
 import com.realkode.roomates.ParseSubclassses.Note;
 import com.realkode.roomates.ParseSubclassses.User;
 import com.realkode.roomates.R;
@@ -19,7 +20,7 @@ public class NoteAdapter extends ParseQueryAdapter<Note> {
         super(context, new ParseQueryAdapter.QueryFactory<Note>() {
             public ParseQuery<Note> create() {
                 ParseQuery<Note> query = new ParseQuery<Note>(Note.class);
-                query.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
+                Utils.setSafeQueryCaching(query);
                 query.include("createdBy");
                 query.whereEqualTo("household", User.getCurrentUser().getActiveHousehold());
                 query.orderByDescending("createdAt");

@@ -94,7 +94,7 @@
     <string name="toast_update_profile_invalid_email">Email is not valid</string>
     <string name="tasks_section_item_title_todo">Todo</string>
     <string name="tasks_section_item_title_finished">Finished</string>
-    <string name="tasks_item_created_by">Created by </string>
+    <string name="tasks_item_created_by">Created by</string>
     <string name="toast_new_task_list_added">New Task List added</string>
     <string name="dialog_create_new_task_list_title">Create new task list</string>
     <string name="dialog_OK">OK</string>
@@ -124,7 +124,7 @@
     <string name="deleting_list">Deleting List</string>
     <string name="no">No</string>
     <string name="unpaid_section_title">Not paid up</string>
-    <string name="created_by">Created by </string>
+    <string name="created_by">Created by</string>
     <string name="paid_section_title">Paid up</string>
     <string name="subtitle_expense_is_settled">Expense settled</string>
     <string name="subtitle_you_do_not_owe_anything">You do not owe anything for this</string>

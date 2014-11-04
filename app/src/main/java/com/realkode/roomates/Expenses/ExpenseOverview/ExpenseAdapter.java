@@ -13,6 +13,7 @@ import com.parse.ParseQuery;
 import com.realkode.roomates.Helpers.AdapterItems.EntryItemForExpenses;
 import com.realkode.roomates.Helpers.AdapterItems.Item;
 import com.realkode.roomates.Helpers.AdapterItems.SectionItem;
+import com.realkode.roomates.Helpers.Utils;
 import com.realkode.roomates.ParseSubclassses.Expense;
 import com.realkode.roomates.ParseSubclassses.User;
 import com.realkode.roomates.R;
@@ -89,14 +90,7 @@ class ExpenseAdapter extends BaseAdapter {
         expenseParseQuery.orderByAscending("createdAt");
         expenseParseQuery.whereEqualTo("household", User.getCurrentUser().getActiveHousehold());
 
-        ParseQuery.CachePolicy cachePolicy = (expenses.size() == 0) ? ParseQuery.CachePolicy.CACHE_THEN_NETWORK :
-                ParseQuery.CachePolicy.NETWORK_ELSE_CACHE;
-        expenseParseQuery.setCachePolicy(cachePolicy);
-        if (expenses.size() == 0) {
-            expenseParseQuery.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
-        } else {
-            expenseParseQuery.setCachePolicy(ParseQuery.CachePolicy.NETWORK_ELSE_CACHE);
-        }
+        Utils.setSafeQueryCaching(expenseParseQuery);
 
         expenseParseQuery.findInBackground(new FindCallback<Expense>() {
             @Override

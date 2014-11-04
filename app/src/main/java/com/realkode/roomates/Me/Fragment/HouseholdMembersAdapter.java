@@ -10,6 +10,7 @@ import com.parse.ParseFile;
 import com.parse.ParseImageView;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
+import com.realkode.roomates.Helpers.Utils;
 import com.realkode.roomates.ParseSubclassses.User;
 import com.realkode.roomates.R;
 
@@ -22,7 +23,7 @@ public class HouseholdMembersAdapter extends ParseQueryAdapter<User> {
                 ParseQuery<User> query = new ParseQuery<User>(User.class);
                 query.whereEqualTo("activeHousehold", User.getCurrentUser().getActiveHousehold());
                 query.orderByAscending("displayName");
-                query.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
+                Utils.setSafeQueryCaching(query);
 
                 return query;
             }

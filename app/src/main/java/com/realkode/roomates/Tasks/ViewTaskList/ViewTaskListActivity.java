@@ -17,6 +17,7 @@ import com.parse.ParseQuery;
 import com.parse.SaveCallback;
 import com.realkode.roomates.Helpers.Constants;
 import com.realkode.roomates.Helpers.ToastMaker;
+import com.realkode.roomates.Helpers.Utils;
 import com.realkode.roomates.ParseSubclassses.TaskList;
 import com.realkode.roomates.ParseSubclassses.TaskListElement;
 import com.realkode.roomates.R;
@@ -121,7 +122,7 @@ public class ViewTaskListActivity extends Activity {
 
     private void retrieveTaskListAndSetUpAdapter(String taskListID, final ListView taskListElementsListView) {
         ParseQuery<TaskList> query = new ParseQuery<TaskList>(TaskList.class);
-        query.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
+        Utils.setSafeQueryCaching(query);
         query.getInBackground(taskListID, new TaskListGetCallback(taskListElementsListView));
     }
 
@@ -247,6 +248,7 @@ public class ViewTaskListActivity extends Activity {
         public void done(TaskList taskList, ParseException exception) {
             if (exception != null) {
                 ViewTaskListActivity.this.finish();
+                return;
             }
 
             ViewTaskListActivity.this.taskList = taskList;

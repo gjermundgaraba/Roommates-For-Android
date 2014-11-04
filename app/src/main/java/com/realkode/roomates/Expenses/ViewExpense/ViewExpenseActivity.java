@@ -23,6 +23,7 @@ import com.parse.ParseUser;
 import com.realkode.roomates.Expenses.EditPeople.EditPeopleExpenseActivity;
 import com.realkode.roomates.Helpers.Constants;
 import com.realkode.roomates.Helpers.ToastMaker;
+import com.realkode.roomates.Helpers.Utils;
 import com.realkode.roomates.ParseSubclassses.Expense;
 import com.realkode.roomates.ParseSubclassses.User;
 import com.realkode.roomates.R;
@@ -81,7 +82,7 @@ public class ViewExpenseActivity extends Activity {
         query.include("owed");
         query.include("notPaidUp");
         query.include("paidUp");
-        query.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
+        Utils.setSafeQueryCaching(query);
 
         query.getInBackground(expenseObjectId, new GetCallback<Expense>() {
             @Override

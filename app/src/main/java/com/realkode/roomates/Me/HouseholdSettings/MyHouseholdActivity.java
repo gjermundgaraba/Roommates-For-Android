@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
+import com.realkode.roomates.Helpers.Utils;
 import com.realkode.roomates.Me.Fragment.HouseholdMembersAdapter;
 import com.realkode.roomates.ParseSubclassses.Household;
 import com.realkode.roomates.ParseSubclassses.User;
@@ -41,7 +42,7 @@ public class MyHouseholdActivity extends Activity {
 
     private void setHouseholdNameTitle() {
         ParseQuery<Household> query = new ParseQuery<Household>(Household.class);
-        query.setCachePolicy(ParseQuery.CachePolicy.CACHE_ELSE_NETWORK);
+        Utils.setSafeQueryCaching(query);
         String householdObjectId = User.getCurrentUser().getActiveHousehold().getObjectId();
         query.getInBackground(householdObjectId, new GetCallback<Household>() {
             @Override
