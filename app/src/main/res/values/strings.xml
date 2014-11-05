@@ -171,5 +171,6 @@
     <string name="logging_in">Logging in</string>
     <string name="wrong_email_password">Wrong email/password. Please try again</string>
     <string name="email_password_must_be_filled_out">email/password must be filled out.</string>
+    <string name="refreshing_user">Refreshing user</string>
 
 </resources>

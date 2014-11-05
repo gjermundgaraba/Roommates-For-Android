@@ -39,10 +39,12 @@ class CreateHouseholdOnClickListener implements DialogInterface.OnClickListener 
                         createHouseholdProgress.dismiss();
                         if (e == null) {
                             ToastMaker.makeShortToast(R.string.toast_household_created_successfully, context);
+                            final ProgressDialog refreshUserProgress = ProgressDialog.show(context, context.getString(R.string.refreshing_user), context.getString(R.string.please_wait));
                             User.getCurrentUser().refreshInBackground(new RefreshCallback() {
 
                                 @Override
                                 public void done(ParseObject object, ParseException e) {
+                                    refreshUserProgress.dismiss();
                                     User.refreshChannels();
                                     activityToFinish.finish();
                                 }

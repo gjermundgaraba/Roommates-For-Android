@@ -55,9 +55,11 @@ class LeaveHouseholdOnClickListener implements View.OnClickListener {
             public void done(Object o, ParseException exception) {
                 leaveHouseholdProgress.dismiss();
                 if (exception == null) {
+                    final ProgressDialog refreshUserProgress = ProgressDialog.show(context, context.getString(R.string.refreshing_user), context.getString(R.string.please_wait));
                     User.getCurrentUser().refreshInBackground(new RefreshCallback() {
                         @Override
                         public void done(ParseObject object, ParseException e) {
+                            refreshUserProgress.dismiss();
                             User.refreshChannels();
                             activity.finish();
                         }

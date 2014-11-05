@@ -54,9 +54,11 @@ class AcceptInvitationOnClickListener implements View.OnClickListener {
         public void done(Object household, ParseException e) {
             progressDialog.dismiss();
             if (e == null) {
+                final ProgressDialog refreshUserProgress = ProgressDialog.show(context, context.getString(R.string.refreshing_user), context.getString(R.string.please_wait));
                 User.getCurrentUser().refreshInBackground(new RefreshCallback() {
                     @Override
                     public void done(ParseObject object, ParseException e) {
+                        refreshUserProgress.dismiss();
                         User.refreshChannels();
                         activity.finish();
                     }
