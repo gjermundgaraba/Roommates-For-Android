@@ -36,13 +36,14 @@
     <Button
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="Accept"
+        android:text="@string/accept_invite_button"
         android:background="@android:color/transparent"
         android:id="@+id/acceptButton"
         android:textColor="@color/DarkBlue"
         android:layout_gravity="bottom"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
         />
 
 

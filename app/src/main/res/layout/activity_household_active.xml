@@ -27,21 +27,22 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="5dp" />
+            android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp"/>
     </LinearLayout>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="\tRoommates"
+        android:text="@string/roommates_header"
         android:id="@+id/textView"
         android:textColor="@color/DimGray" />
 
     <ListView
         android:id="@+id/householdMembersListView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_weight="1.0">
     </ListView>
 
@@ -49,7 +50,7 @@
         android:id="@+id/buttonInvite"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:gravity="left|center_vertical"
+        android:gravity="start|center_vertical"
         android:textColor="@color/DarkBlue"
         android:text="@string/invite_button"
         android:background="#ffffffff"
@@ -59,7 +60,7 @@
         android:id="@+id/buttonLeaveHousehold"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:gravity="left|center_vertical"
+        android:gravity="start|center_vertical"
         android:textColor="@color/DarkBlue"
         android:text="@string/leave_household_button"
         android:background="#ffffffff"

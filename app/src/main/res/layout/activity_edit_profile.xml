@@ -13,7 +13,6 @@
             android:layout_width="200dp"
             android:layout_height="200dp"
             android:id="@+id/imageViewChangePicture"
-            android:background="#ffff0c07"
             android:layout_gravity="center_horizontal"
             android:layout_margin="20dp" />
 
@@ -24,7 +23,6 @@
             android:gravity="center"
             android:ems="10"
             android:inputType="textPersonName"
-            android:text="Veir Garholm"
             android:background="#ffffffff"
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="1dp">
@@ -37,10 +35,8 @@
             android:layout_width="fill_parent"
             android:layout_height="35dp"
             android:gravity="center"
-
             android:ems="10"
             android:inputType="textEmailAddress"
-            android:text="veigar@hive.no"
             android:background="#ffffffff"
             android:layout_gravity="center_horizontal" />
 
@@ -48,7 +44,6 @@
             android:id="@+id/buttonUpdateProfile"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
             android:background="@android:color/transparent"
             android:text="@string/update_button"
             android:textColor="@color/DarkBlue"

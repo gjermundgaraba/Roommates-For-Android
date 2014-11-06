@@ -172,5 +172,11 @@
     <string name="wrong_email_password">Wrong email/password. Please try again</string>
     <string name="email_password_must_be_filled_out">email/password must be filled out.</string>
     <string name="refreshing_user">Refreshing user</string>
+    <string name="profile_information_header">\tPROFILE INFORMATION</string>
+    <string name="email_title">\tE-mail</string>
+    <string name="display_name_title">\tDisplay Name</string>
+    <string name="settings_header">\tSETTINGS</string>
+    <string name="roommates_header">\tRoommates</string>
+    <string name="accept_invite_button">Accept</string>
 
 </resources>

@@ -30,15 +30,13 @@
                 />
 
             <TextView
-                android:id="@+id/textName"
+                android:id="@+id/nameHeader"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
                 android:layout_gravity="center"
                 android:layout_marginLeft="30dp"
+                android:layout_marginStart="30dp"
                 android:gravity="center"
-                android:hint='"Your name"'
                 android:text="@string/displayName_field"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
         </LinearLayout>
@@ -47,7 +45,7 @@
             android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="\tPROFILE INFORMATION"
+            android:text="@string/profile_information_header"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/DimGray" />
 
@@ -63,10 +61,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="#ffffffff"
-                android:text="\tE-mail"
+                android:text="@string/email_title"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textSize="18sp"
-                android:layout_gravity="left"
+                android:layout_gravity="start"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp" />
 
@@ -74,10 +72,10 @@
                 android:id="@+id/textViewEmail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="E-posten kommer her"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:layout_gravity="right"
+                android:layout_gravity="end"
                 android:layout_marginRight="5dp"
+                android:layout_marginEnd="5dp"
                 android:layout_marginBottom="5dp"
                 android:layout_marginTop="5dp"
                 android:textSize="18sp" />
@@ -86,8 +84,8 @@
                 android:id="@+id/textView6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="left"
-                android:text="\tDisplay Name"
+                android:layout_gravity="start"
+                android:text="@string/display_name_title"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textSize="18sp"
                 android:layout_marginTop="5dp"
@@ -97,10 +95,10 @@
                 android:id="@+id/textViewDisplayName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="DisplayName Her"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:layout_gravity="right"
+                android:layout_gravity="end"
                 android:layout_marginRight="5dp"
+                android:layout_marginEnd="5dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
                 android:textSize="18sp" />
@@ -110,7 +108,7 @@
             android:id="@+id/textView5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="\tSETTINGS"
+            android:text="@string/settings_header"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/DimGray"
             android:layout_marginTop="5dp"
@@ -131,7 +129,7 @@
                 android:text="@string/my_household_button"
                 android:background="#ffffffff"
                 android:layout_marginBottom="1dp"
-                android:gravity="left|center_vertical"
+                android:gravity="start|center_vertical"
                 android:textColor="@color/DarkBlue" />
 
             <Button
@@ -141,7 +139,7 @@
                 android:text="@string/edit_profile_button"
                 android:background="#ffffffff"
                 android:layout_marginBottom="1dp"
-                android:gravity="left|center_vertical"
+                android:gravity="start|center_vertical"
                 android:textColor="@color/DarkBlue" />
 
             <Button
@@ -150,7 +148,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/log_out_button"
                 android:background="#ffffffff"
-                android:gravity="left|center_vertical"
+                android:gravity="start|center_vertical"
                 android:textColor="@color/DarkBlue" />
         </LinearLayout>
 

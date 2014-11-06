@@ -53,6 +53,7 @@ public class EditProfileActivity extends Activity {
 
         profilePictureImageView = (ParseImageView) findViewById(R.id.imageViewChangePicture);
         profilePictureImageView.setOnClickListener(new ProfilePicturePickerOnClickListener());
+        profilePictureImageView.setPlaceholder(getResources().getDrawable(R.drawable.placeholder));
 
         if (user.getProfilePicture() != null) {
             profilePictureImageView.setParseFile(user.getProfilePicture());

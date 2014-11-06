@@ -25,8 +25,8 @@ import com.realkode.roomates.RefreshableFragment;
 public class MeFragment extends Fragment implements RefreshableFragment {
     private ParseImageView profilePictureView;
     private User currentUser;
+    private TextView nameHeader;
     private TextView nameTextView;
-    private TextView nameTextView2;
     private TextView emailTextView;
     private Button editProfileButton;
 
@@ -43,13 +43,13 @@ public class MeFragment extends Fragment implements RefreshableFragment {
         Button logoutButton = (Button) rootView.findViewById(R.id.buttonLogout);
         Button householdButton = (Button) rootView.findViewById(R.id.buttonHousehold);
         editProfileButton = (Button) rootView.findViewById(R.id.buttonEditProfile);
-        nameTextView = (TextView) rootView.findViewById(R.id.textName);
-        nameTextView2 = (TextView) rootView.findViewById(R.id.textViewDisplayName);
+        nameHeader = (TextView) rootView.findViewById(R.id.nameHeader);
+        nameTextView = (TextView) rootView.findViewById(R.id.textViewDisplayName);
         emailTextView = (TextView) rootView.findViewById(R.id.textViewEmail);
         profilePictureView = (ParseImageView) rootView.findViewById(R.id.profilePictureView);
+        profilePictureView.setPlaceholder(getResources().getDrawable(R.drawable.placeholder));
 
         currentUser = User.getCurrentUser();
-
 
         editProfileButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,8 +98,8 @@ public class MeFragment extends Fragment implements RefreshableFragment {
         }
 
         String displayName = currentUser.getDisplayName();
-        nameTextView.setText(displayName);
-        nameTextView2.setHint(displayName);
+        nameHeader.setText(displayName);
+        nameTextView.setHint(displayName);
         emailTextView.setHint(currentUser.getEmail());
     }
 
