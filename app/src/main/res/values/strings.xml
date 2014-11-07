@@ -87,11 +87,10 @@
     <string name="progress_bar_change_password_login_message">Please wait</string>
     <string name="progress_dialog_change_password_title">Changing Password</string>
     <string name="progress_dialog_change_password_message">Please wait</string>
-    <string name="toast_update_profile_missing_fields">All fields must be filled out</string>
-    <string name="toast_update_profile_saving_title">Changing Profile Information</string>
-    <string name="toast_update_profile_saving_message">Please wait ... </string>
-    <string name="toast_update_profile_success">Profile Updated</string>
-    <string name="toast_update_profile_invalid_email">Email is not valid</string>
+    <string name="all_field_must_be_filled_out">All fields must be filled out</string>
+    <string name="changing_profile_information">Changing Profile Information</string>
+    <string name="profile_updated">Profile Updated</string>
+    <string name="email_is_not_valid">Email is not valid</string>
     <string name="tasks_section_item_title_todo">Todo</string>
     <string name="tasks_section_item_title_finished">Finished</string>
     <string name="tasks_item_created_by">Created by</string>

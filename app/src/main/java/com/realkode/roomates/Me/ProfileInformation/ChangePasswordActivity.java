@@ -8,10 +8,6 @@ import android.widget.EditText;
 
 import com.realkode.roomates.R;
 
-
-/**
- * Activity to change password
- */
 public class ChangePasswordActivity extends Activity {
 
     @Override

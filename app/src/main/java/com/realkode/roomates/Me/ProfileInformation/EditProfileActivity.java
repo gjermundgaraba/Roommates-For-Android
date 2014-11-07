@@ -1,6 +1,7 @@
 package com.realkode.roomates.Me.ProfileInformation;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -10,19 +11,21 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.parse.ParseException;
 import com.parse.ParseImageView;
+import com.parse.SaveCallback;
 import com.realkode.roomates.Helpers.BitmapUtils;
+import com.realkode.roomates.Helpers.ToastMaker;
 import com.realkode.roomates.ParseSubclassses.User;
 import com.realkode.roomates.R;
 
-
-/**
- * Activity to edit the user profile
- */
 public class EditProfileActivity extends Activity {
-    private Bitmap newPic;
     private ParseImageView profilePictureImageView;
     private ImagePicker imagePicker;
+    private Bitmap newProfilePicture;
+
+    EditText displayNameField;
+    EditText emailField;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -38,18 +41,17 @@ public class EditProfileActivity extends Activity {
     private void setUpUI() {
         User user = User.getCurrentUser();
 
-        EditText displayNameEditText = (EditText) findViewById(R.id.changeDisplayName);
-        displayNameEditText.setText(user.getDisplayName());
+        displayNameField = (EditText) findViewById(R.id.changeDisplayName);
+        displayNameField.setText(user.getDisplayName());
 
-        EditText emailEditText = (EditText) findViewById(R.id.changeEmail);
-        emailEditText.setText(user.getEmail());
+        emailField = (EditText) findViewById(R.id.changeEmail);
+        emailField.setText(user.getEmail());
 
         Button changePasswordButton = (Button) findViewById(R.id.buttonChangePassword);
         changePasswordButton.setOnClickListener(new ChangePasswordOnClickListener());
 
         Button updateButton = (Button) findViewById(R.id.buttonUpdateProfile);
-        updateButton
-                .setOnClickListener(new UpdateProfileOnClickListener(displayNameEditText, emailEditText, newPic, this));
+        updateButton.setOnClickListener(new UpdateProfileOnClickListener());
 
         profilePictureImageView = (ParseImageView) findViewById(R.id.imageViewChangePicture);
         profilePictureImageView.setOnClickListener(new ProfilePicturePickerOnClickListener());
@@ -66,13 +68,13 @@ public class EditProfileActivity extends Activity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == ImagePicker.IMAGE_PICKER_SELECT && resultCode == Activity.RESULT_OK) {
-            newPic = BitmapUtils.getBitmapFromGalleryData(data, this);
-            profilePictureImageView.setImageBitmap(newPic);
+            newProfilePicture = BitmapUtils.getBitmapFromGalleryData(data, this);
+            profilePictureImageView.setImageBitmap(newProfilePicture);
         } else if (requestCode == ImagePicker.REQUEST_IMAGE_CAPTURE && resultCode == Activity.RESULT_OK) {
             Bundle extras = data.getExtras();
             Bitmap imageBitmap = (Bitmap) extras.get("data");
             imageBitmap = BitmapUtils.cropBitmap(imageBitmap);
-            newPic = imageBitmap;
+            newProfilePicture = imageBitmap;
             profilePictureImageView.setImageBitmap(imageBitmap);
         }
     }
@@ -94,5 +96,50 @@ public class EditProfileActivity extends Activity {
         }
     }
 
+    private class UpdateProfileOnClickListener implements View.OnClickListener {
+        @Override
+        public void onClick(View v) {
+            String displayName = displayNameField.getText().toString();
+            String email = emailField.getText().toString();
+            User user = User.getCurrentUser();
+
+            final Context context = EditProfileActivity.this;
+            final ProgressDialog progressDialog = showSaveProgressDialog(context);
+            SaveProfileInformation saveProfileInformation = new SaveProfileInformation(displayName, email, newProfilePicture, user);
+
+            try {
+                saveProfileInformation.performSave(new SaveProfileCallback(progressDialog, context));
+            } catch (ParseException e) {
+                ToastMaker.makeLongToast(e.getMessage(), context);
+            }
+        }
+    }
+
+    private ProgressDialog showSaveProgressDialog(Context context) {
+        return ProgressDialog.show(context,context.getString(R.string.changing_profile_information), context.getString(R.string.please_wait), true);
+    }
+
+    private class SaveProfileCallback extends SaveCallback {
+        private final ProgressDialog progressDialog;
+        private final Context context;
+
+        public SaveProfileCallback(ProgressDialog progressDialog, Context context) {
+            this.progressDialog = progressDialog;
+            this.context = context;
+        }
+
+        @Override
+        public void done(ParseException e) {
+            progressDialog.dismiss();
+            if (e == null) {
+                ToastMaker.makeLongToast(R.string.profile_updated, context);
+            } else {
+                ToastMaker.makeLongToast(e.getMessage(), context);
+            }
+
+            EditProfileActivity.this.finish();
+
+        }
+    }
 }
 
