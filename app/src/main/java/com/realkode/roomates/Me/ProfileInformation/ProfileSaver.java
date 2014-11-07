@@ -11,37 +11,38 @@ import com.realkode.roomates.Helpers.InputValidation;
 import com.realkode.roomates.ParseSubclassses.User;
 import com.realkode.roomates.R;
 
-public class SaveProfileInformation {
+public class ProfileSaver {
     String displayName;
     String email;
     Bitmap profilePicture;
-    User user;
 
-    public SaveProfileInformation(String displayName, String email, Bitmap profilePicture, User user) {
+    public ProfileSaver(String displayName, String email, Bitmap profilePicture) {
         this.displayName = displayName;
         this.email = email;
         this.profilePicture = profilePicture;
-        this.user = user;
     }
 
-    public void performSave(SaveCallback saveCallback) throws ParseException {
-
+    public void validate() throws ParseException {
         if (displayName.isEmpty() || email.isEmpty()) {
             error(R.string.all_field_must_be_filled_out);
         } else if (!InputValidation.emailIsValid(email)) {
             error(R.string.email_is_not_valid);
-        } else {
-            user.setUsername(email);
-            user.setEmail(email);
-            user.setDisplayName(displayName);
-            setProfilePicture();
-
-            user.saveInBackground(saveCallback);
         }
+    }
+
+    public void performSave(SaveCallback saveCallback) {
+        User user = User.getCurrentUser();
+        user.setUsername(email);
+        user.setEmail(email);
+        user.setDisplayName(displayName);
+        setProfilePicture();
+
+        user.saveInBackground(saveCallback);
     }
 
     private void setProfilePicture() {
         if (profilePicture != null) {
+            User user = User.getCurrentUser();
             ParseFile parsePicture = new ParseFile(user.getObjectId() + ".png", BitmapUtils.bitmapToByteArray(profilePicture));
             if (!parsePicture.equals(user.getProfilePicture())) {
                 user.setProfilePicture(parsePicture);

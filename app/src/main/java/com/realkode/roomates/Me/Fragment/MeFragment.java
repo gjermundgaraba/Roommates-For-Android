@@ -85,6 +85,7 @@ public class MeFragment extends Fragment implements RefreshableFragment {
     }
 
     void setUpUI() {
+        currentUser = User.getCurrentUser();
         ParseFile profilePictureParseFile = currentUser.getProfilePicture();
 
         if (profilePictureParseFile != null) {

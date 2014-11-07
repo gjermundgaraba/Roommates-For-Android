@@ -101,15 +101,17 @@ public class EditProfileActivity extends Activity {
         public void onClick(View v) {
             String displayName = displayNameField.getText().toString();
             String email = emailField.getText().toString();
-            User user = User.getCurrentUser();
 
             final Context context = EditProfileActivity.this;
+
+            ProfileSaver profileSaver = new ProfileSaver(displayName, email, newProfilePicture);
             final ProgressDialog progressDialog = showSaveProgressDialog(context);
-            SaveProfileInformation saveProfileInformation = new SaveProfileInformation(displayName, email, newProfilePicture, user);
 
             try {
-                saveProfileInformation.performSave(new SaveProfileCallback(progressDialog, context));
+                profileSaver.validate();
+                profileSaver.performSave(new SaveProfileCallback(progressDialog, context));
             } catch (ParseException e) {
+                progressDialog.dismiss();
                 ToastMaker.makeLongToast(e.getMessage(), context);
             }
         }

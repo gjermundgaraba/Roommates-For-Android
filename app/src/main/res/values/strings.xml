@@ -83,10 +83,7 @@
     <string name="toast_change_password_invalid">Password is not valid. A Valid password needs to be at least 6 characters long, have at least one upper and one lower case letter and at least one number</string>
     <string name="toast_change_password_dont_match">Passwords do not match</string>
     <string name="toast_change_password_success">Password changed</string>
-    <string name="progress_bar_change_password_login_title">Checking old Password</string>
-    <string name="progress_bar_change_password_login_message">Please wait</string>
-    <string name="progress_dialog_change_password_title">Changing Password</string>
-    <string name="progress_dialog_change_password_message">Please wait</string>
+    <string name="changing_password">Changing Password</string>
     <string name="all_field_must_be_filled_out">All fields must be filled out</string>
     <string name="changing_profile_information">Changing Profile Information</string>
     <string name="profile_updated">Profile Updated</string>
