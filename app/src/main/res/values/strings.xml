@@ -50,8 +50,8 @@
     <string name="event_happened">Event happened </string>
     <string name="title_event_details">Event Details</string>
     <string name="button_ok">OK</string>
-    <string name="note_by">Note by </string>
-    <string name="written">Written </string>
+    <string name="note_by">Note by</string>
+    <string name="written">Written</string>
     <string name="title_create_new_note">Create New Note</string>
     <string name="button_add_note">Add Note</string>
     <string name="button_cancel">Cancel</string>

@@ -19,19 +19,22 @@ public class ShowEventDetailOnItemClickListener implements AdapterView.OnItemCli
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-        Event selectedEvent = (Event) adapterView.getItemAtPosition(position);
-
         LayoutInflater inflater = LayoutInflater.from(context);
         View detailEventDialogView = inflater.inflate(R.layout.dialog_event_details, null);
+
+        Event selectedEvent = (Event) adapterView.getItemAtPosition(position);
+
         TextView eventTextView = (TextView) detailEventDialogView.findViewById(R.id.eventDetailsTextView);
-        eventTextView.setText(context.getString(R.string.event_happened) + " " +
-                selectedEvent.getCreatedAt().toString() + "\n" +
-                selectedEvent.getEventDescription());
+        eventTextView.setText(selectedEvent.getEventDescription());
+
+        TextView eventExtraTextView = (TextView) detailEventDialogView.findViewById(R.id.event_detail_extra);
+        eventExtraTextView.setText(selectedEvent.getCreatedAt().toString());
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
 
-        alertDialogBuilder.setTitle(context.getString(R.string.title_event_details))
-                .setNegativeButton(context.getString(R.string.button_ok), null).setView(detailEventDialogView);
+        alertDialogBuilder
+                .setTitle(context.getString(R.string.title_event_details))
+                .setView(detailEventDialogView);
 
 
         AlertDialog alertDialog = alertDialogBuilder.create();

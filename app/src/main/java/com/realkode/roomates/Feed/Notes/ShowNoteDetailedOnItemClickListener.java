@@ -19,20 +19,23 @@ public class ShowNoteDetailedOnItemClickListener implements AdapterView.OnItemCl
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-        Note selectedNote = (Note) adapterView.getItemAtPosition(position);
-        String title = context.getString(R.string.note_by) + selectedNote.getCreatedBy().getDisplayName();
-
         LayoutInflater inflater = LayoutInflater.from(context);
         View detailNoteDialogView = inflater.inflate(R.layout.dialog_note_details, null);
+
+        Note selectedNote = (Note) adapterView.getItemAtPosition(position);
+
         TextView noteTextView = (TextView) detailNoteDialogView.findViewById(R.id.noteDetailsTextView);
-        noteTextView.setText(context.getString(R.string.written) + " " + selectedNote.getCreatedAt().toString() +
-                        "\n" + selectedNote.getBody());
+        noteTextView.setText(selectedNote.getBody());
+
+        TextView extraInfo = (TextView) detailNoteDialogView.findViewById(R.id.note_detail_extra);
+        extraInfo.setText(context.getString(R.string.written) + " " + selectedNote.getCreatedAt().toString());
+
+        String title = context.getString(R.string.note_by) + " " + selectedNote.getCreatedBy().getDisplayName();
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
-
-        alertDialogBuilder.setTitle(title).setNegativeButton(context.getString(R.string.button_ok), null)
+        alertDialogBuilder
+                .setTitle(title)
                 .setView(detailNoteDialogView);
-
 
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.show();
