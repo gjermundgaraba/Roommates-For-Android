@@ -3,11 +3,6 @@
         android:id="@+id/action_refresh_invitations"
         android:icon="@drawable/ic_action_refresh"
         android:showAsAction="ifRoom"
-        android:title="Refresh" />
-    <item
-        android:id="@+id/actionNewHousehold"
-        android:icon="@drawable/ic_action_new"
-        android:showAsAction="ifRoom"
-        android:title="Create new household" />
+        android:title="@string/refresh" />
 
 </menu>

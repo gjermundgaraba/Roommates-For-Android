@@ -174,5 +174,9 @@
     <string name="settings_header">\tSETTINGS</string>
     <string name="roommates_header">\tRoommates</string>
     <string name="accept_invite_button">Accept</string>
+    <string name="invited_by">Invited by:</string>
+    <string name="household">Household:</string>
+    <string name="create_household_button_text">Create Household</string>
+    <string name="refresh">Refresh</string>
 
 </resources>

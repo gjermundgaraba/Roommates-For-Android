@@ -17,6 +17,7 @@ public class WithoutHouseholdActivity extends Activity {
     private Invitation selectedInvitation;
     private Button acceptHouseholdButton;
     private int lastPosition = 1000;
+    private InvitationAdapter invitationAdapter;
 
     public Invitation getSelectedInvitation() {
         return selectedInvitation;
@@ -32,8 +33,16 @@ public class WithoutHouseholdActivity extends Activity {
         acceptHouseholdButton.setEnabled(false);
         acceptHouseholdButton.setOnClickListener(new AcceptInvitationOnClickListener(this));
 
+        Button createHouseholdButton = (Button) findViewById(R.id.createHouseholdButton);
+        createHouseholdButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                createNewHousehold();
+            }
+        });
+
         final ListView invitationsListView = (ListView) findViewById(R.id.invitationsListView);
-        InvitationAdapter invitationAdapter = new InvitationAdapter(this);
+        invitationAdapter = new InvitationAdapter(this);
         invitationsListView.setAdapter(invitationAdapter);
         invitationsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -42,23 +51,25 @@ public class WithoutHouseholdActivity extends Activity {
                 if (lastPosition != position) {
                     try {
                         adapterView.getChildAt(lastPosition).setBackgroundColor(Color.WHITE);
-                    } catch (NullPointerException ignored) {
-                    }
+                    } catch (NullPointerException ignored) {}
 
-                    adapterView.getChildAt(position).setBackgroundColor(Color.LTGRAY);
+                    adapterView.getChildAt(position).setBackgroundColor(getResources().getColor(R.color.DarkBlue));
+                    adapterView.getChildAt(position).getBackground().setAlpha(100);
                     selectedInvitation = invitation;
                     lastPosition = position;
                     acceptHouseholdButton.setEnabled(true);
                 }
             }
         });
+
+
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.actionNewHousehold:
-                createNewHousehold();
+            case R.id.action_refresh_invitations:
+                invitationAdapter.loadObjects();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

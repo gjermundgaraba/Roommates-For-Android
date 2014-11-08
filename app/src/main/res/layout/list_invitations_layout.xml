@@ -17,7 +17,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Household:"
+            android:text="@string/household"
             android:id="@+id/textView"
             android:textSize="18sp" />
 
@@ -25,9 +25,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/householdTextView"
-            android:text="HOUSEHOLDNAME"
-
             android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp"
             android:textStyle="bold"
             android:textSize="18sp" />
     </LinearLayout>
@@ -40,7 +39,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Invited by: "
+            android:text="@string/invited_by"
             android:id="@+id/textView2"
             android:textSize="14sp" />
 
@@ -48,10 +47,11 @@
             android:layout_width="match_parent"
             android:layout_height="25dp"
             android:id="@+id/invitedByTextView"
-            android:text="INVITEDBY"
             android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp"
             android:textSize="14sp"
             android:textStyle="italic" />
     </LinearLayout>
+
 </LinearLayout>
 
