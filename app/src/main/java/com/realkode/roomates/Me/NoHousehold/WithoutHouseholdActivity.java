@@ -62,7 +62,6 @@ public class WithoutHouseholdActivity extends Activity {
             }
         });
 
-
     }
 
     @Override

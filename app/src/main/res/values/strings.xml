@@ -30,13 +30,13 @@
     <string name="invitations_header">Invitations</string>
     <string name="new_household_button">Create New Household</string>
     <string name="household_members_header">Household Members</string>
-    <string name="invite_button">\tInvite Roommate to Household</string>
-    <string name="leave_household_button">\tLeave Household</string>
-    <string name="log_out_button">\tLog out</string>
+    <string name="invite_button">Invite Roommate to Household</string>
+    <string name="leave_household_button">Leave Household</string>
+    <string name="log_out_button">Log out</string>
     <string name="dummy_text">"dummy"</string>
     <string name="name_field">Name</string>
-    <string name="my_household_button">\tHousehold Settings</string>
-    <string name="edit_profile_button">\tProfile Information Settings</string>
+    <string name="my_household_button">Household Settings</string>
+    <string name="edit_profile_button">Profile Information Settings</string>
     <string name="displayName_field">Display Name</string>
     <string name="changePassword_button">Change password</string>
     <string name="update_button">Save Changes</string>
@@ -168,15 +168,21 @@
     <string name="wrong_email_password">Wrong email/password. Please try again</string>
     <string name="email_password_must_be_filled_out">email/password must be filled out.</string>
     <string name="refreshing_user">Refreshing user</string>
-    <string name="profile_information_header">\tPROFILE INFORMATION</string>
-    <string name="email_title">\tE-mail</string>
-    <string name="display_name_title">\tDisplay Name</string>
-    <string name="settings_header">\tSETTINGS</string>
-    <string name="roommates_header">\tRoommates</string>
+    <string name="profile_information_header">PROFILE INFORMATION</string>
+    <string name="email_title">E-mail</string>
+    <string name="display_name_title">Display Name</string>
+    <string name="settings_header">SETTINGS</string>
+    <string name="roommates_header">Roommates</string>
     <string name="accept_invite_button">Accept</string>
     <string name="invited_by">Invited by:</string>
     <string name="household">Household:</string>
     <string name="create_household_button_text">Create Household</string>
     <string name="refresh">Refresh</string>
+    <string name="expense">Expense</string>
+    <string name="owed">Owed</string>
+    <string name="total_amount">Total Amount</string>
+    <string name="details">Details</string>
+    <string name="information_about_expense">EXPENSE INFORMATION</string>
+    <string name="people_involved">PEOPLE INVOLVED</string>
 
 </resources>

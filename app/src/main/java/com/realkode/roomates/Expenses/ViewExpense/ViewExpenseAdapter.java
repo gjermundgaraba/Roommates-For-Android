@@ -33,30 +33,31 @@ class ViewExpenseAdapter extends BaseAdapter {
 
 
     public void loadElements() {
-        items.clear();
+        if (expense != null) {
+            items.clear();
 
-        ArrayList<User> notPaidUp = expense.getNotPaidUp();
-        ArrayList<User> paidUp = expense.getPaidUp();
+            ArrayList<User> notPaidUp = expense.getNotPaidUp();
+            ArrayList<User> paidUp = expense.getPaidUp();
 
 
-        int numUsers = notPaidUp.size() + paidUp.size();
-        DecimalFormat df = new DecimalFormat(".00");
-        String amountOwed = df.format(expense.getTotalAmount().doubleValue() / numUsers);
-        items.add(new SectionItem(context.getString(R.string.not_paid_up)));
+            int numUsers = notPaidUp.size() + paidUp.size();
+            DecimalFormat df = new DecimalFormat(".00");
+            String amountOwed = df.format(expense.getTotalAmount().doubleValue() / numUsers);
+            items.add(new SectionItem(context.getString(R.string.not_paid_up)));
 
-        for (User user : notPaidUp) {
-            items.add(new EntryItemForUser(user.getDisplayName(), context.getString(R.string.owes) + amountOwed, user));
+            for (User user : notPaidUp) {
+                items.add(new EntryItemForUser(user.getDisplayName(), context.getString(R.string.owes) + amountOwed, user));
+            }
+
+            items.add(new SectionItem(context.getString(R.string.paid_up)));
+
+            for (User user : paidUp) {
+                items.add(new EntryItemForUser(user.getDisplayName(), context.getString(R.string.has_paid_up), user));
+            }
+
+
+            notifyDataSetChanged();
         }
-
-        items.add(new SectionItem(context.getString(R.string.paid_up)));
-
-        for (User user : paidUp) {
-            items.add(new EntryItemForUser(user.getDisplayName(), context.getString(R.string.has_paid_up), user));
-        }
-
-
-        notifyDataSetChanged();
-
 
     }
 

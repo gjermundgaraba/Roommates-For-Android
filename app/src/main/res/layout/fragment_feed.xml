@@ -13,22 +13,20 @@
         android:layout_alignParentTop="true">
 
         <TextView
-            android:id="@+id/textView1"
+            android:id="@+id/notesHeader"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:hint="@string/notes_header"
             android:textSize="20sp"
-            android:layout_gravity="center_horizontal" />
+            android:layout_margin="5dp"
+            android:layout_gravity="start" />
 
         <ListView
             android:id="@+id/noteListView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_alignParentLeft="true"
             android:background="#ffffffff"
-            android:layout_margin="10dp"
-            android:layout_gravity="center_horizontal">
-
+            android:layout_marginTop="5dp" >
         </ListView>
 
     </LinearLayout>
@@ -47,15 +45,15 @@
             android:layout_height="wrap_content"
             android:hint="@string/events_header"
             android:textSize="20sp"
-            android:layout_gravity="center_horizontal" />
+            android:layout_margin="5dp"
+            android:layout_gravity="start" />
 
         <ListView
             android:id="@+id/eventListView"
             android:layout_width="match_parent"
             android:layout_height="180dp"
             android:background="#ffffffff"
-            android:layout_margin="10dp"
-            android:layout_gravity="center_horizontal">
+            android:layout_marginTop="5dp">
 
         </ListView>
 

@@ -4,111 +4,139 @@
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:background="@color/LightGrey"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <TextView
+        android:id="@+id/expenseInformationHeader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="@string/information_about_expense"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Information about expense"
-        android:id="@+id/textView" />
+        android:layout_marginTop="10dp"
+        android:textColor="@color/DimGray" />
 
-    <LinearLayout
-        android:orientation="horizontal"
+    <GridLayout
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:background="#ffffffff"
+        android:layout_marginBottom="10dp"
+        android:columnCount="2">
 
         <TextView
+            android:id="@+id/expenseTitleHeader"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/DarkBlue"
-            android:text="Expense"
-            android:id="@+id/textView2"
+            android:background="#ffffffff"
+            android:text="@string/expense"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textSize="18sp"
-            />
+            android:layout_gravity="start"
+            android:layout_marginStart="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp" />
 
         <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
             android:id="@+id/expenseTextViewName"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textSize="18sp" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
-
-        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/DarkBlue"
-            android:text="Owed"
-            android:id="@+id/textView4"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:layout_gravity="end"
+            android:layout_marginRight="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/owedTitleHeader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:text="@string/owed"
+            android:layout_marginStart="10dp"
+            android:layout_marginLeft="10dp"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textSize="18sp"
-            />
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp" />
 
         <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
             android:id="@+id/expenseTextViewOwed"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textSize="18sp"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
-
-        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/DarkBlue"
-            android:text="Total Amount"
-            android:id="@+id/textView6"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textSize="18sp"/>
+            android:layout_gravity="end"
+            android:layout_marginRight="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:textSize="18sp" />
 
         <TextView
-            android:layout_width="fill_parent"
+            android:id="@+id/totalAmountHeader"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
+            android:layout_gravity="start"
+            android:text="@string/total_amount"
+            android:layout_marginStart="10dp"
+            android:layout_marginLeft="10dp"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textSize="18sp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp" />
+
+        <TextView
             android:id="@+id/expenseTextViewAmount"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textSize="18sp"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
-
-        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/DarkBlue"
-            android:text="Details"
-            android:id="@+id/textView8"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textSize="18sp"/>
+            android:layout_gravity="end"
+            android:layout_marginRight="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:textSize="18sp" />
 
         <TextView
-            android:layout_width="fill_parent"
+            android:id="@+id/detailsHeader"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:id="@+id/expenseTextViewDetails"
+            android:layout_gravity="start"
+            android:text="@string/details"
+            android:layout_marginStart="10dp"
+            android:layout_marginLeft="10dp"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textSize="18sp"/>
-    </LinearLayout>
+            android:textSize="18sp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp" />
 
+        <TextView
+            android:id="@+id/expenseTextViewDetails"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:layout_gravity="end"
+            android:layout_marginRight="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:textSize="18sp" />
+    </GridLayout>
+
+    <TextView
+        android:id="@+id/peopleThatOwesHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/people_involved"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/DimGray" />
     <ListView
         android:layout_width="match_parent"
-        android:layout_height="361dp"
+        android:layout_height="wrap_content"
+        android:background="#ffffffff"
         android:id="@+id/listViewExpenseUsers" />
 </LinearLayout>
