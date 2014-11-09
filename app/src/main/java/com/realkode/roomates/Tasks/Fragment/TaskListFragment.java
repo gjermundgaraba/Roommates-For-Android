@@ -15,12 +15,13 @@ import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ListView;
 
+import com.realkode.roomates.AddBehaviourFragment;
 import com.realkode.roomates.Helpers.Constants;
 import com.realkode.roomates.ParseSubclassses.User;
 import com.realkode.roomates.R;
 import com.realkode.roomates.RefreshableFragment;
 
-public class TaskListFragment extends Fragment implements RefreshableFragment {
+public class TaskListFragment extends Fragment implements RefreshableFragment, AddBehaviourFragment {
     private final BroadcastReceiver mMessageReceiver = new NeedToRefreshBroadcastReceiver();
     private TaskListsAdapter adapter;
 
@@ -48,7 +49,7 @@ public class TaskListFragment extends Fragment implements RefreshableFragment {
         return rootView;
     }
 
-    public void startCreateNewTaskListDialog() {
+    private void startCreateNewTaskListDialog() {
         LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
         View promptsView = layoutInflater.inflate(R.layout.dialog_new_tasklist, null);
 
@@ -63,6 +64,11 @@ public class TaskListFragment extends Fragment implements RefreshableFragment {
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
         alertDialog.show();
+    }
+
+    @Override
+    public void add() {
+        startCreateNewTaskListDialog();
     }
 
     private class NeedToRefreshBroadcastReceiver extends BroadcastReceiver {

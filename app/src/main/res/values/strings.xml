@@ -184,5 +184,6 @@
     <string name="details">Details</string>
     <string name="information_about_expense">EXPENSE INFORMATION</string>
     <string name="people_involved">PEOPLE INVOLVED</string>
+    <string name="refreshing">Refreshing...</string>
 
 </resources>

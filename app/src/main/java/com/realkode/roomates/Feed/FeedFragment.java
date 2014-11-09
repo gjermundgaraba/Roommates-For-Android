@@ -11,6 +11,7 @@ import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ListView;
 
+import com.realkode.roomates.AddBehaviourFragment;
 import com.realkode.roomates.Feed.Events.EventAdapter;
 import com.realkode.roomates.Feed.Events.ShowEventDetailOnItemClickListener;
 import com.realkode.roomates.Feed.Notes.AddNoteOnClickListener;
@@ -21,7 +22,7 @@ import com.realkode.roomates.R;
 import com.realkode.roomates.RefreshableFragment;
 
 
-public class FeedFragment extends Fragment implements RefreshableFragment {
+public class FeedFragment extends Fragment implements RefreshableFragment, AddBehaviourFragment {
 
     private NoteAdapter noteAdapter;
     private EventAdapter eventAdapter;
@@ -65,7 +66,7 @@ public class FeedFragment extends Fragment implements RefreshableFragment {
         this.eventAdapter.loadObjects();
     }
 
-    public void startCreateNewNoteDialog() {
+    private void startCreateNewNoteDialog() {
         LayoutInflater inflater = LayoutInflater.from(getActivity());
         View noteDialogView = inflater.inflate(R.layout.dialog_new_note, null);
         EditText noteEditText = (EditText) noteDialogView.findViewById(R.id.inviteUsernameEditText);
@@ -81,5 +82,10 @@ public class FeedFragment extends Fragment implements RefreshableFragment {
         final AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
         alertDialog.show();
+    }
+
+    @Override
+    public void add() {
+        startCreateNewNoteDialog();
     }
 }

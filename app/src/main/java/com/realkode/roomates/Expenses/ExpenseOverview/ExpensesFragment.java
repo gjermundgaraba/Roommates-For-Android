@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.realkode.roomates.AddBehaviourFragment;
 import com.realkode.roomates.Expenses.NewExpense.NewExpenseActivity;
 import com.realkode.roomates.Expenses.ViewExpense.ViewExpenseActivity;
 import com.realkode.roomates.Helpers.Constants;
@@ -24,7 +25,7 @@ import com.realkode.roomates.RefreshableFragment;
 /**
  * This class provides the fragment view where the user can see all the households expenses.
  */
-public class ExpensesFragment extends Fragment implements RefreshableFragment {
+public class ExpensesFragment extends Fragment implements RefreshableFragment, AddBehaviourFragment {
     private ExpenseAdapter adapter;
 
     public void refreshFragment() {
@@ -74,9 +75,14 @@ public class ExpensesFragment extends Fragment implements RefreshableFragment {
         startActivity(intent);
     }
 
-    public void createNewExpense() {
+    private void createNewExpense() {
         Intent intent = new Intent(getActivity(), NewExpenseActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    public void add() {
+        createNewExpense();
     }
 
     private class NeedToRefreshBroadcastReceiver extends BroadcastReceiver {

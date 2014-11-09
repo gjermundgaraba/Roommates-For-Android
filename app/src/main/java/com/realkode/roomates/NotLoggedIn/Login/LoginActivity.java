@@ -7,12 +7,17 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.*;
+import android.view.KeyEvent;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.parse.*;
+import com.parse.ParseFacebookUtils;
+import com.parse.ParseUser;
 import com.realkode.roomates.Helpers.ButtonOnTouchListener;
 import com.realkode.roomates.Helpers.ToastMaker;
 import com.realkode.roomates.MainActivity;
@@ -25,8 +30,6 @@ public class LoginActivity extends Activity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-
-
         if (User.someoneIsLoggedIn()) {
             startMainActivity();
         }
