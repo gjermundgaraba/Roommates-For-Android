@@ -25,8 +25,7 @@ public class LoginActivity extends Activity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        PushService.setDefaultPushCallback(this, MainActivity.class);
-        ParseInstallation.getCurrentInstallation().saveInBackground();
+
 
         if (User.someoneIsLoggedIn()) {
             startMainActivity();
