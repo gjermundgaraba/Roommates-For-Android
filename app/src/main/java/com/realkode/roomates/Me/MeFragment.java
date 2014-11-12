@@ -1,4 +1,4 @@
-package com.realkode.roomates.Me.Fragment;
+package com.realkode.roomates.Me;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -13,7 +13,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.parse.*;
+import com.parse.ParseFacebookUtils;
+import com.parse.ParseFile;
+import com.parse.ParseImageView;
+import com.parse.ParseQuery;
+import com.parse.ParseUser;
 import com.realkode.roomates.Me.HouseholdSettings.MyHouseholdActivity;
 import com.realkode.roomates.Me.NoHousehold.WithoutHouseholdActivity;
 import com.realkode.roomates.Me.ProfileInformation.EditProfileActivity;

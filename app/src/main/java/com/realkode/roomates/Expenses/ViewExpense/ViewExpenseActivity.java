@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
@@ -23,6 +24,7 @@ import android.widget.TextView;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
+import com.parse.SaveCallback;
 import com.realkode.roomates.Expenses.EditPeople.EditPeopleExpenseActivity;
 import com.realkode.roomates.Helpers.Constants;
 import com.realkode.roomates.Helpers.ToastMaker;
@@ -144,8 +146,7 @@ public class ViewExpenseActivity extends Activity {
         descriptionField.setText(activeExpense.getDetails());
 
         alertDialogBuilder.setTitle(getString(R.string.edit_description)).setView(promptsView)
-                .setPositiveButton(getString(R.string.save),
-                        new EditDescriptionOnClickListener(this, activeExpense, descriptionField, expenseDetailsView))
+                .setPositiveButton(getString(R.string.save), new EditDescriptionOnClickListener(descriptionField))
                 .setNegativeButton(getString(R.string.cancel), null);
 
         AlertDialog alertDialog = alertDialogBuilder.create();
@@ -232,6 +233,36 @@ public class ViewExpenseActivity extends Activity {
                 ToastMaker.makeLongToast(R.string.could_not_get_expense, ViewExpenseActivity.this);
                 ViewExpenseActivity.this.finish();
             }
+        }
+    }
+
+    private class EditDescriptionOnClickListener implements DialogInterface.OnClickListener {
+        private final EditText descriptionField;
+
+        public EditDescriptionOnClickListener(EditText descriptionField) {
+            this.descriptionField = descriptionField;
+        }
+
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+            final Context context = ViewExpenseActivity.this;
+            final String description = descriptionField.getText().toString();
+            final ProgressDialog resetProgress = ProgressDialog.show(context,
+                    context.getString(R.string.changing_description), context.getString(R.string.please_wait), true);
+
+            activeExpense.setDetails(description);
+            activeExpense.saveInBackground(new SaveCallback() {
+                @Override
+                public void done(ParseException e) {
+                    resetProgress.dismiss();
+                    if (e == null) {
+                        expenseDetailsView.setText(description);
+                        ToastMaker.makeLongToast(R.string.description_was_changed, context);
+                    } else {
+                        ToastMaker.makeLongToast(R.string.description_could_not_be_changed, context);
+                    }
+                }
+            });
         }
     }
 }

@@ -25,7 +25,7 @@ import com.parse.RefreshCallback;
 import com.realkode.roomates.Helpers.ParseCloudFunctionNames;
 import com.realkode.roomates.Helpers.ToastMaker;
 import com.realkode.roomates.Helpers.Utils;
-import com.realkode.roomates.Me.Fragment.HouseholdMembersAdapter;
+import com.realkode.roomates.Me.HouseholdMembersAdapter;
 import com.realkode.roomates.ParseSubclassses.Household;
 import com.realkode.roomates.ParseSubclassses.User;
 import com.realkode.roomates.R;

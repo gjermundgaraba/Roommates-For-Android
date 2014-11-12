@@ -1,4 +1,4 @@
-package com.realkode.roomates.Expenses.ExpenseOverview;
+package com.realkode.roomates.Expenses;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

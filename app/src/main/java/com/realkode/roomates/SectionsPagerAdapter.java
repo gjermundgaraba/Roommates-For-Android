@@ -4,9 +4,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.realkode.roomates.Expenses.ExpenseOverview.ExpensesFragment;
+import com.realkode.roomates.Expenses.ExpensesFragment;
 import com.realkode.roomates.Feed.FeedFragment;
-import com.realkode.roomates.Me.Fragment.MeFragment;
+import com.realkode.roomates.Me.MeFragment;
 import com.realkode.roomates.Tasks.Fragment.TaskListFragment;
 
 import java.util.Locale;

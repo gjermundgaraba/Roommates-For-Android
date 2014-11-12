@@ -11,7 +11,7 @@ import android.widget.ListView;
 import com.parse.ParseException;
 import com.parse.SaveCallback;
 import com.realkode.roomates.Helpers.ToastMaker;
-import com.realkode.roomates.Me.Fragment.HouseholdMembersAdapter;
+import com.realkode.roomates.Me.HouseholdMembersAdapter;
 import com.realkode.roomates.ParseSubclassses.Expense;
 import com.realkode.roomates.ParseSubclassses.User;
 import com.realkode.roomates.R;
@@ -54,8 +54,10 @@ public class NewExpenseActivity extends Activity {
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == findViewById(R.id.action_save).getId()) {
             saveExpense();
+            return true;
         }
-        return true;
+
+        return super.onOptionsItemSelected(item);
     }
 
     private void saveExpense() {
@@ -81,8 +83,8 @@ public class NewExpenseActivity extends Activity {
             expense.saveInBackground(new SaveCallback() {
                 @Override
                 public void done(ParseException e) {
-                    ToastMaker.makeLongToast(getString(R.string.expense_saved), getApplicationContext());
                     resetProgress.dismiss();
+                    ToastMaker.makeLongToast(getString(R.string.expense_saved), getApplicationContext());
                     finish();
                 }
             });
@@ -96,8 +98,7 @@ public class NewExpenseActivity extends Activity {
             return Double.parseDouble(df.format(Double.parseDouble(totalAmountText.getText().toString())));
         } catch (NumberFormatException e) {
             ToastMaker.makeLongToast(R.string.could_not_parse_amount, this);
+            return 0.0;
         }
-
-        return null; // Shouldnt happen
     }
 }

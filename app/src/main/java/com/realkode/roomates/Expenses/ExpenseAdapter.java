@@ -1,4 +1,4 @@
-package com.realkode.roomates.Expenses.ExpenseOverview;
+package com.realkode.roomates.Expenses;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -105,23 +105,16 @@ class ExpenseAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        if (items != null) {
-            return items.size();
-        } else {
-            return 0;
-        }
+        return items.size();
     }
 
     @Override
     public Object getItem(int i) {
-        if (items != null) {
-            Item item = items.get(i);
-            if (!item.isSection()) {
-                EntryItemForExpenses entryItem = (EntryItemForExpenses) item;
-                return entryItem.getExpense();
-            } else {
-                return null;
-            }
+        Item item = items.get(i);
+
+        if (!item.isSection()) {
+            EntryItemForExpenses entryItem = (EntryItemForExpenses) item;
+            return entryItem.getExpense();
         } else {
             return null;
         }

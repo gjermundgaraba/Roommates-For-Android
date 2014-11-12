@@ -14,11 +14,6 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-/**
- * This class is for downloading the profile picture from facebook asynchronously
- * from the other work the application is doing.
- */
-
 public class FacebookProfilePictureDownloader extends AsyncTask<String, Integer, Bitmap> {
 
 

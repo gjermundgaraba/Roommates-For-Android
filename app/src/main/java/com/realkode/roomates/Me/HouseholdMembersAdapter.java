@@ -1,4 +1,4 @@
-package com.realkode.roomates.Me.Fragment;
+package com.realkode.roomates.Me;
 
 import android.content.Context;
 import android.graphics.Color;
