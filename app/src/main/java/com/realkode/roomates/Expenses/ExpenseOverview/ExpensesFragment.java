@@ -22,9 +22,6 @@ import com.realkode.roomates.ParseSubclassses.User;
 import com.realkode.roomates.R;
 import com.realkode.roomates.RefreshableFragment;
 
-/**
- * This class provides the fragment view where the user can see all the households expenses.
- */
 public class ExpensesFragment extends Fragment implements RefreshableFragment, AddBehaviourFragment {
     private ExpenseAdapter adapter;
 
@@ -53,8 +50,7 @@ public class ExpensesFragment extends Fragment implements RefreshableFragment, A
 
     private void setUpFragment(View rootView) {
         LocalBroadcastManager broadcastManager = LocalBroadcastManager.getInstance(getActivity());
-        broadcastManager.registerReceiver(new NeedToRefreshBroadcastReceiver(),
-                new IntentFilter(Constants.EXPENSE_NEED_TO_REFRESH));
+        broadcastManager.registerReceiver(new NeedToRefreshBroadcastReceiver(), new IntentFilter(Constants.EXPENSE_NEED_TO_REFRESH));
 
         ListView expenseListView = (ListView) rootView.findViewById(R.id.expenseListView);
         adapter = new ExpenseAdapter(getActivity());

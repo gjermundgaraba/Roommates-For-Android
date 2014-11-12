@@ -88,4 +88,10 @@ public class Expense extends ParseObject {
     public int getNumberOfPeopleInExpense() {
         return getNumberOfPeoplePaidUp() + getNumberOfPeopleNotPaidUp();
     }
+
+    public boolean currentUserIsOwed() {
+        String owedUserObjectId = getOwed().getObjectId();
+        String currentUserObjectId = User.getCurrentUser().getObjectId();
+        return !owedUserObjectId.equals(currentUserObjectId);
+    }
 }

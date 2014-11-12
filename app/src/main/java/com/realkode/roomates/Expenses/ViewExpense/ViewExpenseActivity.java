@@ -10,7 +10,11 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.text.InputType;
-import android.view.*;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -19,7 +23,6 @@ import android.widget.TextView;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
-import com.parse.ParseUser;
 import com.realkode.roomates.Expenses.EditPeople.EditPeopleExpenseActivity;
 import com.realkode.roomates.Helpers.Constants;
 import com.realkode.roomates.Helpers.ToastMaker;
@@ -40,18 +43,7 @@ public class ViewExpenseActivity extends Activity {
     private final BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            ParseQuery<Expense> query = new ParseQuery<Expense>(Expense.class);
-            query.include("owed");
-            query.include("notPaidUp");
-            query.include("paidUp");
-
-            query.getInBackground(activeExpense.getObjectId(), new GetCallback<Expense>() {
-                @Override
-                public void done(Expense expense, ParseException e) {
-                    ViewExpenseActivity.this.viewExpenseAdapter.expense = expense;
-                    ViewExpenseActivity.this.viewExpenseAdapter.loadElements();
-                }
-            });
+            queryForExpense();
         }
     };
 
@@ -72,46 +64,26 @@ public class ViewExpenseActivity extends Activity {
     }
 
     private void queryForExpense() {
-        final ProgressDialog progress = ProgressDialog
-                .show(ViewExpenseActivity.this, getString(R.string.loading_expense), getString(R.string.please_wait),
-                        true);
+        final ProgressDialog progress = ProgressDialog.show(this, getString(R.string.loading_expense),
+                getString(R.string.please_wait), true);
 
         String expenseObjectId = (String) getIntent().getExtras().get(Constants.EXTRA_NAME_EXPENSE_ID);
 
-        ParseQuery<Expense> query = new ParseQuery<Expense>("Expense");
+        ParseQuery<Expense> query = new ParseQuery<Expense>(Expense.class);
         query.include("owed");
         query.include("notPaidUp");
         query.include("paidUp");
         Utils.setSafeQueryCaching(query);
 
-        query.getInBackground(expenseObjectId, new GetCallback<Expense>() {
-            @Override
-            public void done(final Expense expense, ParseException e) {
-                if (e == null) {
-                    progress.dismiss();
-                    activeExpense = expense;
-                    expenseNameView.setText(expense.getName());
-                    expenseOwedView.setText(expense.getOwed().getDisplayName());
-                    expenseAmountView.setText("" + expense.getTotalAmount());
-                    expenseDetailsView.setText(expense.getDetails());
-                    final ViewExpenseAdapter adapter = new ViewExpenseAdapter(ViewExpenseActivity.this, expense);
-                    ViewExpenseActivity.this.viewExpenseAdapter = adapter;
-                    listView.setAdapter(adapter);
+        query.getInBackground(expenseObjectId, new GetExpenseCallback(progress));
+    }
 
-                    listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(AdapterView<?> parent, View view, int position, long l) {
-                            User theUser = (User) parent.getItemAtPosition(position);
-                            adapter.swapElement(theUser);
-                        }
-                    });
-                } else {
-                    ToastMaker.makeLongToast(R.string.could_not_get_expense, ViewExpenseActivity.this);
-                    ViewExpenseActivity.this.finish();
-                }
-
-            }
-        });
+    private void setExpense(Expense expense) {
+        activeExpense = expense;
+        expenseNameView.setText(expense.getName());
+        expenseOwedView.setText(expense.getOwed().getDisplayName());
+        expenseAmountView.setText("" + expense.getTotalAmount());
+        expenseDetailsView.setText(expense.getDetails());
     }
 
     private void setUpBroadcastReceiver() {
@@ -129,10 +101,9 @@ public class ViewExpenseActivity extends Activity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle presses on the action bar items
-        if (!activeExpense.getOwed().getObjectId().equals(ParseUser.getCurrentUser().getObjectId())) {
+        if (!activeExpense.currentUserIsOwed()) {
             ToastMaker.makeShortToast(getString(R.string.edit_expense_not_allowed), this);
-            return super.onOptionsItemSelected(item);
+            return true;
         }
 
         switch (item.getItemId()) {
@@ -235,4 +206,32 @@ public class ViewExpenseActivity extends Activity {
         alertDialog.show();
     }
 
+    private class GetExpenseCallback extends GetCallback<Expense> {
+        private final ProgressDialog progress;
+
+        public GetExpenseCallback(ProgressDialog progress) {
+            this.progress = progress;
+        }
+
+        @Override
+        public void done(final Expense expense, ParseException e) {
+            if (e == null) {
+                progress.dismiss();
+                setExpense(expense);
+                viewExpenseAdapter = new ViewExpenseAdapter(ViewExpenseActivity.this, expense);
+                listView.setAdapter(viewExpenseAdapter);
+
+                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long l) {
+                        User theUser = (User) parent.getItemAtPosition(position);
+                        viewExpenseAdapter.toggleElement(theUser);
+                    }
+                });
+            } else {
+                ToastMaker.makeLongToast(R.string.could_not_get_expense, ViewExpenseActivity.this);
+                ViewExpenseActivity.this.finish();
+            }
+        }
+    }
 }

@@ -62,7 +62,7 @@ class ViewExpenseAdapter extends BaseAdapter {
     }
 
 
-    public void swapElement(User user) {
+    public void toggleElement(User user) {
         ArrayList<User> notPaid = expense.getNotPaidUp();
         ArrayList<User> paid = expense.getPaidUp();
 
