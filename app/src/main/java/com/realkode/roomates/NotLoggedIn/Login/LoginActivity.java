@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -16,8 +17,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.parse.ParseException;
 import com.parse.ParseFacebookUtils;
 import com.parse.ParseUser;
+import com.parse.RequestPasswordResetCallback;
 import com.realkode.roomates.Helpers.ButtonOnTouchListener;
 import com.realkode.roomates.Helpers.ToastMaker;
 import com.realkode.roomates.MainActivity;
@@ -113,7 +116,7 @@ public class LoginActivity extends Activity {
         alertDialogBuilder.setTitle(getString(R.string.forgot_password))
                 .setMessage(getString(R.string.enter_your_email))
                 .setView(promptsView)
-                .setPositiveButton(getString(R.string.ok), new ForgotPasswordOnClickListener(this, emailField))
+                .setPositiveButton(getString(R.string.ok), new ResetPasswordOnClickListener(emailField))
                 .setNegativeButton(getString(R.string.cancel), null);
 
         AlertDialog alertDialog = alertDialogBuilder.create();
@@ -143,6 +146,34 @@ public class LoginActivity extends Activity {
             ParseUser.logInInBackground(email, password, new UserLogInCallback(this, this, loginButton, loginProgress));
         } else {
             ToastMaker.makeLongToast(getString(R.string.email_password_must_be_filled_out), this);
+        }
+    }
+
+    private class ResetPasswordOnClickListener implements DialogInterface.OnClickListener {
+        private final EditText emailField;
+
+        public ResetPasswordOnClickListener(EditText emailField) {
+            this.emailField = emailField;
+        }
+
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+            final Context context = LoginActivity.this;
+            String email = emailField.getText().toString().toLowerCase().trim();
+
+            final ProgressDialog resetProgress = ProgressDialog.show(context, context.getString(R.string.resetting_password),
+                    context.getString(R.string.please_wait), true);
+            ParseUser.requestPasswordResetInBackground(email, new RequestPasswordResetCallback() {
+                public void done(ParseException parseException) {
+                    resetProgress.dismiss();
+
+                    if (parseException == null) {
+                        ToastMaker.makeLongToast(R.string.reset_email_sent_with_instructions, context);
+                    } else {
+                        ToastMaker.makeLongToast(parseException.getMessage(), context);
+                    }
+                }
+            });
         }
     }
 }

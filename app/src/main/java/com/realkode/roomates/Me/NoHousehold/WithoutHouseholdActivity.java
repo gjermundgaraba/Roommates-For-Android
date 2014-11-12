@@ -4,7 +4,12 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.view.*;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -44,23 +49,7 @@ public class WithoutHouseholdActivity extends Activity {
         final ListView invitationsListView = (ListView) findViewById(R.id.invitationsListView);
         invitationAdapter = new InvitationAdapter(this);
         invitationsListView.setAdapter(invitationAdapter);
-        invitationsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                Invitation invitation = (Invitation) adapterView.getItemAtPosition(position);
-                if (lastPosition != position) {
-                    try {
-                        adapterView.getChildAt(lastPosition).setBackgroundColor(Color.WHITE);
-                    } catch (NullPointerException ignored) {}
-
-                    adapterView.getChildAt(position).setBackgroundColor(getResources().getColor(R.color.DarkBlue));
-                    adapterView.getChildAt(position).getBackground().setAlpha(100);
-                    selectedInvitation = invitation;
-                    lastPosition = position;
-                    acceptHouseholdButton.setEnabled(true);
-                }
-            }
-        });
+        invitationsListView.setOnItemClickListener(new InvitationsOnItemClickListener());
 
     }
 
@@ -90,13 +79,32 @@ public class WithoutHouseholdActivity extends Activity {
 
         EditText householdNameInput = (EditText) promptsView.findViewById(R.id.editTextDialogUserInput);
 
-        alertDialogBuilder.setTitle(getString(R.string.dialog_title_create_new_household)).setView(promptsView)
-                .setPositiveButton(getString(R.string.dialog_positive_button_create_new_household),
-                        new CreateHouseholdOnClickListener(householdNameInput, this));
+        alertDialogBuilder
+                .setTitle(getString(R.string.dialog_title_create_new_household))
+                .setView(promptsView)
+                .setPositiveButton(getString(R.string.ok), new CreateHouseholdOnClickListener(householdNameInput, this));
 
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
         alertDialog.show();
 
+    }
+
+    private class InvitationsOnItemClickListener implements AdapterView.OnItemClickListener {
+        @Override
+        public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+            Invitation invitation = (Invitation) adapterView.getItemAtPosition(position);
+            if (lastPosition != position) {
+                try {
+                    adapterView.getChildAt(lastPosition).setBackgroundColor(Color.WHITE);
+                } catch (NullPointerException ignored) {}
+
+                adapterView.getChildAt(position).setBackgroundColor(getResources().getColor(R.color.DarkBlue));
+                adapterView.getChildAt(position).getBackground().setAlpha(100);
+                selectedInvitation = invitation;
+                lastPosition = position;
+                acceptHouseholdButton.setEnabled(true);
+            }
+        }
     }
 }
