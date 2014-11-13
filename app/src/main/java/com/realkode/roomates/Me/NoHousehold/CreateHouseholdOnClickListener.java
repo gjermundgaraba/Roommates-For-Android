@@ -6,7 +6,12 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.widget.EditText;
 
-import com.parse.*;
+import com.parse.FunctionCallback;
+import com.parse.ParseCloud;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.RefreshCallback;
+import com.realkode.roomates.Helpers.ParseCloudFunctionNames;
 import com.realkode.roomates.Helpers.ToastMaker;
 import com.realkode.roomates.ParseSubclassses.User;
 import com.realkode.roomates.R;
@@ -33,7 +38,7 @@ class CreateHouseholdOnClickListener implements DialogInterface.OnClickListener 
         final ProgressDialog createHouseholdProgress = ProgressDialog
                 .show(context, context.getString(R.string.progress_dialog_title_creating_household),
                         context.getString(R.string.progress_dialog_message_creating_household), true);
-        ParseCloud.callFunctionInBackground("createNewHousehold", params, new FunctionCallback<Object>() {
+        ParseCloud.callFunctionInBackground(ParseCloudFunctionNames.CREATE_NEW_HOUSEHOLD, params, new FunctionCallback<Object>() {
                     @Override
                     public void done(Object obj, ParseException e) {
                         createHouseholdProgress.dismiss();
