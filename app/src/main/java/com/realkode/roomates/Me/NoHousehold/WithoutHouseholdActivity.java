@@ -2,6 +2,8 @@ package com.realkode.roomates.Me.NoHousehold;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -15,7 +17,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 
+import com.parse.FunctionCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.RefreshCallback;
+import com.realkode.roomates.Helpers.ToastMaker;
 import com.realkode.roomates.ParseSubclassses.Invitation;
+import com.realkode.roomates.ParseSubclassses.User;
 import com.realkode.roomates.R;
 
 public class WithoutHouseholdActivity extends Activity {
@@ -23,10 +31,6 @@ public class WithoutHouseholdActivity extends Activity {
     private Button acceptHouseholdButton;
     private int lastPosition = 1000;
     private InvitationAdapter invitationAdapter;
-
-    public Invitation getSelectedInvitation() {
-        return selectedInvitation;
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -36,7 +40,7 @@ public class WithoutHouseholdActivity extends Activity {
 
         acceptHouseholdButton = (Button) findViewById(R.id.acceptButton);
         acceptHouseholdButton.setEnabled(false);
-        acceptHouseholdButton.setOnClickListener(new AcceptInvitationOnClickListener(this));
+        acceptHouseholdButton.setOnClickListener(new AcceptInvitationOnClickListener());
 
         Button createHouseholdButton = (Button) findViewById(R.id.createHouseholdButton);
         createHouseholdButton.setOnClickListener(new View.OnClickListener() {
@@ -105,6 +109,37 @@ public class WithoutHouseholdActivity extends Activity {
                 lastPosition = position;
                 acceptHouseholdButton.setEnabled(true);
             }
+        }
+    }
+
+    private class AcceptInvitationOnClickListener implements View.OnClickListener {
+        @Override
+        public void onClick(View v) {
+            final Context context = WithoutHouseholdActivity.this;
+
+            final ProgressDialog acceptInvitationProgress = ProgressDialog
+                    .show(context, context.getString(R.string.progressdialog_title_accepting_invitation),
+                            context.getString(R.string.progressdialog_message_accepting_invitation), true);
+
+            selectedInvitation.accept(new FunctionCallback<Object>() {
+                @Override
+                public void done(Object o, ParseException e) {
+                    acceptInvitationProgress.dismiss();
+                    if (e == null) {
+                        final ProgressDialog refreshUserProgress = ProgressDialog.show(context, context.getString(R.string.refreshing_user), context.getString(R.string.please_wait));
+                        User.getCurrentUser().refreshInBackground(new RefreshCallback() {
+                            @Override
+                            public void done(ParseObject object, ParseException e) {
+                                refreshUserProgress.dismiss();
+                                User.refreshChannels();
+                                WithoutHouseholdActivity.this.finish();
+                            }
+                        });
+                    } else {
+                        ToastMaker.makeShortToast(R.string.toast_could_not_accept_invitation, context);
+                    }
+                }
+            });
         }
     }
 }

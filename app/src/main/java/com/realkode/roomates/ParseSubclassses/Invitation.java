@@ -1,7 +1,12 @@
 package com.realkode.roomates.ParseSubclassses;
 
+import com.parse.FunctionCallback;
 import com.parse.ParseClassName;
+import com.parse.ParseCloud;
 import com.parse.ParseObject;
+import com.realkode.roomates.Helpers.ParseCloudFunctionNames;
+
+import java.util.HashMap;
 
 @ParseClassName("Invitation")
 public class Invitation extends ParseObject {
@@ -19,5 +24,12 @@ public class Invitation extends ParseObject {
 
     public User getInviter() {
         return (User) getParseUser(INVITER);
+    }
+
+    public void accept(FunctionCallback<Object> functionCallback) {
+        HashMap<String, Object> params = new HashMap<String, Object>();
+        params.put("invitationId", getObjectId());
+
+        ParseCloud.callFunctionInBackground(ParseCloudFunctionNames.ACCEPT_INVITATION, params, functionCallback);
     }
 }
