@@ -2,15 +2,22 @@ package com.realkode.roomates.Tasks.ViewTaskList;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
-import android.view.*;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 
+import com.parse.DeleteCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
@@ -218,8 +225,8 @@ public class ViewTaskListActivity extends Activity {
     private void startDeleteTaskListDialog() {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         alertDialogBuilder.setTitle(getString(R.string.delete_task_list_confirmation_title))
-                .setPositiveButton(getString(R.string.yes), new DeleteTaskListOnClickListener(this, taskList))
-                .setNegativeButton(getString(R.string.no), null);
+                .setPositiveButton(getString(R.string.yes), new DeleteTaskListOnClickListener())
+                        .setNegativeButton(getString(R.string.no), null);
 
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.show();
@@ -257,6 +264,26 @@ public class ViewTaskListActivity extends Activity {
 
             adapter = new TaskListElementsAdapter(ViewTaskListActivity.this, taskList);
             taskListElementsListView.setAdapter(adapter);
+        }
+    }
+
+    private class DeleteTaskListOnClickListener implements DialogInterface.OnClickListener {
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+            final Context context = ViewTaskListActivity.this;
+            final ProgressDialog progressDialog = ProgressDialog
+                    .show(context, context.getString(R.string.deleting_list), context.getString(R.string.please_wait),
+                            true);
+
+            taskList.deleteInBackground(new DeleteCallback() {
+                @Override
+                public void done(ParseException e) {
+                    progressDialog.dismiss();
+                    Intent intent = new Intent(Constants.NEED_TO_REFRESH);
+                    LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+                    ViewTaskListActivity.this.finish();
+                }
+            });
         }
     }
 }
