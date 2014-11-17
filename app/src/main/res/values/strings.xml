@@ -186,5 +186,8 @@
     <string name="people_involved">PEOPLE INVOLVED</string>
     <string name="refreshing">Refreshing...</string>
     <string name="description_could_not_be_changed">Error: Description could not be changed</string>
+    <string name="expense_name">Expense name</string>
+    <string name="description">Description</string>
+    <string name="roommates_who_owes">Roommates who owes for this expense</string>
 
 </resources>

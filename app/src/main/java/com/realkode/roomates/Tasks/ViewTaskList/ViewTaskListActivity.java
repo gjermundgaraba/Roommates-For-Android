@@ -96,11 +96,9 @@ public class ViewTaskListActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task_list_elements);
 
-        setTitle("Task List"); // Will be updated later
-        String taskListID = getIntent().getStringExtra("taskListID");
-
         final ListView taskListElementsListView = (ListView) findViewById(R.id.taskListElementsListView);
 
+        String taskListID = getIntent().getStringExtra("taskListID");
         retrieveTaskListAndSetUpAdapter(taskListID, taskListElementsListView);
 
         setUpOnItemClickListeners(taskListElementsListView);

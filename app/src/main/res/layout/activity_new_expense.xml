@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/LightGrey">
 
     <LinearLayout
         android:orientation="vertical"
@@ -15,41 +17,48 @@
 
             <EditText
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
                 android:gravity="center"
-                android:id="@+id/editText_expense_name"
-                android:hint="Expense name"
+                android:id="@+id/edit_text_expense_name"
+                android:hint="@string/expense_name"
+                android:layout_height="35dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="#ffffffff"
                 android:singleLine="true" />
 
             <EditText
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
                 android:gravity="center"
                 android:ems="10"
-                android:id="@+id/editText_total_amount"
-                android:hint="Total amount"
+                android:id="@+id/edit_text_total_amount"
+                android:hint="@string/total_amount"
+                android:layout_marginBottom="10dp"
+                android:layout_height="35dp"
                 android:singleLine="true"
+                android:background="#ffffffff"
                 android:inputType="numberDecimal" />
 
             <EditText
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
                 android:gravity="center"
-                android:id="@+id/editText_description"
-                android:hint="Description"
+                android:id="@+id/edit_text_description"
+                android:hint="@string/description"
+                android:layout_marginBottom="10dp"
+                android:layout_height="35dp"
+                android:background="#ffffffff"
                 android:singleLine="true" />
         </LinearLayout>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:id="@+id/textView4"
-            android:hint="Roommates who owes for this expense"
+            android:hint="@string/roommates_who_owes"
             android:layout_margin="10dp" />
 
         <ListView
+            android:background="#ffffffff"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/listViewMemberList"

@@ -96,7 +96,7 @@ public class FeedFragment extends Fragment implements RefreshableFragment, AddBe
         LayoutInflater inflater = LayoutInflater.from(getActivity());
         View noteDialogView = inflater.inflate(R.layout.dialog_new_note, null);
 
-        final EditText noteEditText = (EditText) noteDialogView.findViewById(R.id.inviteUsernameEditText);
+        final EditText noteField = (EditText) noteDialogView.findViewById(R.id.inviteUsernameEditText);
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
 
@@ -105,7 +105,7 @@ public class FeedFragment extends Fragment implements RefreshableFragment, AddBe
                 .setPositiveButton(R.string.button_add_note, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        String noteText = noteEditText.getText().toString();
+                        String noteText = noteField.getText().toString();
                         noteSaver.saveNote(noteText);
                     }
                 })

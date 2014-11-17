@@ -34,9 +34,9 @@ public class NewExpenseActivity extends Activity {
         paidList = new ArrayList<User>();
         final ListView membersListView = (ListView) findViewById(R.id.listViewMemberList);
 
-        expenseNameText = (EditText) findViewById(R.id.editText_expense_name);
-        totalAmountText = (EditText) findViewById(R.id.editText_total_amount);
-        descriptionText = (EditText) findViewById(R.id.editText_description);
+        expenseNameText = (EditText) findViewById(R.id.edit_text_expense_name);
+        totalAmountText = (EditText) findViewById(R.id.edit_text_total_amount);
+        descriptionText = (EditText) findViewById(R.id.edit_text_description);
 
         HouseholdMembersAdapter membersListViewAdapter = new HouseholdMembersAdapter(this);
         membersListView.setAdapter(membersListViewAdapter);
