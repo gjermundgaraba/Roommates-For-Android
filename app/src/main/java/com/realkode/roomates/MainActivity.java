@@ -11,13 +11,12 @@ import android.view.MenuItem;
 import com.realkode.roomates.Helpers.ToastMaker;
 import com.realkode.roomates.ParseSubclassses.User;
 
-public class MainActivity extends FragmentActivity implements ActionBar.TabListener {
-    public static final int NUMBER_OF_FRAGMENTS = 4;
-    public static final int FEED_INDEX = 0;
-    public static final int ME_INDEX = 1;
-    public static final int TASKS_INDEX = 2;
-    public static final int EXPENSES_INDEX = 3;
+import static com.realkode.roomates.Helpers.Constants.EXPENSES_INDEX;
+import static com.realkode.roomates.Helpers.Constants.FEED_INDEX;
+import static com.realkode.roomates.Helpers.Constants.ME_INDEX;
+import static com.realkode.roomates.Helpers.Constants.TASKS_INDEX;
 
+public class MainActivity extends FragmentActivity implements ActionBar.TabListener {
     private SectionsPagerAdapter sectionsPagerAdapter;
     private ViewPager viewPager;
 
@@ -85,7 +84,6 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
             case EXPENSES_INDEX:
                 getMenuInflater().inflate(R.menu.expenses_menu, menu);
         }
-
 
         return true;
     }
