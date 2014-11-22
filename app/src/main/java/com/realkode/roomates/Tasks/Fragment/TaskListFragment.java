@@ -3,6 +3,7 @@ package com.realkode.roomates.Tasks.Fragment;
 import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
@@ -15,8 +16,11 @@ import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ListView;
 
+import com.parse.ParseException;
+import com.parse.SaveCallback;
 import com.realkode.roomates.AddBehaviourFragment;
 import com.realkode.roomates.Helpers.Constants;
+import com.realkode.roomates.Helpers.ToastMaker;
 import com.realkode.roomates.ParseSubclassses.User;
 import com.realkode.roomates.R;
 import com.realkode.roomates.RefreshableFragment;
@@ -24,6 +28,7 @@ import com.realkode.roomates.RefreshableFragment;
 public class TaskListFragment extends Fragment implements RefreshableFragment, AddBehaviourFragment {
     private final BroadcastReceiver mMessageReceiver = new NeedToRefreshBroadcastReceiver();
     private TaskListsAdapter adapter;
+    private TaskListSaver taskListSaver = new TaskListSaver(new TaskListSaveCallback());
 
     public void refreshFragment() {
         if (User.loggedInAndMemberOfAHousehold()) {
@@ -57,9 +62,15 @@ public class TaskListFragment extends Fragment implements RefreshableFragment, A
 
         final EditText taskListNameInput = (EditText) promptsView.findViewById(R.id.editTextDialogUserInput);
 
-        alertDialogBuilder.setTitle(getActivity().getString(R.string.dialog_create_new_task_list_title))
-                .setView(promptsView).setPositiveButton(getActivity().getString(R.string.dialog_OK),
-                new CreateNewTaskListOnClickListener(getActivity(), taskListNameInput));
+        alertDialogBuilder
+                .setTitle(getActivity().getString(R.string.dialog_create_new_task_list_title))
+                .setView(promptsView)
+                .setPositiveButton(getActivity().getString(R.string.dialog_OK), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        taskListSaver.saveTaskList(taskListNameInput.getText().toString());
+                    }
+                });
 
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
@@ -75,6 +86,15 @@ public class TaskListFragment extends Fragment implements RefreshableFragment, A
         @Override
         public void onReceive(Context context, Intent intent) {
             refreshFragment();
+        }
+    }
+
+    private class TaskListSaveCallback extends SaveCallback {
+        @Override
+        public void done(ParseException e) {
+            Intent intent = new Intent(Constants.NEED_TO_REFRESH);
+            LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);
+            ToastMaker.makeShortToast(R.string.toast_new_task_list_added, getActivity());
         }
     }
 }
