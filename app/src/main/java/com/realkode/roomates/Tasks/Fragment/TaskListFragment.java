@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 
@@ -21,9 +22,11 @@ import com.parse.SaveCallback;
 import com.realkode.roomates.AddBehaviourFragment;
 import com.realkode.roomates.Helpers.Constants;
 import com.realkode.roomates.Helpers.ToastMaker;
+import com.realkode.roomates.ParseSubclassses.TaskList;
 import com.realkode.roomates.ParseSubclassses.User;
 import com.realkode.roomates.R;
 import com.realkode.roomates.RefreshableFragment;
+import com.realkode.roomates.Tasks.ViewTaskList.ViewTaskListActivity;
 
 public class TaskListFragment extends Fragment implements RefreshableFragment, AddBehaviourFragment {
     private final BroadcastReceiver mMessageReceiver = new NeedToRefreshBroadcastReceiver();
@@ -48,7 +51,7 @@ public class TaskListFragment extends Fragment implements RefreshableFragment, A
             ListView taskListView = (ListView) rootView.findViewById(R.id.taskListsListView);
             taskListView.setAdapter(adapter);
 
-            taskListView.setOnItemClickListener(new TaskListViewOnItemClickListener(getActivity()));
+            taskListView.setOnItemClickListener(new TaskListOnClickListener());
         }
 
         return rootView;
@@ -95,6 +98,20 @@ public class TaskListFragment extends Fragment implements RefreshableFragment, A
             Intent intent = new Intent(Constants.NEED_TO_REFRESH);
             LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);
             ToastMaker.makeShortToast(R.string.toast_new_task_list_added, getActivity());
+        }
+    }
+
+    private class TaskListOnClickListener implements AdapterView.OnItemClickListener {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            TaskList taskList = (TaskList) parent.getItemAtPosition(position);
+
+            String taskListObjectId = taskList.getObjectId();
+            Intent intent = new Intent(getActivity(), ViewTaskListActivity.class);
+
+            intent.putExtra("taskListID", taskListObjectId);
+
+            getActivity().startActivity(intent);
         }
     }
 }
