@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -81,17 +82,67 @@ public class WithoutHouseholdActivity extends Activity {
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
 
-        EditText householdNameInput = (EditText) promptsView.findViewById(R.id.editTextDialogUserInput);
+        final EditText householdNameInput = (EditText) promptsView.findViewById(R.id.editTextDialogUserInput);
 
         alertDialogBuilder
                 .setTitle(getString(R.string.dialog_title_create_new_household))
                 .setView(promptsView)
-                .setPositiveButton(getString(R.string.ok), new CreateHouseholdOnClickListener(householdNameInput, this));
+                .setPositiveButton(getString(R.string.ok), new CreateHouseholdOnClickListener(householdNameInput));
 
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
         alertDialog.show();
 
+    }
+
+    private class CreateHouseholdOnClickListener implements DialogInterface.OnClickListener {
+        private EditText householdNameInput;
+
+        private CreateHouseholdOnClickListener(EditText householdNameInput) {
+            this.householdNameInput = householdNameInput;
+        }
+
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+            final Context context = WithoutHouseholdActivity.this;
+            String householdName = householdNameInput.getText().toString();
+            HouseholdCreator householdCreator = new HouseholdCreator(householdName);
+
+            final ProgressDialog createHouseholdProgress = ProgressDialog
+                    .show(context, context.getString(R.string.progress_dialog_title_creating_household),
+                            context.getString(R.string.progress_dialog_message_creating_household), true);
+            householdCreator.create(new createHouseholdCallback(createHouseholdProgress, context));
+        }
+
+        private class createHouseholdCallback extends FunctionCallback<Object> {
+            private final ProgressDialog createHouseholdProgress;
+            private final Context context;
+
+            public createHouseholdCallback(ProgressDialog createHouseholdProgress, Context context) {
+                this.createHouseholdProgress = createHouseholdProgress;
+                this.context = context;
+            }
+
+            @Override
+            public void done(Object o, ParseException e) {
+                createHouseholdProgress.dismiss();
+                if (e == null) {
+                    ToastMaker.makeShortToast(R.string.toast_household_created_successfully, context);
+                    final ProgressDialog refreshUserProgress = ProgressDialog.show(context, context.getString(R.string.refreshing_user), context.getString(R.string.please_wait));
+                    User.getCurrentUser().refreshInBackground(new RefreshCallback() {
+
+                        @Override
+                        public void done(ParseObject object, ParseException e) {
+                            refreshUserProgress.dismiss();
+                            User.refreshChannels();
+                            WithoutHouseholdActivity.this.finish();
+                        }
+                    });
+                } else {
+                    ToastMaker.makeShortToast(R.string.toast_created_household_unsuccesfully, context);
+                }
+            }
+        }
     }
 
     private class InvitationsOnItemClickListener implements AdapterView.OnItemClickListener {
