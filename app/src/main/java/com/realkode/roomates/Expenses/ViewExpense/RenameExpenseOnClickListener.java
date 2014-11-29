@@ -42,7 +42,7 @@ class RenameExpenseOnClickListener implements DialogInterface.OnClickListener {
                 resetProgress.dismiss();
 
                 expenseNameView.setText(name);
-                ToastMaker.makeLongToast(context.getString(R.string.name_was_changed), context);
+                ToastMaker.makeLongToast(R.string.name_was_changed, context);
                 Intent intent = new Intent(Constants.EXPENSE_NEED_TO_REFRESH);
                 LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
             }

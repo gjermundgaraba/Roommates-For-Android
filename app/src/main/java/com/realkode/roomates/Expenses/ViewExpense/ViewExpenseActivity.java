@@ -104,7 +104,7 @@ public class ViewExpenseActivity extends Activity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (!activeExpense.currentUserIsOwed()) {
-            ToastMaker.makeShortToast(getString(R.string.edit_expense_not_allowed), this);
+            ToastMaker.makeShortToast(R.string.edit_expense_not_allowed, this);
             return true;
         }
 
@@ -225,8 +225,13 @@ public class ViewExpenseActivity extends Activity {
                 listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long l) {
-                        User theUser = (User) parent.getItemAtPosition(position);
-                        viewExpenseAdapter.toggleElement(theUser);
+                        if (activeExpense.currentUserIsOwed()) {
+                            User theUser = (User) parent.getItemAtPosition(position);
+                            viewExpenseAdapter.toggleElement(theUser);
+                        } else {
+                            ToastMaker.makeShortToast(R.string.edit_expense_not_allowed, getApplicationContext());
+                        }
+
                     }
                 });
             } else {

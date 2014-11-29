@@ -189,5 +189,7 @@
     <string name="expense_name">Expense name</string>
     <string name="description">Description</string>
     <string name="roommates_who_owes">Roommates who owes for this expense</string>
+    <string name="deleting_expense">Deleting expense</string>
+    <string name="expense_was_deleted">Expense was deleted</string>
 
 </resources>

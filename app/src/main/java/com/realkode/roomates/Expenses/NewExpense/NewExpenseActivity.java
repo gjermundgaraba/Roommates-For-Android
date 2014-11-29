@@ -84,7 +84,7 @@ public class NewExpenseActivity extends Activity {
                 @Override
                 public void done(ParseException e) {
                     resetProgress.dismiss();
-                    ToastMaker.makeLongToast(getString(R.string.expense_saved), getApplicationContext());
+                    ToastMaker.makeLongToast(R.string.expense_saved, getApplicationContext());
                     finish();
                 }
             });

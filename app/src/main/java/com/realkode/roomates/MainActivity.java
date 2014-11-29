@@ -113,7 +113,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     }
 
     private void refreshFragment() {
-        ToastMaker.makeShortToast(getString(R.string.refreshing), this);
+        ToastMaker.makeShortToast(R.string.refreshing, this);
         RefreshableFragment fragment = (RefreshableFragment) sectionsPagerAdapter.getItem(viewPager.getCurrentItem());
         fragment.refreshFragment();
     }

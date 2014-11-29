@@ -110,7 +110,7 @@ public class MyHouseholdActivity extends Activity {
                             }
                         });
                     } else {
-                        ToastMaker.makeShortToast(context.getString(R.string.warning_could_not_leave_household), context);
+                        ToastMaker.makeShortToast(R.string.warning_could_not_leave_household, context);
                     }
                 }
             });
@@ -161,7 +161,7 @@ public class MyHouseholdActivity extends Activity {
                 public void done(Object noReturnValue, ParseException e) {
                     inviteProgress.dismiss();
                     if (e == null) {
-                        ToastMaker.makeShortToast(context.getString(R.string.toast_user_was_invited), context);
+                        ToastMaker.makeShortToast(R.string.toast_user_was_invited, context);
 
                     } else {
                         CharSequence text = e.getMessage();

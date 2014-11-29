@@ -12,6 +12,7 @@ import com.parse.ParseException;
 import com.realkode.roomates.Helpers.Constants;
 import com.realkode.roomates.Helpers.ToastMaker;
 import com.realkode.roomates.ParseSubclassses.Expense;
+import com.realkode.roomates.R;
 
 class DeleteExpenseOnClickListener implements DialogInterface.OnClickListener {
     private final Activity activity;
@@ -26,13 +27,12 @@ class DeleteExpenseOnClickListener implements DialogInterface.OnClickListener {
 
     public void onClick(DialogInterface arg0, int arg1) {
         final ProgressDialog resetProgress =
-                ProgressDialog.show(context, "Deleting expense", " Please wait ... ", true);
+                ProgressDialog.show(context, activity.getString(R.string.deleting_expense), activity.getString(R.string.please_wait), true);
         activeExpense.deleteInBackground(new DeleteCallback() {
             @Override
             public void done(ParseException e) {
-                // Returns to the previous activity
                 resetProgress.dismiss();
-                ToastMaker.makeLongToast("Expense was deleted", context);
+                ToastMaker.makeLongToast(R.string.expense_was_deleted, context);
                 Intent intent = new Intent(Constants.EXPENSE_NEED_TO_REFRESH);
                 LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
                 activity.finish();

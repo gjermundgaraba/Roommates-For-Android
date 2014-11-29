@@ -54,7 +54,7 @@ public class FacebookLogin {
                         loginActivity.startMainActivity();
                     }
                 } else {
-                    ToastMaker.makeLongToast(context.getString(R.string.something_went_wrong), context);
+                    ToastMaker.makeLongToast(R.string.something_went_wrong, context);
                 }
             }
         });

@@ -92,6 +92,6 @@ public class Expense extends ParseObject {
     public boolean currentUserIsOwed() {
         String owedUserObjectId = getOwed().getObjectId();
         String currentUserObjectId = User.getCurrentUser().getObjectId();
-        return !owedUserObjectId.equals(currentUserObjectId);
+        return owedUserObjectId.equals(currentUserObjectId);
     }
 }

@@ -145,7 +145,7 @@ public class LoginActivity extends Activity {
                     ProgressDialog.show(LoginActivity.this, getString(R.string.logging_in), getString(R.string.please_wait), true);
             ParseUser.logInInBackground(email, password, new UserLogInCallback(this, this, loginButton, loginProgress));
         } else {
-            ToastMaker.makeLongToast(getString(R.string.email_password_must_be_filled_out), this);
+            ToastMaker.makeLongToast(R.string.email_password_must_be_filled_out, this);
         }
     }
 
