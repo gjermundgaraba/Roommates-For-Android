@@ -46,7 +46,7 @@ class ViewExpenseAdapter extends BaseAdapter {
             items.add(new SectionItem(context.getString(R.string.not_paid_up)));
 
             for (User user : notPaidUp) {
-                items.add(new EntryItemForUser(user.getDisplayName(), context.getString(R.string.owes) + amountOwed, user));
+                items.add(new EntryItemForUser(user.getDisplayName(), context.getString(R.string.owes) + " " + amountOwed, user));
             }
 
             items.add(new SectionItem(context.getString(R.string.paid_up)));

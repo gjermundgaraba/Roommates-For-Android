@@ -159,12 +159,12 @@ class ExpenseAdapter extends BaseAdapter {
         if (currentUserIsTheOwedForExpense(expense) && expenseIsNotSettled(expense)) {
             double amountOwedToYou = amountOwedByEachPerson * expense.getNumberOfPeopleNotPaidUp();
 
-            return context.getString(R.string.subtitle_you_are_owed_1) +
-                    df.format(amountOwedToYou) +
+            return context.getString(R.string.subtitle_you_are_owed_1) + " " +
+                    df.format(amountOwedToYou) + " " +
                     context.getString(R.string.subtitle_you_are_owed_2);
         } else if (expenseIsNotSettled(expense) && currentUserOwesForExpense(expense)) {
-            return context.getString(R.string.subtitle_you_owe) +
-                    df.format(amountOwedByEachPerson) +
+            return context.getString(R.string.subtitle_you_owe) + " " +
+                    df.format(amountOwedByEachPerson) + " " +
                     context.getString(R.string.subtitle_you_owe_2);
         } else if (expenseIsNotSettled(expense)) {
             return context.getString(R.string.subtitle_you_do_not_owe_anything);
@@ -192,7 +192,14 @@ class ExpenseAdapter extends BaseAdapter {
     }
 
     private boolean currentUserOwesForExpense(Expense expense) {
-        return expense.getNotPaidUp().contains(User.getCurrentUser());
+        User currentUser = User.getCurrentUser();
+        for (User notPaidUpUser : expense.getNotPaidUp()) {
+            if (notPaidUpUser.getObjectId().equals(currentUser.getObjectId())) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private View setUpSectionItemView(SectionItem item) {
