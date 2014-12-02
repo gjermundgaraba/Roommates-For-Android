@@ -53,6 +53,7 @@ public class FacebookLogin {
                     }
                 } else {
                     ToastMaker.makeLongToast(e.getMessage(), context);
+                    enableFacebookButton();
                 }
             }
         });
@@ -65,6 +66,11 @@ public class FacebookLogin {
     private void disableFacebookButton() {
         facebookButton.setClickable(false);
         facebookButton.setEnabled(false);
+    }
+
+    private void enableFacebookButton() {
+        facebookButton.setClickable(true);
+        facebookButton.setEnabled(true);
     }
 
     // Making the User object from the facebook-login.
@@ -100,17 +106,14 @@ public class FacebookLogin {
 
         @Override
         public void done(ParseException parseException) {
+            enableFacebookButton();
             if (parseException == null) {
                 new FacebookProfilePictureDownloader().execute(profilePictureURL);
-                facebookButton.setClickable(true);
-                facebookButton.setEnabled(true);
                 loginActivity.startMainActivity();
             } else {
                 // Something went wrong, bail out.
                 ParseUser.getCurrentUser().deleteEventually();
                 ParseUser.logOut();
-                facebookButton.setClickable(true);
-                facebookButton.setEnabled(true);
             }
 
         }
