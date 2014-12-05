@@ -54,7 +54,7 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:id="@+id/textView4"
-            android:hint="@string/roommates_who_owes"
+            android:hint="@string/new_expense_roommates_list_header"
             android:layout_margin="10dp" />
 
         <ListView

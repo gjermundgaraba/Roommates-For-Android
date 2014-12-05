@@ -44,7 +44,7 @@ class ExpenseAdapter extends BaseAdapter {
             setUpPaidUpSection(paidUpElements);
             setUpUnpaidSection(unpaidElements);
 
-            notifyDataSetChanged(); // UI Update
+            notifyDataSetChanged();
         }
     }
 
