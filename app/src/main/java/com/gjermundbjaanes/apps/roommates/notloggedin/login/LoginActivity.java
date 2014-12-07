@@ -20,13 +20,18 @@ import android.widget.TextView;
 import com.gjermundbjaanes.apps.roommates.MainActivity;
 import com.gjermundbjaanes.apps.roommates.R;
 import com.gjermundbjaanes.apps.roommates.helpers.ButtonOnTouchListener;
+import com.gjermundbjaanes.apps.roommates.helpers.ParseCloudFunctionNames;
 import com.gjermundbjaanes.apps.roommates.helpers.ToastMaker;
 import com.gjermundbjaanes.apps.roommates.notloggedin.signup.SignUpActivity;
 import com.gjermundbjaanes.apps.roommates.parsesubclasses.User;
+import com.parse.FunctionCallback;
+import com.parse.ParseCloud;
 import com.parse.ParseException;
 import com.parse.ParseFacebookUtils;
 import com.parse.ParseUser;
 import com.parse.RequestPasswordResetCallback;
+
+import java.util.HashMap;
 
 @SuppressLint("DefaultLocale")
 public class LoginActivity extends Activity {
@@ -161,19 +166,27 @@ public class LoginActivity extends Activity {
             final Context context = LoginActivity.this;
             String email = emailField.getText().toString().toLowerCase().trim();
 
-            final ProgressDialog resetProgress = ProgressDialog.show(context, context.getString(R.string.resetting_password),
-                    context.getString(R.string.please_wait), true);
-            ParseUser.requestPasswordResetInBackground(email, new RequestPasswordResetCallback() {
-                public void done(ParseException parseException) {
-                    resetProgress.dismiss();
+            if (email.isEmpty()) {
+                ToastMaker.makeLongToast(getString(R.string.you_must_enter_an_email), context);
+            } else {
+                HashMap<String, Object> params = new HashMap<String, Object>();
+                params.put("username", email);
 
-                    if (parseException == null) {
-                        ToastMaker.makeLongToast(R.string.reset_email_sent_with_instructions, context);
-                    } else {
-                        ToastMaker.makeLongToast(parseException.getMessage(), context);
+                final ProgressDialog resetProgress = ProgressDialog.show(context, context.getString(R.string.resetting_password),
+                        context.getString(R.string.please_wait), true);
+                ParseCloud.callFunctionInBackground(ParseCloudFunctionNames.RESET_PASSWORD, params, new FunctionCallback<Object>() {
+                    @Override
+                    public void done(Object o, ParseException e) {
+                        resetProgress.dismiss();
+                        if (e == null) {
+                            String response = (String)o;
+                            ToastMaker.makeLongToast(response, context);
+                        } else {
+                            ToastMaker.makeLongToast(e.getMessage(), context);
+                        }
                     }
-                }
-            });
+                });
+            }
         }
     }
 }

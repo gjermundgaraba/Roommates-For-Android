@@ -191,5 +191,6 @@
     <string name="new_expense_roommates_list_header">Split between:</string>
     <string name="deleting_expense">Deleting expense</string>
     <string name="expense_was_deleted">Expense was deleted</string>
+    <string name="you_must_enter_an_email">You must enter an email!</string>
 
 </resources>
