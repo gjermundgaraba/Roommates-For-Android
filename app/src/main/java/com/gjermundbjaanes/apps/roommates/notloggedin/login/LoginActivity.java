@@ -29,7 +29,6 @@ import com.parse.ParseCloud;
 import com.parse.ParseException;
 import com.parse.ParseFacebookUtils;
 import com.parse.ParseUser;
-import com.parse.RequestPasswordResetCallback;
 
 import java.util.HashMap;
 

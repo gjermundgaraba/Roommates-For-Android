@@ -1,16 +1,20 @@
 package com.gjermundbjaanes.apps.roommates.notloggedin.login;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.widget.Button;
 
 import com.facebook.Request;
 import com.facebook.Response;
+import com.facebook.Session;
 import com.facebook.model.GraphUser;
 import com.gjermundbjaanes.apps.roommates.R;
 import com.gjermundbjaanes.apps.roommates.helpers.FacebookProfilePictureDownloader;
 import com.gjermundbjaanes.apps.roommates.helpers.ToastMaker;
 import com.gjermundbjaanes.apps.roommates.parsesubclasses.User;
+import com.parse.DeleteCallback;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseFacebookUtils;
@@ -42,25 +46,31 @@ public class FacebookLogin {
             @Override
             public void done(ParseUser parseUser, ParseException e) {
                 progressDialog.dismiss();
+                enableFacebookButton();
 
                 if (e == null) {
                     if (parseUser != null && parseUser.isNew()) {
-                        User.refreshChannels();
-                        updateUserData();
+                        if (ParseFacebookUtils.getSession().isPermissionGranted("email")) {
+                            User.refreshChannels();
+                            updateUserData();
+                        } else {
+                            ToastMaker.makeLongToast("Roommates cannot create a user wihtout email permissions. Grant permission or register a user without Facebook.", context);
+                            parseUser.deleteEventually();
+                            User.logOut();
+                        }
                     } else {
                         User.refreshChannels();
                         loginActivity.startMainActivity();
                     }
                 } else {
                     ToastMaker.makeLongToast(e.getMessage(), context);
-                    enableFacebookButton();
                 }
             }
         });
     }
 
     private List<String> getFacebookPermissions() {
-        return Arrays.asList("basic_info", "email");
+        return Arrays.asList("public_profile", "email");
     }
 
     private void disableFacebookButton() {
@@ -75,9 +85,12 @@ public class FacebookLogin {
 
     // Making the User object from the facebook-login.
     private void updateUserData() {
+
         Request request = Request.newMeRequest(ParseFacebookUtils.getSession(), new Request.GraphUserCallback() {
             @Override
             public void onCompleted(GraphUser user, Response response) {
+                final ParseUser currentUser = ParseUser.getCurrentUser();
+
                 String facebookID = user.getId();
 
                 // The URL for facebook profilepicture with the facebook user ID.
@@ -85,15 +98,14 @@ public class FacebookLogin {
                 facebookButton.setClickable(false);
                 facebookButton.setEnabled(false);
 
-                final ParseUser currentUser = ParseUser.getCurrentUser();
-
                 currentUser.setEmail((String) user.getProperty("email"));
                 currentUser.setUsername((String) user.getProperty("email"));
                 currentUser.put("displayName", user.getFirstName() + " " + user.getLastName());
                 currentUser.saveInBackground(new UserSaveCallback(profilePictureUrl));
             }
         });
-        request.executeAsync();
+
+        Request.executeBatchAsync(request);
 
     }
 
