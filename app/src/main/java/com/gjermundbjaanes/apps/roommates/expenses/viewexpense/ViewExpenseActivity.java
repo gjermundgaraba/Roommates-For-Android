@@ -144,6 +144,7 @@ public class ViewExpenseActivity extends Activity {
 
         final EditText descriptionField = (EditText) promptsView.findViewById(R.id.editTextDialogUserInput);
         descriptionField.setText(activeExpense.getDetails());
+        descriptionField.setSelection(descriptionField.getText().length());
 
         alertDialogBuilder.setTitle(getString(R.string.edit_description)).setView(promptsView)
                 .setPositiveButton(getString(R.string.save), new EditDescriptionOnClickListener(descriptionField))
@@ -164,6 +165,7 @@ public class ViewExpenseActivity extends Activity {
         final EditText amountField = (EditText) promptsView.findViewById(R.id.editTextDialogUserInput);
         amountField.setText(activeExpense.getTotalAmount() + "");
         amountField.setRawInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+        amountField.setSelection(amountField.getText().length());
 
 
         alertDialogBuilder.setTitle(getString(R.string.total_expense_amount)).setView(promptsView)
@@ -184,6 +186,7 @@ public class ViewExpenseActivity extends Activity {
 
         final EditText expenseNameField = (EditText) promptsView.findViewById(R.id.editTextDialogUserInput);
         expenseNameField.setText(activeExpense.getName());
+        expenseNameField.setSelection(expenseNameField.getText().length());
 
         alertDialogBuilder.setTitle(getString(R.string.rename_expense)).setView(promptsView)
                 .setPositiveButton(getString(R.string.save),

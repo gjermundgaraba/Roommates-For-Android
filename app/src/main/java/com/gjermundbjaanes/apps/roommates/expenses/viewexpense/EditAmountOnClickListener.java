@@ -33,30 +33,37 @@ class EditAmountOnClickListener implements DialogInterface.OnClickListener {
 
     @Override
     public void onClick(DialogInterface dialog, int id) {
+        final Double totalAmount = getTotalAmount();
+
+        if (totalAmount.isNaN() || totalAmount <= 0) {
+            ToastMaker.makeLongToast(R.string.invalid_amount, context);
+        } else {
+            final ProgressDialog resetProgress = ProgressDialog
+                    .show(context, context.getString(R.string.changing_amount), context.getString(R.string.please_wait),
+                            true);
+            activeExpense.setTotalAmount(totalAmount);
+            activeExpense.saveInBackground(new SaveCallback() {
+                @Override
+                public void done(ParseException e) {
+                    resetProgress.dismiss();
+                    expenseAmountView.setText(("" + totalAmount));
+                    ToastMaker.makeLongToast(R.string.amount_was_changed, context);
+                    Intent intent = new Intent(Constants.EXPENSE_NEED_TO_REFRESH);
+                    LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+
+                }
+            });
+        }
+    }
+
+    private Double getTotalAmount() {
         DecimalFormat df = new DecimalFormat(".00");
-        String totalAmount = "";
 
         try {
-            totalAmount = df.format(Double.parseDouble(amountField.getText().toString()));
-        } catch (Exception e) {
-            ToastMaker.makeLongToast(e.getLocalizedMessage(), context);
+            return Double.parseDouble(df.format(Double.parseDouble(amountField.getText().toString())));
+        } catch (NumberFormatException e) {
+            ToastMaker.makeLongToast(R.string.invalid_amount, context);
+            return 0.0;
         }
-
-        final ProgressDialog resetProgress = ProgressDialog
-                .show(context, context.getString(R.string.changing_amount), context.getString(R.string.please_wait),
-                        true);
-        activeExpense.setTotalAmount(Double.parseDouble(totalAmount));
-        final String finalTotalAmount = totalAmount;
-        activeExpense.saveInBackground(new SaveCallback() {
-            @Override
-            public void done(ParseException e) {
-                resetProgress.dismiss();
-                expenseAmountView.setText((finalTotalAmount));
-                ToastMaker.makeLongToast(R.string.amount_was_changed, context);
-                Intent intent = new Intent(Constants.EXPENSE_NEED_TO_REFRESH);
-                LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
-
-            }
-        });
     }
 }

@@ -192,5 +192,6 @@
     <string name="deleting_expense">Deleting expense</string>
     <string name="expense_was_deleted">Expense was deleted</string>
     <string name="you_must_enter_an_email">You must enter an email!</string>
+    <string name="invalid_amount">Invalid Amount</string>
 
 </resources>
