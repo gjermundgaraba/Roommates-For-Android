@@ -20,6 +20,7 @@ android {
 
 dependencies {
     compile 'com.android.support:support-v4:20.0.0'
-    compile files('libs/Parse-1.6.0.jar')
+    compile 'com.parse.bolts:bolts-android:1.+'
+    compile fileTree(dir: 'libs', include: 'Parse-*.jar')
     compile project(':libs:facebook')
 }
