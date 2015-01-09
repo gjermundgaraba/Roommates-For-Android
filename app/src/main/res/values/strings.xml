@@ -193,5 +193,6 @@
     <string name="expense_was_deleted">Expense was deleted</string>
     <string name="you_must_enter_an_email">You must enter an email!</string>
     <string name="invalid_amount">Invalid Amount</string>
+    <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
 
 </resources>

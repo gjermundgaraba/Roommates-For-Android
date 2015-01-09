@@ -1,20 +1,16 @@
 package com.gjermundbjaanes.apps.roommates.notloggedin.login;
 
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.widget.Button;
 
 import com.facebook.Request;
 import com.facebook.Response;
-import com.facebook.Session;
 import com.facebook.model.GraphUser;
 import com.gjermundbjaanes.apps.roommates.R;
 import com.gjermundbjaanes.apps.roommates.helpers.FacebookProfilePictureDownloader;
 import com.gjermundbjaanes.apps.roommates.helpers.ToastMaker;
 import com.gjermundbjaanes.apps.roommates.parsesubclasses.User;
-import com.parse.DeleteCallback;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseFacebookUtils;

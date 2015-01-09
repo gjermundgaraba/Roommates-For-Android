@@ -7,9 +7,13 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.gjermundbjaanes.apps.roommates.helpers.ToastMaker;
 import com.gjermundbjaanes.apps.roommates.parsesubclasses.User;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 
 import static com.gjermundbjaanes.apps.roommates.helpers.Constants.EXPENSES_INDEX;
 import static com.gjermundbjaanes.apps.roommates.helpers.Constants.FEED_INDEX;
@@ -19,12 +23,17 @@ import static com.gjermundbjaanes.apps.roommates.helpers.Constants.TASKS_INDEX;
 public class MainActivity extends FragmentActivity implements ActionBar.TabListener {
     private SectionsPagerAdapter sectionsPagerAdapter;
     private ViewPager viewPager;
+    private AdView adView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
+
+        adView = (AdView) findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        adView.loadAd(adRequest);
 
         final ActionBar actionBar = setUpActionBar();
 
@@ -113,6 +122,11 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     }
 
     private void refreshFragment() {
+        if (adView != null) {
+            adView.destroy();
+            ((RelativeLayout)adView.getParent()).removeView(adView);
+        }
+
         ToastMaker.makeShortToast(R.string.refreshing, this);
         RefreshableFragment fragment = (RefreshableFragment) sectionsPagerAdapter.getItem(viewPager.getCurrentItem());
         fragment.refreshFragment();
