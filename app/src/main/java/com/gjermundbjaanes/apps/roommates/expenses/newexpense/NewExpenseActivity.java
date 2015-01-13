@@ -62,32 +62,42 @@ public class NewExpenseActivity extends Activity {
 
     private void saveExpense() {
         String expenseName = expenseNameText.getText().toString();
-        Double totalAmount = getTotalAmount();
+        String totalAmount = totalAmountText.getText().toString();
         String description = descriptionText.getText().toString();
 
-        if ((notPaidList.isEmpty() && paidList.isEmpty()) || expenseName.isEmpty() ||
-                totalAmount.isNaN() || description.isEmpty() || totalAmount <= 0) {
-            ToastMaker.makeLongToast(R.string.fill_out_all_fields_new_expense, this);
-        } else {
-            Expense expense = new Expense();
 
-            expense.setNotPaidUp(notPaidList);
-            expense.setPaidUp(paidList);
-            expense.setHousehold(User.getCurrentUser().getActiveHousehold());
-            expense.setDetails(description);
-            expense.setTotalAmount(totalAmount);
-            expense.setOwed(User.getCurrentUser());
-            expense.setName(expenseName);
-            final ProgressDialog resetProgress = ProgressDialog
-                    .show(NewExpenseActivity.this, getString(R.string.saving), getString(R.string.please_wait), true);
-            expense.saveInBackground(new SaveCallback() {
-                @Override
-                public void done(ParseException e) {
-                    resetProgress.dismiss();
-                    ToastMaker.makeLongToast(R.string.expense_saved, getApplicationContext());
-                    finish();
-                }
-            });
+        if (expenseName.isEmpty()) {
+            ToastMaker.makeLongToast("Expense Name cannot be empty", this);
+        } else if (totalAmount.isEmpty()) {
+            ToastMaker.makeLongToast("Total Amount cannot be empty", this);
+        } else if (notPaidList.isEmpty() && paidList.isEmpty()) {
+            ToastMaker.makeLongToast("Someone must pay for this expense", this);
+        } else {
+            Double totalAmountNumber = getTotalAmount();
+            if(totalAmountNumber.isNaN() || totalAmountNumber <= 0) {
+                ToastMaker.makeLongToast("Invalid number", this);
+            } else {
+
+                Expense expense = new Expense();
+
+                expense.setNotPaidUp(notPaidList);
+                expense.setPaidUp(paidList);
+                expense.setHousehold(User.getCurrentUser().getActiveHousehold());
+                expense.setDetails(description);
+                expense.setTotalAmount(totalAmountNumber);
+                expense.setOwed(User.getCurrentUser());
+                expense.setName(expenseName);
+                final ProgressDialog resetProgress = ProgressDialog
+                        .show(NewExpenseActivity.this, getString(R.string.saving), getString(R.string.please_wait), true);
+                expense.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        resetProgress.dismiss();
+                        ToastMaker.makeLongToast(R.string.expense_saved, getApplicationContext());
+                        finish();
+                    }
+                });
+            }
         }
     }
 
