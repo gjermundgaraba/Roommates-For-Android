@@ -3,6 +3,7 @@ package com.gjermundbjaanes.apps.roommates;
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
@@ -15,6 +16,10 @@ import com.gjermundbjaanes.apps.roommates.parsesubclasses.User;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+
 import static com.gjermundbjaanes.apps.roommates.helpers.Constants.EXPENSES_INDEX;
 import static com.gjermundbjaanes.apps.roommates.helpers.Constants.FEED_INDEX;
 import static com.gjermundbjaanes.apps.roommates.helpers.Constants.ME_INDEX;
@@ -23,7 +28,6 @@ import static com.gjermundbjaanes.apps.roommates.helpers.Constants.TASKS_INDEX;
 public class MainActivity extends FragmentActivity implements ActionBar.TabListener {
     private SectionsPagerAdapter sectionsPagerAdapter;
     private ViewPager viewPager;
-    private AdView adView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +35,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 
         setContentView(R.layout.activity_main);
 
-        adView = (AdView) findViewById(R.id.adView);
+        AdView adView = (AdView) findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
         adView.loadAd(adRequest);
 
@@ -107,6 +111,17 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 
         if (itemId == R.id.action_refresh) {
             refreshFragment();
+
+            final MenuItem refreshMenuItem = item;
+            refreshMenuItem.setEnabled(false);
+            final Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    refreshMenuItem.setEnabled(true);
+                }
+            }, 2000);
+
             return true;
         } else if (itemId == R.id.action_new) {
             newInFragment();
@@ -122,11 +137,6 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     }
 
     private void refreshFragment() {
-        if (adView != null) {
-            adView.destroy();
-            ((RelativeLayout)adView.getParent()).removeView(adView);
-        }
-
         ToastMaker.makeShortToast(R.string.refreshing, this);
         RefreshableFragment fragment = (RefreshableFragment) sectionsPagerAdapter.getItem(viewPager.getCurrentItem());
         fragment.refreshFragment();
