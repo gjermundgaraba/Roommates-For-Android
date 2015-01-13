@@ -11,6 +11,7 @@ import android.widget.ListView;
 
 import com.gjermundbjaanes.apps.roommates.R;
 import com.gjermundbjaanes.apps.roommates.helpers.Constants;
+import com.gjermundbjaanes.apps.roommates.helpers.ToastMaker;
 import com.gjermundbjaanes.apps.roommates.parsesubclasses.Expense;
 import com.gjermundbjaanes.apps.roommates.parsesubclasses.User;
 import com.parse.GetCallback;
@@ -67,7 +68,7 @@ public class EditPeopleExpenseActivity extends Activity {
     }
 
     private void queryMemberList() {
-        final String objectID = getIntent().getExtras().getString("objectID");
+        final String objectID = getIntent().getExtras().getString(Constants.EXTRA_NAME_EXPENSE_ID);
 
         final ProgressDialog resetProgress = ProgressDialog
                 .show(EditPeopleExpenseActivity.this, getString(R.string.loading), getString(R.string.please_wait),
@@ -81,8 +82,14 @@ public class EditPeopleExpenseActivity extends Activity {
         query.getInBackground(objectID, new GetCallback<Expense>() {
             @Override
             public void done(Expense expense, ParseException e) {
-                resetProgress.dismiss();
-                setUpExpense(expense);
+                if (e == null) {
+                    resetProgress.dismiss();
+                    setUpExpense(expense);
+                } else {
+                    ToastMaker.makeLongToast(R.string.could_not_fetch_roommates, EditPeopleExpenseActivity.this);
+                    EditPeopleExpenseActivity.this.finish();
+                }
+
             }
         });
     }

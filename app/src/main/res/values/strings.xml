@@ -195,5 +195,6 @@
     <string name="invalid_amount">Invalid Amount</string>
     <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
     <string name="expense_name_cannot_be_empty">Expense name cannot be empty</string>
+    <string name="could_not_fetch_roommates">Could not fetch Roommates</string>
 
 </resources>
