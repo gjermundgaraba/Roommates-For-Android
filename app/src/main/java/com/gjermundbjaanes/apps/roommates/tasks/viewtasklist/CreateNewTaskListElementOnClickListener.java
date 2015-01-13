@@ -25,19 +25,24 @@ public class CreateNewTaskListElementOnClickListener implements DialogInterface.
 
     @Override
     public void onClick(DialogInterface dialog, int which) {
-        TaskListElement taskListElement = new TaskListElement();
         String taskListName = taskListElementNameField.getText().toString();
-        taskListElement.setElementName(taskListName);
-        taskListElement.setCreatedBy(User.getCurrentUser());
-        taskListElement.setTaskList(taskListElementsAdapter.getTaskList());
-        taskListElement.setUpdatedBy(User.getCurrentUser());
+        if (taskListName.isEmpty()) {
+            ToastMaker.makeLongToast("Tasklist element name cannot be empty", context);
+        } else {
+            TaskListElement taskListElement = new TaskListElement();
+            taskListElement.setElementName(taskListName);
+            taskListElement.setCreatedBy(User.getCurrentUser());
+            taskListElement.setTaskList(taskListElementsAdapter.getTaskList());
+            taskListElement.setUpdatedBy(User.getCurrentUser());
 
-        taskListElement.saveInBackground(new SaveCallback() {
-            @Override
-            public void done(ParseException e) {
-                taskListElementsAdapter.loadObjects();
-                ToastMaker.makeShortToast(R.string.new_task_list_element_created, context);
-            }
-        });
+            taskListElement.saveInBackground(new SaveCallback() {
+                @Override
+                public void done(ParseException e) {
+                    taskListElementsAdapter.loadObjects();
+                    ToastMaker.makeShortToast(R.string.new_task_list_element_created, context);
+                }
+            });
+        }
+
     }
 }

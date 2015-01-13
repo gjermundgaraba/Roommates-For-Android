@@ -31,7 +31,7 @@ import com.parse.SaveCallback;
 public class TaskListFragment extends Fragment implements RefreshableFragment, AddBehaviourFragment {
     private final BroadcastReceiver mMessageReceiver = new NeedToRefreshBroadcastReceiver();
     private TaskListsAdapter adapter;
-    private TaskListSaver taskListSaver = new TaskListSaver(new TaskListSaveCallback());
+    private TaskListSaver taskListSaver;
 
     public void refreshFragment() {
         if (User.loggedInAndMemberOfAHousehold()) {
@@ -42,6 +42,7 @@ public class TaskListFragment extends Fragment implements RefreshableFragment, A
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_task_list, container, false);
+        taskListSaver = new TaskListSaver(new TaskListSaveCallback(), getActivity());
         adapter = new TaskListsAdapter(getActivity());
 
         if (User.loggedInAndMemberOfAHousehold()) {

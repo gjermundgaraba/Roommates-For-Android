@@ -41,8 +41,9 @@ class ExpenseAdapter extends BaseAdapter {
             ArrayList<Expense> paidUpElements = getPaidUpElements();
             ArrayList<Expense> unpaidElements = getUnpaidElements(paidUpElements);
 
-            setUpPaidUpSection(paidUpElements);
             setUpUnpaidSection(unpaidElements);
+            setUpPaidUpSection(paidUpElements);
+
 
             notifyDataSetChanged();
         }

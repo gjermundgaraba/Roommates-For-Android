@@ -28,16 +28,20 @@ public class ChangeTaskListElementTitleOnClickListener implements DialogInterfac
     @Override
     public void onClick(DialogInterface dialog, int which) {
         final String name = titleField.getText().toString();
-        final ProgressDialog resetProgress = ProgressDialog.show(context, "Changing name", " Please wait ... ", true);
-        taskListElement.setElementName(name);
-        taskListElement.saveInBackground(new SaveCallback() {
-            @Override
-            public void done(ParseException e) {
-                resetProgress.dismiss();
+        if (name.isEmpty()) {
+            ToastMaker.makeLongToast("Tasklist element name cannot be empty", context);
+        } else {
+            final ProgressDialog resetProgress = ProgressDialog.show(context, "Changing name", " Please wait ... ", true);
+            taskListElement.setElementName(name);
+            taskListElement.saveInBackground(new SaveCallback() {
+                @Override
+                public void done(ParseException e) {
+                    resetProgress.dismiss();
 
-                ToastMaker.makeLongToast("Name was changed", context);
-                taskListElementsAdapter.loadObjects();
-            }
-        });
+                    ToastMaker.makeLongToast("Name was changed", context);
+                    taskListElementsAdapter.loadObjects();
+                }
+            });
+        }
     }
 }

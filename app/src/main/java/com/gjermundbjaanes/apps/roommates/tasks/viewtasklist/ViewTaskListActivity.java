@@ -173,6 +173,7 @@ public class ViewTaskListActivity extends Activity {
 
         final EditText userInput = (EditText) promptsView.findViewById(R.id.editTextDialogUserInput);
         userInput.setText(taskListElement.getElementName());
+        userInput.setSelection(userInput.getText().length());
 
         alertDialogBuilder.setTitle(getString(R.string.rename_task)).setCancelable(false).setView(promptsView)
                 .setPositiveButton(getString(R.string.save),

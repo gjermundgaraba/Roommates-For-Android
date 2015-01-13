@@ -29,7 +29,7 @@ public class Application extends android.app.Application {
     }
 
     private void initParse() {
-        Parse.initialize(this, "XXX", "XXX");
+        Parse.initialize(this, "snAZiBBGsYtRSsheAOTq0ewosNALzHIdthP30bIT", "8pL868yLdfWcCSqbJ37ZvlofsvY60YfkIKqATKK8");
     }
 
     private void initPush() {

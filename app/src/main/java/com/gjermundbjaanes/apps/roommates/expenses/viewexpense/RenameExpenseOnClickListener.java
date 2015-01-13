@@ -32,20 +32,26 @@ class RenameExpenseOnClickListener implements DialogInterface.OnClickListener {
     @Override
     public void onClick(DialogInterface dialog, int id) {
         final String name = expenseNameField.getText().toString();
-        final ProgressDialog resetProgress = ProgressDialog
-                .show(context, context.getString(R.string.changing_name), context.getString(R.string.please_wait),
-                        true);
-        activeExpense.setName(name);
-        activeExpense.saveInBackground(new SaveCallback() {
-            @Override
-            public void done(ParseException e) {
-                resetProgress.dismiss();
 
-                expenseNameView.setText(name);
-                ToastMaker.makeLongToast(R.string.name_was_changed, context);
-                Intent intent = new Intent(Constants.EXPENSE_NEED_TO_REFRESH);
-                LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
-            }
-        });
+        if(name.isEmpty()) {
+            ToastMaker.makeShortToast(R.string.expense_name_cannot_be_empty, context);
+        } else {
+            final ProgressDialog resetProgress = ProgressDialog
+                    .show(context, context.getString(R.string.changing_name), context.getString(R.string.please_wait),
+                            true);
+            activeExpense.setName(name);
+            activeExpense.saveInBackground(new SaveCallback() {
+                @Override
+                public void done(ParseException e) {
+                    resetProgress.dismiss();
+
+                    expenseNameView.setText(name);
+                    ToastMaker.makeLongToast(R.string.name_was_changed, context);
+                    Intent intent = new Intent(Constants.EXPENSE_NEED_TO_REFRESH);
+                    LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+                }
+            });
+        }
+
     }
 }
