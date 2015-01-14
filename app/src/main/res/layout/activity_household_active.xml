@@ -27,8 +27,8 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="5dp"
-            android:layout_marginStart="5dp"/>
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"/>
     </LinearLayout>
 
     <TextView
@@ -53,6 +53,8 @@
         android:gravity="start|center_vertical"
         android:textColor="@color/DarkBlue"
         android:text="@string/invite_button"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
         android:background="#ffffffff"
         android:layout_marginTop="5dp" />
 
@@ -63,6 +65,8 @@
         android:gravity="start|center_vertical"
         android:textColor="@color/DarkBlue"
         android:text="@string/leave_household_button"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
         android:background="#ffffffff"
         android:layout_marginTop="1dp" />
 
