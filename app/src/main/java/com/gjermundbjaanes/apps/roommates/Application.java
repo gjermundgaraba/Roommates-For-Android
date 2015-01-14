@@ -10,6 +10,7 @@ import com.gjermundbjaanes.apps.roommates.parsesubclasses.TaskList;
 import com.gjermundbjaanes.apps.roommates.parsesubclasses.TaskListElement;
 import com.gjermundbjaanes.apps.roommates.parsesubclasses.User;
 import com.parse.Parse;
+import com.parse.ParseCrashReporting;
 import com.parse.ParseFacebookUtils;
 import com.parse.ParseInstallation;
 import com.parse.ParseObject;
@@ -29,6 +30,7 @@ public class Application extends android.app.Application {
     }
 
     private void initParse() {
+        ParseCrashReporting.enable(this);
         Parse.initialize(this, "snAZiBBGsYtRSsheAOTq0ewosNALzHIdthP30bIT", "8pL868yLdfWcCSqbJ37ZvlofsvY60YfkIKqATKK8");
     }
 

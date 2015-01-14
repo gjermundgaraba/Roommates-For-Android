@@ -1,6 +1,7 @@
 package com.gjermundbjaanes.apps.roommates.feed;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -34,10 +35,12 @@ public class FeedFragment extends Fragment implements RefreshableFragment, AddBe
     private EventAdapter eventAdapter;
     private View rootView;
     private NoteSaver noteSaver = new NoteSaver(new NoteSaveCallback());
+    private Context context;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_feed, container, false);
+        context = getActivity().getApplicationContext();
 
         if (User.loggedInAndMemberOfAHousehold()) {
             setUpListViews();
