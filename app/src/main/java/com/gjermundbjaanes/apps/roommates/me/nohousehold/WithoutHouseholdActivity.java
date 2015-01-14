@@ -62,6 +62,7 @@ public class WithoutHouseholdActivity extends Activity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_refresh_invitations:
+                ToastMaker.makeLongToast(R.string.refreshing, this);
                 invitationAdapter.loadObjects();
                 return true;
             default:
