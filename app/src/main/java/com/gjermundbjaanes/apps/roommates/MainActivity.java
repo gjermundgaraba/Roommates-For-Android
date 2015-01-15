@@ -106,6 +106,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         int itemId = item.getItemId();
 
         if (!User.loggedInAndMemberOfAHousehold()) {
+            ToastMaker.makeShortToast(R.string.you_need_to_be_member_of_a_household, this);
             return true;
         }
 
