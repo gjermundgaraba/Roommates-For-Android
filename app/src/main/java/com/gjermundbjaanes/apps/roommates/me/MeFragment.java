@@ -1,12 +1,15 @@
 package com.gjermundbjaanes.apps.roommates.me;
 
 import android.app.AlertDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +18,7 @@ import android.widget.TextView;
 
 import com.gjermundbjaanes.apps.roommates.R;
 import com.gjermundbjaanes.apps.roommates.RefreshableFragment;
+import com.gjermundbjaanes.apps.roommates.helpers.Constants;
 import com.gjermundbjaanes.apps.roommates.me.householdsettings.MyHouseholdActivity;
 import com.gjermundbjaanes.apps.roommates.me.nohousehold.WithoutHouseholdActivity;
 import com.gjermundbjaanes.apps.roommates.me.profileinformation.EditProfileActivity;
@@ -33,6 +37,13 @@ public class MeFragment extends Fragment implements RefreshableFragment {
     private TextView nameTextView;
     private TextView emailTextView;
     private Button editProfileButton;
+
+    private final BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            refreshFragment();
+        }
+    };
 
     @Override
     public void onResume() {
@@ -85,7 +96,14 @@ public class MeFragment extends Fragment implements RefreshableFragment {
             }
         });
 
+        setUpBroadcastReceiver();
+
         return rootView;
+    }
+
+    private void setUpBroadcastReceiver() {
+        LocalBroadcastManager broadcastManager = LocalBroadcastManager.getInstance(getActivity());
+        broadcastManager.registerReceiver(mMessageReceiver, new IntentFilter(Constants.NEED_TO_REFRESH));
     }
 
     void setUpUI() {

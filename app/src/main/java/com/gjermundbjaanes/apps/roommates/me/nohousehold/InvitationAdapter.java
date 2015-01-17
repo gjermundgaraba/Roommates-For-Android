@@ -12,9 +12,6 @@ import com.gjermundbjaanes.apps.roommates.parsesubclasses.User;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
 
-/**
- * List adapter for the invitations
- */
 class InvitationAdapter extends ParseQueryAdapter<Invitation> {
     public InvitationAdapter(Context context) {
 

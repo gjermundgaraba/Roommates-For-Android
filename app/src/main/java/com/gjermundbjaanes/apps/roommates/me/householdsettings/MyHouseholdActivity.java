@@ -5,7 +5,9 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
@@ -16,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.gjermundbjaanes.apps.roommates.R;
+import com.gjermundbjaanes.apps.roommates.helpers.Constants;
 import com.gjermundbjaanes.apps.roommates.helpers.ParseCloudFunctionNames;
 import com.gjermundbjaanes.apps.roommates.helpers.ToastMaker;
 import com.gjermundbjaanes.apps.roommates.helpers.Utils;
@@ -106,6 +109,8 @@ public class MyHouseholdActivity extends Activity {
                             public void done(ParseObject object, ParseException e) {
                                 refreshUserProgress.dismiss();
                                 User.refreshChannels();
+                                Intent intent = new Intent(Constants.NEED_TO_REFRESH);
+                                LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
                                 MyHouseholdActivity.this.finish();
                             }
                         });

@@ -25,10 +25,15 @@ import com.gjermundbjaanes.apps.roommates.parsesubclasses.User;
 public class ExpensesFragment extends Fragment implements RefreshableFragment, AddBehaviourFragment {
     private ExpenseAdapter adapter;
 
-    public void refreshFragment() {
-        if (User.loggedInAndMemberOfAHousehold()) {
-            adapter.loadObjects();
+    private final BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            refreshFragment();
         }
+    };
+
+    public void refreshFragment() {
+        adapter.loadObjects();
     }
 
     @Override
@@ -41,11 +46,16 @@ public class ExpensesFragment extends Fragment implements RefreshableFragment, A
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_expenses, container, false);
 
-        if (User.loggedInAndMemberOfAHousehold()) {
-            setUpFragment(rootView);
-        }
+        setUpFragment(rootView);
+
+        setUpBroadcastReceiver();
 
         return rootView;
+    }
+
+    private void setUpBroadcastReceiver() {
+        LocalBroadcastManager broadcastManager = LocalBroadcastManager.getInstance(getActivity());
+        broadcastManager.registerReceiver(mMessageReceiver, new IntentFilter(Constants.NEED_TO_REFRESH));
     }
 
     private void setUpFragment(View rootView) {

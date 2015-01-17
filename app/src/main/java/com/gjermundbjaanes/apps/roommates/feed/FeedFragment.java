@@ -1,10 +1,14 @@
 package com.gjermundbjaanes.apps.roommates.feed;
 
 import android.app.AlertDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +25,7 @@ import com.gjermundbjaanes.apps.roommates.feed.events.EventAdapter;
 import com.gjermundbjaanes.apps.roommates.feed.notes.DetailedNoteAlertCreator;
 import com.gjermundbjaanes.apps.roommates.feed.notes.NoteAdapter;
 import com.gjermundbjaanes.apps.roommates.feed.notes.NoteSaver;
+import com.gjermundbjaanes.apps.roommates.helpers.Constants;
 import com.gjermundbjaanes.apps.roommates.helpers.ToastMaker;
 import com.gjermundbjaanes.apps.roommates.parsesubclasses.Event;
 import com.gjermundbjaanes.apps.roommates.parsesubclasses.Note;
@@ -35,18 +40,28 @@ public class FeedFragment extends Fragment implements RefreshableFragment, AddBe
     private EventAdapter eventAdapter;
     private View rootView;
     private NoteSaver noteSaver = new NoteSaver(new NoteSaveCallback());
-    private Context context;
+
+    private final BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            refreshFragment();
+        }
+    };
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_feed, container, false);
-        context = getActivity().getApplicationContext();
 
-        if (User.loggedInAndMemberOfAHousehold()) {
-            setUpListViews();
-        }
+        setUpListViews();
+
+        setUpBroadcastReceiver();
 
         return rootView;
+    }
+
+    private void setUpBroadcastReceiver() {
+        LocalBroadcastManager broadcastManager = LocalBroadcastManager.getInstance(getActivity());
+        broadcastManager.registerReceiver(mMessageReceiver, new IntentFilter(Constants.NEED_TO_REFRESH));
     }
 
     private void setUpListViews() {

@@ -34,9 +34,7 @@ public class TaskListFragment extends Fragment implements RefreshableFragment, A
     private TaskListSaver taskListSaver;
 
     public void refreshFragment() {
-        if (User.loggedInAndMemberOfAHousehold()) {
-            adapter.loadObjects();
-        }
+        adapter.loadObjects();
     }
 
     @Override
@@ -45,18 +43,23 @@ public class TaskListFragment extends Fragment implements RefreshableFragment, A
         taskListSaver = new TaskListSaver(new TaskListSaveCallback(), getActivity());
         adapter = new TaskListsAdapter(getActivity());
 
-        if (User.loggedInAndMemberOfAHousehold()) {
-            LocalBroadcastManager broadcastManager = LocalBroadcastManager.getInstance(getActivity());
-            broadcastManager.registerReceiver(mMessageReceiver, new IntentFilter(Constants.NEED_TO_REFRESH));
+        ListView taskListView = (ListView) rootView.findViewById(R.id.taskListsListView);
+        taskListView.setAdapter(adapter);
 
-            ListView taskListView = (ListView) rootView.findViewById(R.id.taskListsListView);
-            taskListView.setAdapter(adapter);
+        taskListView.setOnItemClickListener(new TaskListOnClickListener());
 
-            taskListView.setOnItemClickListener(new TaskListOnClickListener());
-        }
+        setUpBroadcastReceiver();
 
         return rootView;
     }
+
+    private void setUpBroadcastReceiver() {
+        LocalBroadcastManager broadcastManager = LocalBroadcastManager.getInstance(getActivity());
+        broadcastManager.registerReceiver(mMessageReceiver, new IntentFilter(Constants.NEED_TO_REFRESH));
+        broadcastManager.registerReceiver(mMessageReceiver, new IntentFilter(Constants.TASKS_NEED_TO_REFRESH));
+    }
+
+
 
     private void startCreateNewTaskListDialog() {
         LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
@@ -96,7 +99,7 @@ public class TaskListFragment extends Fragment implements RefreshableFragment, A
     private class TaskListSaveCallback extends SaveCallback {
         @Override
         public void done(ParseException e) {
-            Intent intent = new Intent(Constants.NEED_TO_REFRESH);
+            Intent intent = new Intent(Constants.TASKS_NEED_TO_REFRESH);
             LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);
             ToastMaker.makeShortToast(R.string.toast_new_task_list_added, getActivity());
         }

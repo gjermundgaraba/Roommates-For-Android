@@ -236,7 +236,7 @@ public class ViewTaskListActivity extends Activity {
         taskList.saveEventually(new SaveCallback() {
             @Override
             public void done(ParseException e) {
-                Intent intent = new Intent(Constants.NEED_TO_REFRESH);
+                Intent intent = new Intent(Constants.TASKS_NEED_TO_REFRESH);
                 LocalBroadcastManager.getInstance(ViewTaskListActivity.this).sendBroadcast(intent);
             }
         });
@@ -278,7 +278,7 @@ public class ViewTaskListActivity extends Activity {
                 @Override
                 public void done(ParseException e) {
                     progressDialog.dismiss();
-                    Intent intent = new Intent(Constants.NEED_TO_REFRESH);
+                    Intent intent = new Intent(Constants.TASKS_NEED_TO_REFRESH);
                     LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
                     ViewTaskListActivity.this.finish();
                 }
