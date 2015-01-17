@@ -2,15 +2,18 @@ package com.gjermundbjaanes.apps.roommates;
 
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import com.gjermundbjaanes.apps.roommates.helpers.Constants;
 import com.gjermundbjaanes.apps.roommates.helpers.ToastMaker;
 import com.gjermundbjaanes.apps.roommates.parsesubclasses.User;
 import com.google.android.gms.ads.AdRequest;
@@ -58,6 +61,13 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 
         addTabsToActionBar(actionBar);
 
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Intent intent = new Intent(Constants.NEED_TO_REFRESH);
+        LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
     }
 
     private void addTabsToActionBar(ActionBar actionBar) {
