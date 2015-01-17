@@ -66,18 +66,26 @@ public class ViewExpenseActivity extends Activity {
     }
 
     private void queryForExpense() {
-        final ProgressDialog progress = ProgressDialog.show(this, getString(R.string.loading_expense),
-                getString(R.string.please_wait), true);
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if(!isFinishing()){
+                    final ProgressDialog progress = ProgressDialog.show(ViewExpenseActivity.this, getString(R.string.loading_expense),
+                            getString(R.string.please_wait), true);
 
-        String expenseObjectId = (String) getIntent().getExtras().get(Constants.EXTRA_NAME_EXPENSE_ID);
+                    String expenseObjectId = (String) getIntent().getExtras().get(Constants.EXTRA_NAME_EXPENSE_ID);
 
-        ParseQuery<Expense> query = new ParseQuery<Expense>(Expense.class);
-        query.include("owed");
-        query.include("notPaidUp");
-        query.include("paidUp");
-        Utils.setSafeQueryCaching(query);
+                    ParseQuery<Expense> query = new ParseQuery<Expense>(Expense.class);
+                    query.include("owed");
+                    query.include("notPaidUp");
+                    query.include("paidUp");
+                    Utils.setSafeQueryCaching(query);
 
-        query.getInBackground(expenseObjectId, new GetExpenseCallback(progress));
+                    query.getInBackground(expenseObjectId, new GetExpenseCallback(progress));
+                }
+            }
+        });
+
     }
 
     private void setExpense(Expense expense) {
