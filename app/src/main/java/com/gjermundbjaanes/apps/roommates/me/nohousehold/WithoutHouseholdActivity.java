@@ -110,12 +110,12 @@ public class WithoutHouseholdActivity extends Activity {
         public void onClick(DialogInterface dialog, int which) {
             final Context context = WithoutHouseholdActivity.this;
             String householdName = householdNameInput.getText().toString();
-            HouseholdCreator householdCreator = new HouseholdCreator(householdName);
+            HouseholdCreator householdCreator = new HouseholdCreator(householdName, WithoutHouseholdActivity.this);
 
             final ProgressDialog createHouseholdProgress = ProgressDialog
                     .show(context, context.getString(R.string.progress_dialog_title_creating_household),
                             context.getString(R.string.progress_dialog_message_creating_household), true);
-            householdCreator.create(new createHouseholdCallback(createHouseholdProgress, context));
+            householdCreator.create(new createHouseholdCallback(createHouseholdProgress, context), createHouseholdProgress);
         }
 
         private class createHouseholdCallback extends FunctionCallback<Object> {
