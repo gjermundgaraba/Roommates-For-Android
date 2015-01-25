@@ -84,17 +84,16 @@ public class SignUpActivity extends Activity {
             ToastMaker.makeShortToast(R.string.password_not_valid, this);
         } else if (!password.equals(repeatPassword)) {
             ToastMaker.makeShortToast(R.string.passwords_dont_match, this);
-            return;
+        } else {
+            User user = new User();
+            user.setUsername(email);
+            user.setPassword(password);
+            user.setEmail(email);
+            user.setDisplayName(displayName);
+
+            final ProgressDialog signUpProgress =
+                    ProgressDialog.show(this, getString(R.string.signing_up), getString(R.string.please_wait), true);
+            user.signUpInBackground(new UserSignUpCallback(signUpProgress, this));
         }
-
-        User user = new User();
-        user.setUsername(email);
-        user.setPassword(password);
-        user.setEmail(email);
-        user.setDisplayName(displayName);
-
-        final ProgressDialog signUpProgress =
-                ProgressDialog.show(this, getString(R.string.signing_up), getString(R.string.please_wait), true);
-        user.signUpInBackground(new UserSignUpCallback(signUpProgress, this));
     }
 }
