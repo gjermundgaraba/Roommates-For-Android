@@ -1,3 +1,5 @@
-Information coming...
+Project is released and available on the Play Store.
 
-Project is currently in a state of constant clean up and refactoring.
+For more information: http://gjermundbjaanes.com/roommates/
+
+More Information Coming...
