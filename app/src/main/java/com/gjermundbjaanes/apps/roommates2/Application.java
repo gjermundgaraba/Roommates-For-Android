@@ -1,0 +1,63 @@
+package com.gjermundbjaanes.apps.roommates2;
+
+import com.gjermundbjaanes.apps.roommates2.parsesubclasses.Event;
+import com.gjermundbjaanes.apps.roommates2.parsesubclasses.Expense;
+import com.gjermundbjaanes.apps.roommates2.parsesubclasses.Household;
+import com.gjermundbjaanes.apps.roommates2.parsesubclasses.Installation;
+import com.gjermundbjaanes.apps.roommates2.parsesubclasses.Invitation;
+import com.gjermundbjaanes.apps.roommates2.parsesubclasses.Note;
+import com.gjermundbjaanes.apps.roommates2.parsesubclasses.TaskList;
+import com.gjermundbjaanes.apps.roommates2.parsesubclasses.TaskListElement;
+import com.gjermundbjaanes.apps.roommates2.parsesubclasses.User;
+import com.parse.Parse;
+import com.parse.ParseCrashReporting;
+import com.parse.ParseFacebookUtils;
+import com.parse.ParseInstallation;
+import com.parse.ParseObject;
+import com.parse.PushService;
+
+public class Application extends android.app.Application {
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+
+        initParse();
+        initPush();
+        initInstallation();
+        registerSubclasses();
+        initFacebook();
+    }
+
+    private void initParse() {
+        ParseCrashReporting.enable(this);
+        Parse.initialize(this, "snAZiBBGsYtRSsheAOTq0ewosNALzHIdthP30bIT", "8pL868yLdfWcCSqbJ37ZvlofsvY60YfkIKqATKK8");
+    }
+
+    private void initPush() {
+        PushService.setDefaultPushCallback(this, MainActivity.class);
+    }
+
+    private void initInstallation() {
+        ParseInstallation parseInstallation = ParseInstallation.getCurrentInstallation();
+        if (parseInstallation.getObjectId() != null) {
+            parseInstallation.saveInBackground();
+        }
+    }
+
+    private void initFacebook() {
+        ParseFacebookUtils.initialize("XXX");
+    }
+
+    private void registerSubclasses() {
+        ParseObject.registerSubclass(Expense.class);
+        ParseObject.registerSubclass(TaskList.class);
+        ParseObject.registerSubclass(User.class);
+        ParseObject.registerSubclass(TaskListElement.class);
+        ParseObject.registerSubclass(Event.class);
+        ParseObject.registerSubclass(Note.class);
+        ParseObject.registerSubclass(Household.class);
+        ParseObject.registerSubclass(Invitation.class);
+        ParseObject.registerSubclass(Installation.class);
+    }
+}

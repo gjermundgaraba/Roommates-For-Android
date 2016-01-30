@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.gjermundbjaanes.apps.roommates"
-    android:versionCode="1"
-    android:versionName="1.0" >
+    package="com.gjermundbjaanes.apps.roommates2"
+    android:versionCode="2"
+    android:versionName="1.0.1" >
 
     <uses-sdk
         android:minSdkVersion="14"
@@ -20,13 +20,13 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <permission
-        android:name="com.gjermundbjaanes.apps.roommates.permission.C2D_MESSAGE"
+        android:name="com.gjermundbjaanes.apps.roommates2.permission.C2D_MESSAGE"
         android:protectionLevel="signature" />
 
-    <uses-permission android:name="com.gjermundbjaanes.apps.roommates.permission.C2D_MESSAGE" />
+    <uses-permission android:name="com.gjermundbjaanes.apps.roommates2.permission.C2D_MESSAGE" />
 
     <application
-        android:name="com.gjermundbjaanes.apps.roommates.App"
+        android:name="com.gjermundbjaanes.apps.roommates2.App"
         android:allowBackup="true"
         android:icon="@drawable/roomates_128_rounded"
         android:label="@string/app_name"
@@ -41,43 +41,43 @@
             android:screenOrientation="portrait" />
 
         <activity
-            android:name="com.gjermundbjaanes.apps.roommates.MainActivity"
+            android:name="com.gjermundbjaanes.apps.roommates2.MainActivity"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name="com.gjermundbjaanes.apps.roommates.notloggedin.signup.SignUpActivity"
+            android:name="com.gjermundbjaanes.apps.roommates2.notloggedin.signup.SignUpActivity"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name="com.gjermundbjaanes.apps.roommates.me.profileinformation.ChangePasswordActivity"
+            android:name="com.gjermundbjaanes.apps.roommates2.me.profileinformation.ChangePasswordActivity"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name="com.gjermundbjaanes.apps.roommates.me.householdsettings.MyHouseholdActivity"
+            android:name="com.gjermundbjaanes.apps.roommates2.me.householdsettings.MyHouseholdActivity"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name="com.gjermundbjaanes.apps.roommates.me.nohousehold.WithoutHouseholdActivity"
+            android:name="com.gjermundbjaanes.apps.roommates2.me.nohousehold.WithoutHouseholdActivity"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name="com.gjermundbjaanes.apps.roommates.me.profileinformation.EditProfileActivity"
+            android:name="com.gjermundbjaanes.apps.roommates2.me.profileinformation.EditProfileActivity"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name="com.gjermundbjaanes.apps.roommates.expenses.viewexpense.ViewExpenseActivity"
+            android:name="com.gjermundbjaanes.apps.roommates2.expenses.viewexpense.ViewExpenseActivity"
             android:screenOrientation="portrait"/>
 
         <activity
-            android:name="com.gjermundbjaanes.apps.roommates.expenses.newexpense.NewExpenseActivity"
+            android:name="com.gjermundbjaanes.apps.roommates2.expenses.newexpense.NewExpenseActivity"
             android:screenOrientation="portrait"/>
 
         <activity
-            android:name="com.gjermundbjaanes.apps.roommates.expenses.editpeople.EditPeopleExpenseActivity"
+            android:name="com.gjermundbjaanes.apps.roommates2.expenses.editpeople.EditPeopleExpenseActivity"
             android:screenOrientation="portrait"/>
 
         <activity
-            android:name="com.gjermundbjaanes.apps.roommates.notloggedin.login.LoginActivity"
+            android:name="com.gjermundbjaanes.apps.roommates2.notloggedin.login.LoginActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
             <intent-filter>
@@ -103,12 +103,12 @@
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
                 <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
 
-                <category android:name="com.gjermundbjaanes.apps.roommates" />
+                <category android:name="com.gjermundbjaanes.apps.roommates2" />
             </intent-filter>
         </receiver>
 
         <activity
-            android:name="com.gjermundbjaanes.apps.roommates.tasks.viewtasklist.ViewTaskListActivity"
+            android:name="com.gjermundbjaanes.apps.roommates2.tasks.viewtasklist.ViewTaskListActivity"
             android:label="@string/title_activity_test_task_list_elements" >
         </activity>
 
