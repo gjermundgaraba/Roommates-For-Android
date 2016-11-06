@@ -10,10 +10,14 @@ Keep your household organized and you and your roommates happy.
 
 ### Release
 
-Project is released and available on the Play Store.
+~~Project is released and available on the Play Store.~~
 
-For more information:
-http://gjermundbjaanes.com/roommates/
+Project has been discontinued as a released product from my side of things. 
+This is because Parse decided to shut down their services.
+
+Landing page:
+http://roommates.gjermundbjaanes.com
+
 
 Instructions
 ============
